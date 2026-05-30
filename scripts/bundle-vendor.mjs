@@ -1,0 +1,20 @@
+import * as esbuild from "esbuild";
+import { mkdirSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const root = join(dirname(fileURLToPath(import.meta.url)), "..");
+const outfile = join(root, "js/vendor/deps.js");
+
+mkdirSync(dirname(outfile), { recursive: true });
+
+await esbuild.build({
+  entryPoints: [join(root, "scripts/vendor-entry.js")],
+  bundle: true,
+  format: "esm",
+  platform: "browser",
+  outfile,
+  logLevel: "info",
+});
+
+console.log(`Wrote ${outfile}`);

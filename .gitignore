@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.DS_Store
+node_modules/
+dist/
+
+# Keep public/data in sync with data/processed after rebuild
+# (committed copies for static hosting)
+
+# Large raw downloads (processed outputs are committed)
+data/raw/*.html
+data/raw/*.zip

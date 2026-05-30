@@ -1,0 +1,45 @@
+# Optional: used only with `python scripts/build_words_json.py --mode curated`.
+# Default build uses --mode full (all vocabulary survey answers; see scripts/survey_vocab.py).
+# Source pages: http://dialect.redlog.net/staticmaps/state_XX.html
+
+concepts:
+  - id: long_sandwich
+    question_id: 64
+    concept: "long sandwich"
+    primary: hoagie
+    words: [hoagie, sub, grinder, hero]
+    label_aliases:
+      hero: ["hero"]
+
+  - id: carbonated_drink
+    question_id: 105
+    concept: "carbonated soft drink"
+    primary: pop
+    words: [pop, soda, coke]
+    label_aliases: {}
+
+  - id: second_person_plural
+    question_id: 50
+    concept: "second-person plural"
+    primary: "y'all"
+    words: ["y'all", "you guys", youse]
+    label_aliases:
+      "y'all": ["y'all"]
+      youse: ["yous, youse", "youse"]
+
+  - id: water_fountain
+    question_id: 103
+    concept: "water fountain"
+    primary: bubbler
+    words: [bubbler, "water fountain", "drinking fountain"]
+    label_aliases:
+      "water fountain": ["water fountain"]
+      "drinking fountain": ["drinking fountain"]
+
+  - id: athletic_shoes
+    question_id: 73
+    concept: "athletic shoes"
+    primary: "tennis shoes"
+    words: ["tennis shoes", sneakers, "gym shoes"]
+    label_aliases:
+      "gym shoes": ["gymshoes", "gym shoes"]

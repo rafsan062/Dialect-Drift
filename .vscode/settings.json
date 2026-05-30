@@ -1,0 +1,11 @@
+{
+  "liveServer.settings.root": "/",
+  "liveServer.settings.port": 5500,
+  "liveServer.settings.ignoreFiles": [
+    ".vscode/**",
+    "**/node_modules/**",
+    "**/data/raw/**",
+    "**/data/processed/**",
+    "scripts/**"
+  ]
+}

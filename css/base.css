@@ -1,0 +1,70 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  font-family: var(--font);
+  font-size: var(--text-base);
+  font-weight: var(--weight-body);
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg-deep);
+  background-image:
+    radial-gradient(ellipse 80% 50% at 10% -10%, rgba(157, 107, 255, 0.18), transparent),
+    radial-gradient(ellipse 60% 40% at 90% 100%, rgba(0, 229, 255, 0.1), transparent),
+    linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+  overflow: hidden;
+}
+
+body[data-mode="word"] .map-wrap {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.small {
+  font-size: var(--text-sm);
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+a {
+  color: var(--accent);
+}
+
+.boot-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  padding: 0.55rem 1rem;
+  font-size: var(--text-sm);
+  color: var(--text);
+  background: rgba(0, 229, 255, 0.12);
+  border-bottom: 1px solid rgba(0, 229, 255, 0.35);
+}
+
+.boot-banner--error {
+  color: #ffb4cf;
+  background: rgba(255, 45, 120, 0.15);
+  border-bottom-color: rgba(255, 45, 120, 0.45);
+}

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DialectDrift</title>
+  <link rel="stylesheet" href="./css/main.css">
+</head>
+<body data-mode="sentence">
+  <div id="boot-banner" class="boot-banner" hidden></div>
+  <header class="app-header">
+    <div class="app-header-row">
+      <h1>DialectDrift</h1>
+      <p class="tagline">One ordinary sentence. Several different Americas hiding inside it.</p>
+    </div>
+  </header>
+
+  <main class="app-main">
+    <div class="top-bar">
+      <section class="top-mode input-mode" id="input-panel">
+        <div class="input-head">
+          <label for="sentence" id="input-label">Paste a sentence</label>
+          <div class="mode-switch" role="tablist" aria-label="Explore mode">
+            <button type="button" class="mode-btn active" data-mode="sentence" role="tab" aria-selected="true">Sentence</button>
+            <button type="button" class="mode-btn" data-mode="word" role="tab" aria-selected="false">Word</button>
+          </div>
+        </div>
+        <div class="input-compose">
+          <div class="input-field-wrap">
+            <div id="sentence-input-block">
+              <textarea id="sentence" rows="3" placeholder="Try: Y'all want to grab a hoagie and a pop?">Y'all want to grab a hoagie and a pop before we watch the game?</textarea>
+            </div>
+            <div id="word-input-block" class="hidden">
+              <input class="word-input" id="word-input" type="text" placeholder="Try: hoagie, pop, y'all, bubbler…" value="hoagie">
+            </div>
+          </div>
+          <button type="button" class="reveal-btn" id="analyzeBtn">Reveal<br>fingerprint</button>
+        </div>
+        <div class="samples sentence-samples" id="sentence-samples">
+          <button type="button" data-sample="sandwich">Sandwich showdown</button>
+          <button type="button" data-sample="soda">Soda civil war</button>
+          <button type="button" data-sample="water">Bubbler weirdness</button>
+          <button type="button" data-sample="south">Southern signal</button>
+          <button type="button" data-sample="midwest">Midwest signal</button>
+        </div>
+        <div class="samples word-samples hidden" id="word-samples">
+          <button type="button" data-word="hoagie">hoagie</button>
+          <button type="button" data-word="pop">pop</button>
+          <button type="button" data-word="y'all">y'all</button>
+          <button type="button" data-word="bubbler">bubbler</button>
+          <button type="button" data-word="crawfish">crawfish</button>
+          <button type="button" data-word="soda">soda</button>
+        </div>
+      </section>
+
+      <section class="top-mode fingerprint-mode hidden" id="fingerprint-panel">
+        <div class="fingerprint-header">
+          <div>
+            <h2 class="fingerprint-title" id="fingerprint-title">Sentence fingerprint</h2>
+            <div class="fingerprint-kicker" id="fingerprint-kicker">Hover for details · click to update map and audio</div>
+          </div>
+          <div class="fingerprint-actions">
+            <div id="fingerprint-summary" class="fingerprint-summary">Waiting for clues…</div>
+            <button type="button" id="resetBtn">Edit</button>
+          </div>
+        </div>
+        <div id="sentence-tokens" class="sentence-tokens"></div>
+      </section>
+    </div>
+
+    <section class="grid">
+      <div class="panel map-wrap">
+        <div class="panel-title" id="map-panel-title">Map · trending dialect splits</div>
+        <div id="map"></div>
+        <div id="map-explore" class="map-explore hidden">
+          <div id="word-cloud-stage" class="word-cloud-stage"></div>
+        </div>
+        <div class="tooltip" id="tooltip"></div>
+        <div class="legend" id="map-legend-choropleth">
+          <span>low</span>
+          <span class="swatch"></span>
+          <span>high usage</span>
+        </div>
+      </div>
+
+      <aside class="side-stack">
+        <div class="panel pronunciation-window">
+          <div class="panel-title">Audio · regional pronunciations</div>
+          <div id="variants"></div>
+        </div>
+      </aside>
+    </section>
+
+    <footer class="app-footer">
+      Data: Harvard Dialect Survey (Vaux &amp; Golder, 2003). Audio: Web Speech placeholder waveforms.
+    </footer>
+  </main>
+
+  <div id="details-popover" class="details-popover hidden" role="tooltip" aria-live="polite">
+    <div class="details-popover-head">
+      <div class="details-popover-word" id="popover-word"></div>
+      <div class="details-popover-meta" id="popover-meta"></div>
+    </div>
+    <div class="details-popover-body" id="details-popover-body"></div>
+  </div>
+
+  <!-- D3, TopoJSON, and word cloud layout libraries from CDNs -->
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3-cloud@1.2.7/build/d3.layout.cloud.js"></script>
+
+  <!-- Local static dictionary data -->
+  <script src="./js/data.js"></script>
+
+  <!-- Main application script -->
+  <script src="./js/app.js"></script>
+</body>
+</html>

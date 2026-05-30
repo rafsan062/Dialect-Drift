@@ -1,0 +1,51 @@
+:root {
+  --font: "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-heading: "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --bg-deep: #06080f;
+  --bg: #0c1018;
+  --bg-elevated: #141b28;
+  --panel: rgba(20, 27, 40, 0.92);
+  --panel-border: rgba(0, 240, 255, 0.12);
+  --text: #e8edf7;
+  --text-deep: #f4f7ff;
+  --muted: #7d8aa3;
+
+  --neon-cyan: #00e5ff;
+  --neon-magenta: #ff3dce;
+  --neon-lime: #b8ff3c;
+  --neon-violet: #9d6bff;
+  --neon-amber: #ffb020;
+  --accent: var(--neon-cyan);
+  --accent-hover: #66f3ff;
+
+  --south: #3dffa8;
+  --midwest: var(--neon-magenta);
+  --northeast: var(--neon-violet);
+  --west: var(--neon-cyan);
+  --mid-atlantic: #c77dff;
+
+  --map-base: #1a2436;
+  --map-stroke: rgba(0, 229, 255, 0.42);
+  --map-glow: rgba(0, 229, 255, 0.5);
+
+  --shadow: rgba(0, 0, 0, 0.45);
+  --radius: 12px;
+  --radius-sm: 8px;
+
+  --text-xs: 0.875rem;
+  --text-sm: 1rem;
+  --text-base: 1.125rem;
+  --text-lg: 1.3125rem;
+  --text-xl: 1.5625rem;
+  --text-2xl: 2.125rem;
+  --text-3xl: 2.625rem;
+
+  --weight-body: 400;
+  --weight-ui: 400;
+  --weight-heading: 500;
+
+  --space-page: 0.65rem;
+  --space-gap: 0.5rem;
+}

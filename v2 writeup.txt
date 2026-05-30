@@ -1,0 +1,28 @@
+Motivation:
+This visualization helps travelers and tourists understand how language changes across regions so they can better recognize local expressions and communicate more naturally while visiting different places. The interactive map makes regional dialect differences easy to explore in a way that static text or tables cannot.
+Audience:
+The visualization is designed for tourists, travelers, and people moving between regions who want to better understand local speech patterns, slang, and regional vocabulary.
+Main Questions:
+-What region is a sentence most likely associated with based on dialect?
+-Where are different regional terms for the same object or concept most commonly used?
+-How does changing a single word in a sentence shift its geographic dialect association?
+
+Design Drift (v1 => v2):
+
+Between v1 and v2, the visualization expanded from only showing regional word usage on a map to also including audio pronunciations and text-to-speech playback for different dialect variations. This change was made to help tourists not only recognize unfamiliar regional terms, but also hear how locals pronounce them so they can better understand and communicate while traveling. The addition of audio made the experience more practical and immersive by turning the visualization from a purely informational map into a tool for real-world cultural and language navigation.
+
+========================================
+
+Motivation:
+This visualization helps linguists explore and analyze regional dialect variation by spatially mapping how vocabulary and phrasing differ across geographic areas. The interactive choropleth and word-level comparisons reveal distribution patterns, regional overlap, and linguistic relationships that are difficult to interpret through static tables or written descriptions alone.
+Audience:
+The visualization is designed for linguists, sociolinguists, and language researchers interested in dialect geography, regional vocabulary variation, and patterns of language use across populations.
+Main Questions:
+-What region is a sentence most likely associated with based on dialect?
+-Where are different regional terms for the same object or concept most commonly used?
+-How does changing a single word in a sentence shift its geographic dialect association?
+
+
+Design Drift (v1 => v2):
+
+Between v1 and v2, the visualization expanded beyond showing only geographic word distributions by adding an audio component with regional pronunciations and text-to-speech playback. This change was made to better represent dialect as both a lexical and phonetic phenomenon, allowing users to hear how pronunciation differs across regions rather than only seeing vocabulary changes on a map. The addition of audio also made the visualization more interactive and useful for linguists studying spoken language variation, since pronunciation patterns are a major part of dialect identity that static text alone cannot effectively convey.

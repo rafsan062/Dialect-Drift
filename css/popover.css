@@ -1,0 +1,51 @@
+.details-popover {
+  position: fixed;
+  z-index: 100;
+  max-width: 320px;
+  padding: 0.85rem 1rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--neon-violet);
+  border-radius: var(--radius);
+  box-shadow: 0 12px 40px var(--shadow), 0 0 24px rgba(157, 107, 255, 0.2);
+}
+
+.details-popover-head {
+  margin-bottom: 0.5rem;
+}
+
+.details-popover-word {
+  font-family: var(--font-heading);
+  font-weight: var(--weight-heading);
+  font-size: var(--text-xl);
+  line-height: 1.15;
+  color: var(--neon-cyan);
+}
+
+.details-popover-meta {
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+
+.details-popover-summary {
+  font-size: var(--text-sm);
+  margin: 0 0 0.5rem;
+  line-height: 1.45;
+}
+
+.details-popover-states {
+  font-size: var(--text-xs);
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+
+.details-popover-variant {
+  font-size: var(--text-xs);
+  padding-top: 0.4rem;
+  border-top: 1px solid var(--panel-border);
+  margin-top: 0.4rem;
+}
+
+.ipa-pill {
+  font-family: var(--font-mono);
+  color: var(--neon-magenta);
+}

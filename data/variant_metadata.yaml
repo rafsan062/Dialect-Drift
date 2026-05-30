@@ -1,0 +1,72 @@
+# Display metadata not present in the survey (summaries, IPA, example phrases).
+# Geographic scores come from scraped survey data via build_words_json.py.
+
+entries:
+  hoagie:
+    summary: "Philadelphia / Mid-Atlantic word for a submarine sandwich."
+    variants:
+      - { word: hoagie, region: "Philadelphia / Mid-Atlantic", phrase: "I grabbed a hoagie for lunch.", ipa: "/ˈhoʊɡi/", note: "Two syllables, long OH, hard G.", wave: northeast }
+      - { word: sub, region: "General US", phrase: "I grabbed a sub for lunch.", ipa: "/sʌb/", note: "Short, clipped, one syllable.", wave: west }
+      - { word: grinder, region: "New England", phrase: "I grabbed a grinder for lunch.", ipa: "/ˈɡraɪndər/", note: "Two syllables; R-coloring varies across New England.", wave: northeast }
+      - { word: hero, region: "New York City area", phrase: "I grabbed a hero for lunch.", ipa: "/ˈhɪroʊ/", note: "Starts with a tense front vowel, ends in a long OH.", wave: northeast }
+
+  sub:
+    summary: "Broad national default for a submarine sandwich."
+
+  grinder:
+    summary: "New England term for a hot or toasted submarine sandwich."
+
+  hero:
+    summary: "NYC-area term for a large sandwich on a long roll."
+
+  pop:
+    summary: "Midwest / Great Lakes word for soda."
+    variants:
+      - { word: pop, region: "Midwest / Great Lakes", phrase: "Do you want a pop?", ipa: "/pɑp/", note: "Open back vowel; the word hits like a quick clap.", wave: midwest }
+      - { word: soda, region: "Northeast / West Coast", phrase: "Do you want a soda?", ipa: "/ˈsoʊdə/", note: "Two syllables, rounded long O, softer ending.", wave: west }
+      - { word: coke, region: "South", phrase: "Do you want a coke?", ipa: "/koʊk/", note: "One syllable with a long diphthongized O.", wave: south }
+
+  soda:
+    summary: "Common in the Northeast and West Coast."
+
+  coke:
+    summary: "Southern generic term for a carbonated soft drink."
+
+  "y'all":
+    summary: "Southern second-person plural pronoun."
+    variants:
+      - { word: "y'all", region: "South", phrase: "Y'all coming with us?", ipa: "/jɔl/", note: "Contracted plural you; one smooth syllable.", wave: south }
+      - { word: "you guys", region: "Midwest / West / broad US", phrase: "Are you guys coming with us?", ipa: "/ju ɡaɪz/", note: "Two-word plural marker; stress usually lands on guys.", wave: midwest }
+      - { word: youse, region: "Philadelphia / NYC pockets", phrase: "Are youse coming with us?", ipa: "/juz/", note: "One syllable, voiced Z ending.", wave: northeast }
+
+  "you guys":
+    summary: "Broadly used plural you, especially Midwest / West."
+
+  youse:
+    summary: "Urban Northeast plural you, especially Philadelphia and NYC pockets."
+
+  bubbler:
+    summary: "Highly distinctive Wisconsin and Rhode Island word for drinking fountain."
+    variants:
+      - { word: bubbler, region: "Wisconsin / Rhode Island", phrase: "Where's the bubbler?", ipa: "/ˈbʌblər/", note: "Initial BUH + unstressed ending; wonderfully local.", wave: midwest }
+      - { word: "water fountain", region: "General US", phrase: "Where's the water fountain?", ipa: "/ˈwɔtər ˈfaʊntən/", note: "Longer phrase with two stressed content words.", wave: west }
+      - { word: "drinking fountain", region: "General US", phrase: "Where's the drinking fountain?", ipa: "/ˈdrɪŋkɪŋ ˈfaʊntən/", note: "Three-syllable lead-in before fountain.", wave: west }
+
+  "water fountain":
+    summary: "General US term for a public drinking fixture."
+
+  "drinking fountain":
+    summary: "Alternative general US term for a public drinking fixture."
+
+  "tennis shoes":
+    summary: "Common in the Midwest and parts of the South for athletic shoes."
+    variants:
+      - { word: "tennis shoes", region: "Midwest / South", phrase: "Put on your tennis shoes.", ipa: "/ˈtɛnɪs ʃuz/", note: "Two-word term; stress on TEN and SHOES.", wave: midwest }
+      - { word: sneakers, region: "Northeast", phrase: "Put on your sneakers.", ipa: "/ˈsnikərz/", note: "Compact two-syllable word with an R-colored ending.", wave: northeast }
+      - { word: "gym shoes", region: "Chicago / parts of Midwest", phrase: "Put on your gym shoes.", ipa: "/dʒɪm ʃuz/", note: "Short first word, strong SHOOZ ending.", wave: midwest }
+
+  sneakers:
+    summary: "Northeast and urban default for athletic shoes."
+
+  "gym shoes":
+    summary: "Chicago-area term for athletic shoes."
