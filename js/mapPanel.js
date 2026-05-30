@@ -105,6 +105,7 @@ export function createMapPanel({
       words,
       regionStyles,
       fontFamily: "Inter",
+      projection,
     });
   }
 
@@ -221,6 +222,7 @@ export function createMapPanel({
             words,
             regionStyles,
             fontFamily: "Inter",
+            projection,
           });
         }
       });

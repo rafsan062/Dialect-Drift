@@ -6,6 +6,7 @@ venv/
 .DS_Store
 node_modules/
 dist/
+.claude/
 
 # Keep public/data in sync with data/processed after rebuild
 # (committed copies for static hosting)

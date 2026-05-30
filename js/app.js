@@ -501,89 +501,201 @@ function syncTokenSelection(currentWord) {
 // ==========================================
 // 7. WORD CLOUD COMPONENT
 // ==========================================
-function drawWordCloud(stage, width, height, words) {
+
+// Approximate geographic centroids [lng, lat] for each US state
+const CLOUD_STATE_CENTROIDS = {
+  AL: [-86.79, 32.80], AK: [-152.0,  64.20], AZ: [-111.50, 34.30], AR: [-92.40, 34.90],
+  CA: [-119.70, 36.80], CO: [-105.50, 39.00], CT: [-72.70,  41.60], DE: [-75.50, 39.00],
+  DC: [-77.00,  38.90], FL: [ -81.50, 27.80], GA: [ -83.40, 32.70], HI: [-157.50, 20.30],
+  ID: [-114.50, 44.40], IL: [ -89.20, 40.00], IN: [ -86.30, 40.00], IA: [-93.10, 42.00],
+  KS: [ -98.40, 38.50], KY: [ -84.30, 37.80], LA: [ -91.80, 31.20], ME: [-69.40, 45.40],
+  MD: [ -76.80, 39.00], MA: [ -71.50, 42.40], MI: [ -84.50, 44.30], MN: [-94.30, 46.40],
+  MS: [ -89.70, 32.70], MO: [ -92.50, 38.50], MT: [-110.50, 47.00], NE: [-99.90, 41.50],
+  NV: [-116.40, 38.50], NH: [ -71.60, 44.00], NJ: [ -74.50, 40.10], NM: [-106.10, 34.50],
+  NY: [ -75.00, 43.00], NC: [ -79.40, 35.60], ND: [-100.50, 47.50], OH: [-82.80, 40.40],
+  OK: [ -97.50, 35.50], OR: [-120.60, 44.00], PA: [ -77.20, 40.90], RI: [-71.50, 41.70],
+  SC: [ -80.90, 33.80], SD: [-100.20, 44.40], TN: [ -86.70, 35.80], TX: [-99.30, 31.50],
+  UT: [-111.90, 39.30], VT: [ -72.70, 44.00], VA: [ -78.50, 37.50], WA: [-120.50, 47.40],
+  WV: [ -80.60, 38.90], WI: [ -89.60, 44.30], WY: [-107.60, 43.00],
+};
+
+// Pick up to `limit` screen points that are maximally far apart (furthest-point greedy)
+function cloudDiversePoints(candidates, limit, minPxGap) {
+  if (!candidates.length) return [];
+  const selected = [candidates[0]];
+  while (selected.length < limit) {
+    let best = null, bestMin = -1;
+    for (const c of candidates) {
+      if (selected.some(s => s.state === c.state)) continue;
+      const minD = Math.min(...selected.map(s => Math.hypot(c.x - s.x, c.y - s.y)));
+      if (minD > bestMin) { bestMin = minD; best = c; }
+    }
+    if (!best || bestMin < minPxGap) break;
+    selected.push(best);
+  }
+  return selected;
+}
+
+function cloudWeightedCenter(entries, proj) {
+  let wx = 0, wy = 0, wt = 0;
+  for (const [state, val] of entries) {
+    const c = CLOUD_STATE_CENTROIDS[state];
+    if (!c) continue;
+    const pt = proj(c);
+    if (!pt) continue;
+    wx += pt[0] * val; wy += pt[1] * val; wt += val;
+  }
+  return wt > 0 ? [wx / wt, wy / wt] : null;
+}
+
+function cloudOverlaps(ax, ay, aw, ah, placed) {
+  for (const p of placed) {
+    if (Math.abs(ax - p.x) < (aw + p.w) / 2 + 5 &&
+        Math.abs(ay - p.y) < (ah + p.h) / 2 + 5) return true;
+  }
+  return false;
+}
+
+// Returns [x, y, ok] — ok=false means no clear slot found, caller should skip
+function cloudFindSlot(ox, oy, bw, bh, placed, maxR) {
+  if (!cloudOverlaps(ox, oy, bw, bh, placed)) return [ox, oy, true];
+  const step = Math.max(6, bh * 0.35);
+  for (let r = step; r <= maxR; r += step) {
+    const steps = Math.max(16, Math.round((2 * Math.PI * r) / Math.max(bw * 0.25, 8)));
+    for (let i = 0; i < steps; i++) {
+      const angle = (2 * Math.PI * i) / steps;
+      const nx = ox + Math.cos(angle) * r;
+      const ny = oy + Math.sin(angle) * r;
+      if (!cloudOverlaps(nx, ny, bw, bh, placed)) return [nx, ny, true];
+    }
+  }
+  return [ox, oy, false];
+}
+
+function buildWordCloudData(words, regionStyles) {
+  const ranked = Object.entries(words)
+    .map(([text]) => ({ text, trend: getSignalStrength(text, words), color: getRegionStyle(text, words, regionStyles).color }))
+    .filter(d => d.trend >= 0.30)
+    .sort((a, b) => b.trend - a.trend);
+
+  // Trending iconic words first, then fill with other high-signal words
+  const trendingFirst = [
+    ...ranked.filter(d => TRENDING_WORDS.includes(d.text)),
+    ...ranked.filter(d => !TRENDING_WORDS.includes(d.text)),
+  ].slice(0, 42);
+
+  const trends = trendingFirst.map(d => d.trend);
+  const sizeScale = d3.scaleSqrt().domain([d3.min(trends), d3.max(trends)]).range([13, 44]);
+  return trendingFirst.map(d => ({ ...d, size: Math.round(sizeScale(d.trend)) }));
+}
+
+function renderWordCloudExplore({ mapEl, stage, exploreLayer, words, regionStyles, fontFamily, projection: extProj }) {
+  const width  = Math.max(mapEl.clientWidth  || 0, 320);
+  const height = Math.max(mapEl.clientHeight || 0, 240);
   stage.innerHTML = "";
-  const svg = d3
-    .select(stage)
+
+  // Fit the projection to the actual continental state centroids so words fill the panel
+  const proj = (function() {
+    const pts = Object.entries(CLOUD_STATE_CENTROIDS)
+      .filter(([s]) => s !== 'AK' && s !== 'HI')
+      .map(([, c]) => ({ type: "Feature", geometry: { type: "Point", coordinates: c }, properties: {} }));
+    return d3.geoAlbersUsa().fitExtent([[55, 55], [width - 55, height - 55]], { type: "FeatureCollection", features: pts });
+  })();
+
+  const svg = d3.select(stage)
     .append("svg")
     .attr("viewBox", `0 0 ${width} ${height}`)
     .attr("preserveAspectRatio", "xMidYMid meet");
 
-  const g = svg.append("g").attr("transform", `translate(${width / 2}, ${height / 2})`);
+  const placed = [];
+  const maxR = Math.hypot(width, height) * 0.55;
 
-  g.selectAll("text")
-    .data(words)
-    .join("text")
-    .attr("transform", (d) => `translate(${d.x}, ${d.y}) rotate(${d.rotate})`)
-    .attr("text-anchor", "middle")
-    .attr("dominant-baseline", "middle")
-    .attr("font-size", (d) => `${d.size}px`)
-    .attr("fill", (d) => d.color)
-    .text((d) => d.text);
-}
-
-function buildWordCloudData(words, regionStyles) {
-  const seen = new Set();
-  const items = [];
-
-  const add = (text, trend, color) => {
-    if (seen.has(text)) return;
-    seen.add(text);
-    items.push({ text, trend, color });
-  };
-
-  TRENDING_WORDS.forEach((word) => {
-    if (!words[word]) return;
-    add(word, getSignalStrength(word, words), getRegionStyle(word, words, regionStyles).color);
-  });
-
-  Object.entries(words)
-    .sort((a, b) => getSignalStrength(b[0], words) - getSignalStrength(a[0], words))
-    .slice(0, MAX_CLOUD_WORDS)
-    .forEach(([word]) => {
-      add(word, getSignalStrength(word, words), getRegionStyle(word, words, regionStyles).color);
-    });
-
-  CLOUD_FILLER.forEach((entry) => add(entry.text, entry.trend, "var(--muted)"));
-
-  const trends = items.map((item) => item.trend);
-  const sizeScale = d3
-    .scaleSqrt()
-    .domain([d3.min(trends), d3.max(trends)])
-    .range([12, 52]);
-
-  return items
-    .map((item) => ({ ...item, size: Math.round(sizeScale(item.trend)) }))
-    .sort((a, b) => b.size - a.size);
-}
-
-function renderWordCloudExplore({ mapEl, stage, exploreLayer, words, regionStyles, fontFamily }) {
-  const width = Math.max(mapEl.clientWidth || 0, 320);
-  const height = Math.max(mapEl.clientHeight || 0, 240);
-  stage.innerHTML = "";
-
-  const cloudWords = buildWordCloudData(words, regionStyles).map((entry) => ({ ...entry }));
-
-  const layout = d3.layout.cloud()
-    .size([width * 0.92, height * 0.88])
-    .words(cloudWords)
-    .padding(3)
-    .rotate((d) => (d.size < 22 ? (Math.random() > 0.45 ? 90 : 0) : 0))
-    .font(fontFamily)
-    .fontSize((d) => d.size)
-    .on("end", (placed) => drawWordCloud(stage, width, height, placed));
-
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(() => {
-      try {
-        layout.start();
-      } catch (err) {
-        console.error("Failed to start cloud layout:", err);
-      }
-    });
-  } else {
-    layout.start();
+  // Effective size: shrink long phrases so they fit on screen
+  function effectiveSize(text, size) {
+    const maxW = width * 0.72;
+    const natural = size * 0.58 * text.length;
+    return natural > maxW ? Math.floor(size * (maxW / natural)) : size;
   }
+
+  function stamp(text, rawSize, color, ox, oy) {
+    const size = Math.max(10, effectiveSize(text, rawSize));
+    const bw = size * 0.58 * text.length;
+    const bh = size * 1.15;
+    const mg = 52;
+    ox = Math.max(mg + bw / 2, Math.min(width  - mg - bw / 2, ox));
+    oy = Math.max(mg + bh / 2, Math.min(height - mg - bh / 2, oy));
+    const [fx, fy, ok] = cloudFindSlot(ox, oy, bw, bh, placed, maxR);
+    if (!ok) return false;
+    if (fx - bw / 2 < mg || fx + bw / 2 > width  - mg) return false;
+    if (fy - bh / 2 < mg || fy + bh / 2 > height - mg) return false;
+    placed.push({ x: fx, y: fy, w: bw, h: bh });
+    svg.append("text")
+      .attr("x", fx).attr("y", fy)
+      .attr("text-anchor", "middle")
+      .attr("dominant-baseline", "middle")
+      .attr("font-size", `${size}px`)
+      .attr("font-family", fontFamily || "Inter")
+      .attr("font-weight", "500")
+      .attr("fill", color)
+      .attr("opacity", "0.93")
+      .attr("stroke", "var(--bg-base,#0d1520)")
+      .attr("stroke-width", "2.5")
+      .attr("stroke-linejoin", "round")
+      .attr("paint-order", "stroke fill")
+      .text(text);
+    return true;
+  }
+
+  const cloudItems = buildWordCloudData(words, regionStyles);
+
+  for (const item of cloudItems) {
+    const stateEntries = Object.entries(words[item.text]?.states || {})
+      .filter(([, v]) => v > 0.12)
+      .sort((a, b) => b[1] - a[1]);
+
+    if (!stateEntries.length) continue; // skip generic filler
+
+    // Map states to screen positions
+    const screenPts = stateEntries
+      .map(([state, val]) => {
+        const c = CLOUD_STATE_CENTROIDS[state];
+        if (!c) return null;
+        const pt = proj(c);
+        if (!pt) return null;
+        return { state, val, x: pt[0], y: pt[1] };
+      })
+      .filter(Boolean);
+
+    if (!screenPts.length) continue;
+
+    // Spread = 4+ states all with usage > 40% of the top state's value
+    const peak = stateEntries[0][1];
+    const highCount = stateEntries.filter(([, v]) => v > peak * 0.45).length;
+
+    // Primary label at weighted centroid of top states
+    const center = cloudWeightedCenter(stateEntries.slice(0, 5), proj);
+    if (!center) continue;
+    stamp(item.text, item.size, item.color, center[0], center[1]);
+
+    // Spread words: add a second smaller instance biased toward the left side
+    if (highCount >= 3 && screenPts.length >= 2) {
+      const instanceSize = Math.max(12, Math.round(item.size * 0.72));
+      // Prefer a western anchor (x < 45% of width) so the left side stays full
+      const leftPts  = screenPts.filter(p => p.x < width * 0.45);
+      const rightPts = screenPts.filter(p => p.x >= width * 0.45);
+      // If primary is on the right, try left first; otherwise try right
+      const altPool = center[0] > width * 0.45 ? leftPts  : rightPts;
+      const fallback =                             center[0] > width * 0.45 ? rightPts : leftPts;
+      const alt = (altPool.length ? altPool : fallback).sort((a, b) => {
+        // pick point furthest from primary center
+        const da = Math.hypot(a.x - center[0], a.y - center[1]);
+        const db = Math.hypot(b.x - center[0], b.y - center[1]);
+        return db - da;
+      })[0];
+      if (alt) stamp(item.text, instanceSize, item.color, alt.x, alt.y);
+    }
+  }
+
   exploreLayer.classList.remove("hidden");
 }
 
@@ -708,7 +820,7 @@ function createMapPanel({
     if (isWordMode() || !stateSelection) return;
     mapExploreActive = true;
     resetMapBase();
-    if (g) g.style("opacity", 0.14);
+    if (g) g.style("opacity", 0);
     updateTitle(true);
     tooltip.style.opacity = 0;
     resizeMap();
@@ -719,6 +831,7 @@ function createMapPanel({
       words,
       regionStyles,
       fontFamily: "Inter",
+      projection,
     });
   }
 
@@ -903,6 +1016,7 @@ function createMapPanel({
             words,
             regionStyles,
             fontFamily: "Inter",
+            projection,
           });
         }
       });
