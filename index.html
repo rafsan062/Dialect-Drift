@@ -42,17 +42,17 @@
           <div style="display: flex; align-items: baseline; gap: 0.75rem; flex: 1; flex-wrap: wrap;">
             <h2 class="fingerprint-title" id="fingerprint-title">Sentence fingerprint</h2>
             <div id="fingerprint-summary" class="fingerprint-summary" style="font-size: var(--text-sm);"></div>
-            <div class="fingerprint-kicker" id="fingerprint-kicker" style="margin-top: 0; margin-left: auto; padding-right: 1rem;">Hover for details · click to update map and audio</div>
+            <ul class="fingerprint-legend" id="fingerprint-legend" aria-label="Region colors in sentence"></ul>
           </div>
           <div class="fingerprint-actions">
-            <button type="button" id="resetBtn">Edit sentence</button>
+            <button type="button" class="reveal-btn" id="resetBtn">Edit sentence</button>
           </div>
         </div>
         <div id="sentence-tokens" class="sentence-tokens"></div>
       </section>
     </div>
 
-    <section class="grid">
+    <section class="grid is-explore">
       <div class="panel map-wrap">
         <div class="map-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--panel-border);">
           <div class="panel-title" id="map-panel-title" style="margin-bottom: 0; border-bottom: none;">Map · trending dialect splits</div>
@@ -65,13 +65,18 @@
         <div id="map"></div>
         <div id="map-explore" class="map-explore hidden">
           <div id="word-cloud-stage" class="word-cloud-stage"></div>
+          <aside class="cloud-legend" id="map-legend-cloud" aria-label="Word cloud region colors">
+            <div class="cloud-legend-title">Region</div>
+            <ul class="cloud-legend-list" id="map-legend-cloud-list"></ul>
+            <p class="cloud-legend-note">Color = where the word is strongest · size = sharper split</p>
+          </aside>
         </div>
         <div class="tooltip" id="tooltip"></div>
       </div>
 
       <aside class="side-stack">
         <div class="panel pronunciation-window">
-          <div class="panel-title">Pronunciation window</div>
+          <div class="panel-title">Pronunciation</div>
           <div id="variants"></div>
         </div>
       </aside>

@@ -19,9 +19,17 @@ SKIP_ANSWER_RE = re.compile(
     r"i have no |^other$|^yes$|^no$|not sure|acceptable|unacceptable|"
     r"i have never|i know what|interchangeably|^\[|as in \"|do not look up|"
     r"please |state here|both interchangeably|i use both|i have both|"
-    r"^i use the same|^i pronounce it the same|^rhymes with",
+    r"^i use the same|^i pronounce it the same|^rhymes with|"
+    r"i can only use|never heard of this|no special term for them|"
+    r"these words refer to different|not the same, and i know the difference|"
+    r"i spell it .* but pronounce|we have these in my area|"
+    r"a freeway is (bigger|free)",
     re.IGNORECASE,
 )
+
+# Real dialect phrases top out around 28 chars; longer keys are usually survey commentary.
+MAX_ANSWER_CHARS = 30
+MAX_ANSWER_WORDS = 6
 
 # Survey label -> canonical dictionary key (for lookup in sentences).
 LABEL_TO_KEY: dict[str, str] = {
@@ -66,6 +74,10 @@ def should_skip_answer(label: str) -> bool:
     label = label.strip().lower()
     if len(label) > 80:
         return True
+    if len(label) > MAX_ANSWER_CHARS:
+        return True
+    if len(label.split()) > MAX_ANSWER_WORDS:
+        return True
     return bool(SKIP_ANSWER_RE.search(label))
 
 
@@ -88,14 +100,25 @@ def concept_from_question(text: str) -> str:
         (r"^What do you call (the |a |an )?", ""),
         (r"^What is your general term for ", ""),
         (r"^What is your \*general\* term for ", ""),
+        (r"^What is your generic term for (a |an )?", ""),
         (r"^What term do you use to refer to ", ""),
         (r"^What word\(s\) do you use to address ", ""),
         (r"^What nicknames do/did you use for your ", ""),
         (r"^What do/did you call your ", ""),
+        (r"^What about your paternal grandmother \(is there a distinction\?\)", "paternal grandmother"),
+        (r"^What about your ", ""),
         (r"^Which of these terms do you prefer( for .+)?\??$", "preferred term"),
+        (r"\s*\([^)]*\)\s*$", ""),
         (r"\?$", ""),
     ]
     for pattern, repl in replacements:
         text = re.sub(pattern, repl, text, flags=re.IGNORECASE)
     text = text.strip()
-    return text[:120] if text else "regional term"
+    if not text:
+        return "regional term"
+    if len(text) <= 180:
+        return text
+    cutoff = text.rfind(" ", 0, 177)
+    if cutoff < 90:
+        cutoff = 177
+    return text[:cutoff].rstrip(" ,;") + "…"

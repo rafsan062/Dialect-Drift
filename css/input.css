@@ -142,13 +142,17 @@ body[data-mode="word"] .input-compose {
   font-size: var(--text-sm);
   padding: 0.75rem 0.85rem;
   border-radius: var(--radius-sm);
-  box-shadow: 0 0 24px rgba(255, 61, 206, 0.35);
-  transition: transform 0.15s, box-shadow 0.2s;
+  transition: transform 0.15s, filter 0.15s;
 }
 
 .reveal-btn:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 0 32px rgba(255, 61, 206, 0.5);
+  filter: brightness(1.08);
+}
+
+.reveal-btn:focus-visible {
+  outline: 2px solid var(--neon-cyan);
+  outline-offset: 2px;
 }
 
 .reveal-btn:disabled {

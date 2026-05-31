@@ -2,10 +2,6 @@
   z-index: 1;
 }
 
-.map-wrap.is-revealed #map .state {
-  transition: fill 0.45s ease, opacity 0.45s ease;
-}
-
 .map-explore {
   position: absolute;
   inset: 1.75rem 0 0;
@@ -27,6 +23,65 @@
   height: 100%;
 }
 
+.cloud-legend {
+  position: absolute;
+  top: 50%;
+  right: 0.65rem;
+  transform: translateY(-50%);
+  z-index: 3;
+  pointer-events: none;
+  padding: 0.55rem 0.65rem;
+  background: color-mix(in srgb, var(--bg-elevated) 90%, transparent);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius-sm);
+  backdrop-filter: blur(8px);
+  max-width: 9.5rem;
+}
+
+.cloud-legend-title {
+  margin: 0 0 0.4rem;
+  font-family: var(--font-heading);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-heading);
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.cloud-legend-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.cloud-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: var(--text-xs);
+  color: var(--text-deep);
+  line-height: 1.2;
+}
+
+.cloud-legend-swatch {
+  flex-shrink: 0;
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 2px;
+}
+
+.cloud-legend-note {
+  margin: 0.45rem 0 0;
+  padding-top: 0.4rem;
+  border-top: 1px solid var(--panel-border);
+  font-size: 0.65rem;
+  line-height: 1.35;
+  color: var(--muted);
+}
+
 .word-cloud-stage text {
   font-family: var(--font);
   font-weight: 500;
@@ -37,6 +92,15 @@
   stroke: var(--bg-base, #0d1520);
   stroke-width: 3px;
   stroke-linejoin: round;
+}
+
+.word-cloud-stage text.word-cloud-label {
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.word-cloud-stage text.word-cloud-label:hover {
+  opacity: 1;
 }
 
 .tooltip {

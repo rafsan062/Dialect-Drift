@@ -409,50 +409,50 @@
     "variants": [
       {
         "word": "garage sale",
-        "region": "Strongest in KS",
+        "region": "Strongest in Kansas",
         "phrase": "I say \"garage sale\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "yard sale",
-        "region": "Strongest in NC",
+        "region": "Strongest in North Carolina",
         "phrase": "I say \"yard sale\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "tag sale",
-        "region": "Strongest in CT",
+        "region": "Strongest in Connecticut",
         "phrase": "I say \"tag sale\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "rummage sale",
-        "region": "Strongest in SD",
+        "region": "Strongest in South Dakota",
         "phrase": "I say \"rummage sale\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "thrift sale",
-        "region": "Strongest in WI",
+        "region": "Strongest in Wisconsin",
         "phrase": "I say \"thrift sale\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "carport sale",
-        "region": "Strongest in AR",
+        "region": "Strongest in Arkansas",
         "phrase": "I say \"carport sale\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -685,8 +685,8 @@
     }
   },
   "mumbly peg": {
-    "concept": "game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to ",
-    "summary": "Regional term for game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to  (Harvard Dialect Survey Q59).",
+    "concept": "game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to stick into the ground or a piece of wood)",
+    "summary": "Regional term for game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to stick into the ground or a piece of wood) (Harvard Dialect Survey Q59).",
     "states": {
       "WV": 0.2017,
       "WY": 0.1912,
@@ -742,50 +742,50 @@
     "variants": [
       {
         "word": "mumbly peg",
-        "region": "Strongest in WV",
+        "region": "Strongest in West Virginia",
         "phrase": "I say \"mumbly peg\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "mumbledy-peg",
-        "region": "Strongest in AK",
+        "region": "Strongest in Alaska",
         "phrase": "I say \"mumbledy-peg\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "mumblety-peg",
-        "region": "Strongest in DC",
+        "region": "Strongest in District of Columbia",
         "phrase": "I say \"mumblety-peg\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "chicken",
-        "region": "Strongest in ID",
+        "region": "Strongest in Idaho",
         "phrase": "I say \"chicken\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "russian roulette",
-        "region": "Strongest in SD",
+        "region": "Strongest in South Dakota",
         "phrase": "I say \"russian roulette\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "stick-knife",
-        "region": "Strongest in WY",
+        "region": "Strongest in Wyoming",
         "phrase": "I say \"stick-knife\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -798,8 +798,8 @@
     }
   },
   "mumbledy-peg": {
-    "concept": "game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to ",
-    "summary": "Regional term for game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to  (Harvard Dialect Survey Q59).",
+    "concept": "game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to stick into the ground or a piece of wood)",
+    "summary": "Regional term for game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to stick into the ground or a piece of wood) (Harvard Dialect Survey Q59).",
     "states": {
       "AK": 0.1739,
       "DE": 0.1628,
@@ -863,8 +863,8 @@
     }
   },
   "mumblety-peg": {
-    "concept": "game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to ",
-    "summary": "Regional term for game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to  (Harvard Dialect Survey Q59).",
+    "concept": "game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to stick into the ground or a piece of wood)",
+    "summary": "Regional term for game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to stick into the ground or a piece of wood) (Harvard Dialect Survey Q59).",
     "states": {
       "DC": 0.1605,
       "NM": 0.1404,
@@ -928,8 +928,8 @@
     }
   },
   "chicken": {
-    "concept": "game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to ",
-    "summary": "Regional term for game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to  (Harvard Dialect Survey Q59).",
+    "concept": "game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to stick into the ground or a piece of wood)",
+    "summary": "Regional term for game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to stick into the ground or a piece of wood) (Harvard Dialect Survey Q59).",
     "states": {
       "ID": 0.0945,
       "MS": 0.0776,
@@ -993,8 +993,8 @@
     }
   },
   "russian roulette": {
-    "concept": "game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to ",
-    "summary": "Regional term for game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to  (Harvard Dialect Survey Q59).",
+    "concept": "game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to stick into the ground or a piece of wood)",
+    "summary": "Regional term for game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to stick into the ground or a piece of wood) (Harvard Dialect Survey Q59).",
     "states": {
       "SD": 0.0637,
       "MS": 0.0517,
@@ -1053,8 +1053,8 @@
     }
   },
   "stick-knife": {
-    "concept": "game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to ",
-    "summary": "Regional term for game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to  (Harvard Dialect Survey Q59).",
+    "concept": "game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to stick into the ground or a piece of wood)",
+    "summary": "Regional term for game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to stick into the ground or a piece of wood) (Harvard Dialect Survey Q59).",
     "states": {
       "WY": 0.0441,
       "MT": 0.0361,
@@ -1101,8 +1101,8 @@
     }
   },
   "stretch": {
-    "concept": "game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to ",
-    "summary": "Regional term for game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to  (Harvard Dialect Survey Q59).",
+    "concept": "game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to stick into the ground or a piece of wood)",
+    "summary": "Regional term for game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to stick into the ground or a piece of wood) (Harvard Dialect Survey Q59).",
     "states": {
       "AK": 0.0435,
       "MT": 0.0433,
@@ -1146,8 +1146,8 @@
     }
   },
   "mumblely peg (with 2 l's)": {
-    "concept": "game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to ",
-    "summary": "Regional term for game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to  (Harvard Dialect Survey Q59).",
+    "concept": "game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to stick into the ground or a piece of wood)",
+    "summary": "Regional term for game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to stick into the ground or a piece of wood) (Harvard Dialect Survey Q59).",
     "states": {
       "WV": 0.042,
       "WA": 0.0399,
@@ -1204,8 +1204,8 @@
     }
   },
   "mumbly pegs": {
-    "concept": "game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to ",
-    "summary": "Regional term for game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to  (Harvard Dialect Survey Q59).",
+    "concept": "game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to stick into the ground or a piece of wood)",
+    "summary": "Regional term for game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to stick into the ground or a piece of wood) (Harvard Dialect Survey Q59).",
     "states": {
       "WY": 0.0294,
       "IA": 0.0179,
@@ -1226,8 +1226,8 @@
     }
   },
   "numblety peg": {
-    "concept": "game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to ",
-    "summary": "Regional term for game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to  (Harvard Dialect Survey Q59).",
+    "concept": "game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to stick into the ground or a piece of wood)",
+    "summary": "Regional term for game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to stick into the ground or a piece of wood) (Harvard Dialect Survey Q59).",
     "states": {
       "DE": 0.0233,
       "OK": 0.013,
@@ -1243,8 +1243,8 @@
     }
   },
   "splits": {
-    "concept": "game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to ",
-    "summary": "Regional term for game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to  (Harvard Dialect Survey Q59).",
+    "concept": "game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to stick into the ground or a piece of wood)",
+    "summary": "Regional term for game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to stick into the ground or a piece of wood) (Harvard Dialect Survey Q59).",
     "states": {
       "AK": 0.0217,
       "UT": 0.0185,
@@ -1263,8 +1263,8 @@
     }
   },
   "mumble peg": {
-    "concept": "game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to ",
-    "summary": "Regional term for game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to  (Harvard Dialect Survey Q59).",
+    "concept": "game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to stick into the ground or a piece of wood)",
+    "summary": "Regional term for game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to stick into the ground or a piece of wood) (Harvard Dialect Survey Q59).",
     "states": {
       "TN": 0.0155,
       "AR": 0.0153,
@@ -1286,8 +1286,8 @@
     }
   },
   "baseball jackknife": {
-    "concept": "game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to ",
-    "summary": "Regional term for game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to  (Harvard Dialect Survey Q59).",
+    "concept": "game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to stick into the ground or a piece of wood)",
+    "summary": "Regional term for game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to stick into the ground or a piece of wood) (Harvard Dialect Survey Q59).",
     "states": {
       "WY": 0.0147,
       "RI": 0.0103
@@ -1302,8 +1302,8 @@
     }
   },
   "mummety-peg": {
-    "concept": "game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to ",
-    "summary": "Regional term for game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to  (Harvard Dialect Survey Q59).",
+    "concept": "game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to stick into the ground or a piece of wood)",
+    "summary": "Regional term for game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to stick into the ground or a piece of wood) (Harvard Dialect Survey Q59).",
     "states": {
       "DC": 0.0123
     },
@@ -1317,8 +1317,8 @@
     }
   },
   "peggy": {
-    "concept": "game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to ",
-    "summary": "Regional term for game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to  (Harvard Dialect Survey Q59).",
+    "concept": "game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to stick into the ground or a piece of wood)",
+    "summary": "Regional term for game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to stick into the ground or a piece of wood) (Harvard Dialect Survey Q59).",
     "states": {
       "RI": 0.0103
     },
@@ -1332,8 +1332,8 @@
     }
   },
   "stick-frog": {
-    "concept": "game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to ",
-    "summary": "Regional term for game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to  (Harvard Dialect Survey Q59).",
+    "concept": "game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to stick into the ground or a piece of wood)",
+    "summary": "Regional term for game wherein the participants see who can throw a knife closest to the other person (or alternately, get a jackknife to stick into the ground or a piece of wood) (Harvard Dialect Survey Q59).",
     "states": {
       "KY": 0.0101
     },
@@ -1402,50 +1402,50 @@
     "variants": [
       {
         "word": "berm",
-        "region": "Strongest in ND",
+        "region": "Strongest in North Dakota",
         "phrase": "I say \"berm\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "parking",
-        "region": "Strongest in IA",
+        "region": "Strongest in Iowa",
         "phrase": "I say \"parking\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "tree lawn",
-        "region": "Strongest in OH",
+        "region": "Strongest in Ohio",
         "phrase": "I say \"tree lawn\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "curb strip",
-        "region": "Strongest in WY",
+        "region": "Strongest in Wyoming",
         "phrase": "I say \"curb strip\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "terrace",
-        "region": "Strongest in WI",
+        "region": "Strongest in Wisconsin",
         "phrase": "I say \"terrace\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "verge",
-        "region": "Strongest in DC",
+        "region": "Strongest in District of Columbia",
         "phrase": "I say \"verge\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -1746,42 +1746,42 @@
     "variants": [
       {
         "word": "island",
-        "region": "Strongest in UT",
+        "region": "Strongest in Utah",
         "phrase": "I say \"island\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "boulevard",
-        "region": "Strongest in SD",
+        "region": "Strongest in South Dakota",
         "phrase": "I say \"boulevard\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "neutral ground",
-        "region": "Strongest in LA",
+        "region": "Strongest in Louisiana",
         "phrase": "I say \"neutral ground\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "traffic island",
-        "region": "Strongest in HI",
+        "region": "Strongest in Hawaii",
         "phrase": "I say \"traffic island\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "midway",
-        "region": "Strongest in DE",
+        "region": "Strongest in Delaware",
         "phrase": "I say \"midway\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -2035,50 +2035,50 @@
     "variants": [
       {
         "word": "median",
-        "region": "Strongest in SC",
+        "region": "Strongest in South Carolina",
         "phrase": "I say \"median\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "median strip",
-        "region": "Strongest in MD",
+        "region": "Strongest in Maryland",
         "phrase": "I say \"median strip\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "neutral ground",
-        "region": "Strongest in LA",
+        "region": "Strongest in Louisiana",
         "phrase": "I say \"neutral ground\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "island",
-        "region": "Strongest in NV",
+        "region": "Strongest in Nevada",
         "phrase": "I say \"island\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "traffic island",
-        "region": "Strongest in NV",
+        "region": "Strongest in Nevada",
         "phrase": "I say \"traffic island\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "boulevard",
-        "region": "Strongest in DC",
+        "region": "Strongest in District of Columbia",
         "phrase": "I say \"boulevard\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -2214,42 +2214,42 @@
     "variants": [
       {
         "word": "milkshake",
-        "region": "Strongest in AK",
+        "region": "Strongest in Alaska",
         "phrase": "I say \"milkshake\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "cabinet",
-        "region": "Strongest in RI",
+        "region": "Strongest in Rhode Island",
         "phrase": "I say \"cabinet\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "frappe",
-        "region": "Strongest in MA",
+        "region": "Strongest in Massachusetts",
         "phrase": "I say \"frappe\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "velvet",
-        "region": "Strongest in ME",
+        "region": "Strongest in Maine",
         "phrase": "I say \"velvet\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "thick shake",
-        "region": "Strongest in SD",
+        "region": "Strongest in South Dakota",
         "phrase": "I say \"thick shake\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -2385,50 +2385,50 @@
     "variants": [
       {
         "word": "sub",
-        "region": "Strongest in IN",
+        "region": "Strongest in Indiana",
         "phrase": "I say \"sub\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "grinder",
-        "region": "Strongest in RI",
+        "region": "Strongest in Rhode Island",
         "phrase": "I say \"grinder\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "hoagie",
-        "region": "Strongest in PA",
+        "region": "Strongest in Pennsylvania",
         "phrase": "I say \"hoagie\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "poor boy",
-        "region": "Strongest in LA",
+        "region": "Strongest in Louisiana",
         "phrase": "I say \"poor boy\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "italian sandwich",
-        "region": "Strongest in ME",
+        "region": "Strongest in Maine",
         "phrase": "I say \"italian sandwich\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "hero",
-        "region": "Strongest in NY",
+        "region": "Strongest in New York",
         "phrase": "I say \"hero\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -2729,26 +2729,26 @@
     "variants": [
       {
         "word": "lightning bug",
-        "region": "Strongest in KY",
+        "region": "Strongest in Kentucky",
         "phrase": "I say \"lightning bug\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "firefly",
-        "region": "Strongest in HI",
+        "region": "Strongest in Hawaii",
         "phrase": "I say \"firefly\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "peenie wallie",
-        "region": "Strongest in WI",
+        "region": "Strongest in Wisconsin",
         "phrase": "I say \"peenie wallie\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -2899,34 +2899,34 @@
     "variants": [
       {
         "word": "crawfish",
-        "region": "Strongest in LA",
+        "region": "Strongest in Louisiana",
         "phrase": "I say \"crawfish\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "crawdad",
-        "region": "Strongest in AR",
+        "region": "Strongest in Arkansas",
         "phrase": "I say \"crawdad\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "crayfish",
-        "region": "Strongest in HI",
+        "region": "Strongest in Hawaii",
         "phrase": "I say \"crayfish\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "craw",
-        "region": "Strongest in HI",
+        "region": "Strongest in Hawaii",
         "phrase": "I say \"craw\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -3142,42 +3142,42 @@
     "variants": [
       {
         "word": "daddy long leg(s)",
-        "region": "Strongest in CT",
+        "region": "Strongest in Connecticut",
         "phrase": "I say \"daddy long leg(s)\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "granddaddy",
-        "region": "Strongest in AR",
+        "region": "Strongest in Arkansas",
         "phrase": "I say \"granddaddy\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "daddy big legs",
-        "region": "Strongest in HI",
+        "region": "Strongest in Hawaii",
         "phrase": "I say \"daddy big legs\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "harvestman",
-        "region": "Strongest in NH",
+        "region": "Strongest in New Hampshire",
         "phrase": "I say \"harvestman\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "daddy spider",
-        "region": "Strongest in HI",
+        "region": "Strongest in Hawaii",
         "phrase": "I say \"daddy spider\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -3354,50 +3354,50 @@
     "variants": [
       {
         "word": "grandma",
-        "region": "Strongest in SD",
+        "region": "Strongest in South Dakota",
         "phrase": "I say \"grandma\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "grammy/grammie/grammi",
-        "region": "Strongest in ME",
+        "region": "Strongest in Maine",
         "phrase": "I say \"grammy/grammie/grammi\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "nana",
-        "region": "Strongest in RI",
+        "region": "Strongest in Rhode Island",
         "phrase": "I say \"nana\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "grandmother",
-        "region": "Strongest in AL",
+        "region": "Strongest in Alabama",
         "phrase": "I say \"grandmother\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "granny",
-        "region": "Strongest in AL",
+        "region": "Strongest in Alabama",
         "phrase": "I say \"granny\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "mimi",
-        "region": "Strongest in SC",
+        "region": "Strongest in South Carolina",
         "phrase": "I say \"mimi\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -3526,8 +3526,8 @@
     }
   },
   "grandmother": {
-    "concept": "What about your paternal grandmother (is there a distinction?)",
-    "summary": "Regional term for What about your paternal grandmother (is there a distinction?) (Harvard Dialect Survey Q69).",
+    "concept": "paternal grandmother",
+    "summary": "Regional term for paternal grandmother (Harvard Dialect Survey Q69).",
     "states": {
       "DC": 0.2027,
       "AL": 0.1713,
@@ -3682,8 +3682,8 @@
     }
   },
   "gramma": {
-    "concept": "What about your paternal grandmother (is there a distinction?)",
-    "summary": "Regional term for What about your paternal grandmother (is there a distinction?) (Harvard Dialect Survey Q69).",
+    "concept": "paternal grandmother",
+    "summary": "Regional term for paternal grandmother (Harvard Dialect Survey Q69).",
     "states": {
       "MT": 0.2841,
       "SD": 0.2745,
@@ -3746,120 +3746,6 @@
       ]
     }
   },
-  "i spell it \"grandpa\" but pronounce it as \"grampa\"": {
-    "concept": "maternal grandfather",
-    "summary": "Regional term for maternal grandfather (Harvard Dialect Survey Q70).",
-    "states": {
-      "NE": 0.4035,
-      "ND": 0.3929,
-      "AK": 0.3913,
-      "WY": 0.3881,
-      "MN": 0.3727,
-      "NV": 0.3594,
-      "UT": 0.358,
-      "SD": 0.3558,
-      "WA": 0.3513,
-      "IA": 0.3488,
-      "WI": 0.3467,
-      "MI": 0.3451,
-      "OR": 0.3343,
-      "MT": 0.3297,
-      "IL": 0.3255,
-      "ID": 0.3125,
-      "IN": 0.2973,
-      "CA": 0.2903,
-      "OH": 0.2771,
-      "KS": 0.2753,
-      "VT": 0.274,
-      "NY": 0.2656,
-      "NH": 0.2617,
-      "MO": 0.26,
-      "NM": 0.2593,
-      "CT": 0.2573,
-      "CO": 0.2395,
-      "AZ": 0.2386,
-      "OK": 0.2335,
-      "MA": 0.2142,
-      "VA": 0.2072,
-      "MD": 0.1941,
-      "FL": 0.1922,
-      "NJ": 0.1887,
-      "RI": 0.1848,
-      "HI": 0.1636,
-      "WV": 0.1624,
-      "PA": 0.1556,
-      "TX": 0.1527,
-      "NC": 0.1505,
-      "DC": 0.1467,
-      "ME": 0.1444,
-      "SC": 0.1333,
-      "KY": 0.1298,
-      "LA": 0.1233,
-      "DE": 0.122,
-      "GA": 0.114,
-      "AL": 0.0864,
-      "TN": 0.0825,
-      "AR": 0.0813,
-      "MS": 0.0804
-    },
-    "variants": [
-      {
-        "word": "i spell it \"grandpa\" but pronounce it as \"grampa\"",
-        "region": "Strongest in NE",
-        "phrase": "I say \"i spell it \"grandpa\" but pronounce it as \"grampa\"\".",
-        "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
-        "wave": "west"
-      },
-      {
-        "word": "grandpa",
-        "region": "Strongest in UT",
-        "phrase": "I say \"grandpa\".",
-        "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
-        "wave": "west"
-      },
-      {
-        "word": "grampa",
-        "region": "Strongest in WI",
-        "phrase": "I say \"grampa\".",
-        "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
-        "wave": "west"
-      },
-      {
-        "word": "grandad, granddad",
-        "region": "Strongest in DE",
-        "phrase": "I say \"grandad, granddad\".",
-        "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
-        "wave": "west"
-      },
-      {
-        "word": "pap",
-        "region": "Strongest in PA",
-        "phrase": "I say \"pap\".",
-        "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
-        "wave": "west"
-      },
-      {
-        "word": "gramps",
-        "region": "Strongest in ID",
-        "phrase": "I say \"gramps\".",
-        "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
-        "wave": "west"
-      }
-    ],
-    "source": {
-      "survey": "Harvard Dialect Survey (Vaux & Golder, 2003)",
-      "question_id": 70,
-      "answer_labels": [
-        "i spell it \"grandpa\" but pronounce it as \"grampa\""
-      ]
-    }
-  },
   "grandpa": {
     "concept": "paternal grandfather",
     "summary": "Regional term for paternal grandfather (Harvard Dialect Survey Q71).",
@@ -3916,7 +3802,48 @@
       "MS": 0.1287,
       "ME": 0.119
     },
-    "variants": [],
+    "variants": [
+      {
+        "word": "grandpa",
+        "region": "Strongest in Utah",
+        "phrase": "I say \"grandpa\".",
+        "ipa": "",
+        "note": "",
+        "wave": "west"
+      },
+      {
+        "word": "grampa",
+        "region": "Strongest in Wisconsin",
+        "phrase": "I say \"grampa\".",
+        "ipa": "",
+        "note": "",
+        "wave": "west"
+      },
+      {
+        "word": "grandad, granddad",
+        "region": "Strongest in Delaware",
+        "phrase": "I say \"grandad, granddad\".",
+        "ipa": "",
+        "note": "",
+        "wave": "west"
+      },
+      {
+        "word": "pap",
+        "region": "Strongest in Pennsylvania",
+        "phrase": "I say \"pap\".",
+        "ipa": "",
+        "note": "",
+        "wave": "west"
+      },
+      {
+        "word": "gramps",
+        "region": "Strongest in Idaho",
+        "phrase": "I say \"gramps\".",
+        "ipa": "",
+        "note": "",
+        "wave": "west"
+      }
+    ],
     "source": {
       "survey": "Harvard Dialect Survey (Vaux & Golder, 2003)",
       "question_id": 71,
@@ -3984,34 +3911,34 @@
     "variants": [
       {
         "word": "grampa",
-        "region": "Strongest in ND",
+        "region": "Strongest in North Dakota",
         "phrase": "I say \"grampa\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "grandpa",
-        "region": "Strongest in NE",
+        "region": "Strongest in Nebraska",
         "phrase": "I say \"grandpa\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "pap",
-        "region": "Strongest in PA",
+        "region": "Strongest in Pennsylvania",
         "phrase": "I say \"pap\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "gramps",
-        "region": "Strongest in DC",
+        "region": "Strongest in District of Columbia",
         "phrase": "I say \"gramps\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -4206,42 +4133,42 @@
     "variants": [
       {
         "word": "dust bunnies",
-        "region": "Strongest in AK",
+        "region": "Strongest in Alaska",
         "phrase": "I say \"dust bunnies\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "dust balls",
-        "region": "Strongest in HI",
+        "region": "Strongest in Hawaii",
         "phrase": "I say \"dust balls\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "kitties",
-        "region": "Strongest in NH",
+        "region": "Strongest in New Hampshire",
         "phrase": "I say \"kitties\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "dust mice",
-        "region": "Strongest in DC",
+        "region": "Strongest in District of Columbia",
         "phrase": "I say \"dust mice\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "dust kittens",
-        "region": "Strongest in NH",
+        "region": "Strongest in New Hampshire",
         "phrase": "I say \"dust kittens\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -4448,50 +4375,50 @@
     "variants": [
       {
         "word": "sneakers",
-        "region": "Strongest in RI",
+        "region": "Strongest in Rhode Island",
         "phrase": "I say \"sneakers\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "tennis shoes",
-        "region": "Strongest in LA",
+        "region": "Strongest in Louisiana",
         "phrase": "I say \"tennis shoes\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "gym shoes",
-        "region": "Strongest in IL",
+        "region": "Strongest in Illinois",
         "phrase": "I say \"gym shoes\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "shoes",
-        "region": "Strongest in HI",
+        "region": "Strongest in Hawaii",
         "phrase": "I say \"shoes\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "running shoes",
-        "region": "Strongest in HI",
+        "region": "Strongest in Hawaii",
         "phrase": "I say \"running shoes\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "trainers",
-        "region": "Strongest in DE",
+        "region": "Strongest in Delaware",
         "phrase": "I say \"trainers\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -4780,8 +4707,8 @@
     }
   },
   "roly poly": {
-    "concept": "little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch i",
-    "summary": "Regional term for little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch i (Harvard Dialect Survey Q74).",
+    "concept": "little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch it",
+    "summary": "Regional term for little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch it (Harvard Dialect Survey Q74).",
     "states": {
       "OK": 0.9142,
       "KS": 0.8893,
@@ -4838,50 +4765,50 @@
     "variants": [
       {
         "word": "roly poly",
-        "region": "Strongest in OK",
+        "region": "Strongest in Oklahoma",
         "phrase": "I say \"roly poly\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "potato bug",
-        "region": "Strongest in UT",
+        "region": "Strongest in Utah",
         "phrase": "I say \"potato bug\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "doodle bug",
-        "region": "Strongest in LA",
+        "region": "Strongest in Louisiana",
         "phrase": "I say \"doodle bug\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "pill bug",
-        "region": "Strongest in DC",
+        "region": "Strongest in District of Columbia",
         "phrase": "I say \"pill bug\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "sow bug",
-        "region": "Strongest in CA",
+        "region": "Strongest in California",
         "phrase": "I say \"sow bug\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "centipede",
-        "region": "Strongest in SD",
+        "region": "Strongest in South Dakota",
         "phrase": "I say \"centipede\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -4894,8 +4821,8 @@
     }
   },
   "potato bug": {
-    "concept": "little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch i",
-    "summary": "Regional term for little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch i (Harvard Dialect Survey Q74).",
+    "concept": "little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch it",
+    "summary": "Regional term for little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch it (Harvard Dialect Survey Q74).",
     "states": {
       "UT": 0.7593,
       "OR": 0.6,
@@ -4952,8 +4879,8 @@
     }
   },
   "doodle bug": {
-    "concept": "little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch i",
-    "summary": "Regional term for little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch i (Harvard Dialect Survey Q74).",
+    "concept": "little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch it",
+    "summary": "Regional term for little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch it (Harvard Dialect Survey Q74).",
     "states": {
       "LA": 0.3943,
       "TX": 0.2974,
@@ -5010,8 +4937,8 @@
     }
   },
   "pill bug": {
-    "concept": "little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch i",
-    "summary": "Regional term for little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch i (Harvard Dialect Survey Q74).",
+    "concept": "little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch it",
+    "summary": "Regional term for little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch it (Harvard Dialect Survey Q74).",
     "states": {
       "DC": 0.2561,
       "CA": 0.2472,
@@ -5073,8 +5000,8 @@
     }
   },
   "sow bug": {
-    "concept": "little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch i",
-    "summary": "Regional term for little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch i (Harvard Dialect Survey Q74).",
+    "concept": "little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch it",
+    "summary": "Regional term for little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch it (Harvard Dialect Survey Q74).",
     "states": {
       "CA": 0.1347,
       "OR": 0.1088,
@@ -5132,8 +5059,8 @@
     }
   },
   "centipede": {
-    "concept": "little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch i",
-    "summary": "Regional term for little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch i (Harvard Dialect Survey Q74).",
+    "concept": "little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch it",
+    "summary": "Regional term for little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch it (Harvard Dialect Survey Q74).",
     "states": {
       "SD": 0.1165,
       "IA": 0.0934,
@@ -5178,8 +5105,8 @@
     }
   },
   "millipede": {
-    "concept": "little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch i",
-    "summary": "Regional term for little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch i (Harvard Dialect Survey Q74).",
+    "concept": "little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch it",
+    "summary": "Regional term for little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch it (Harvard Dialect Survey Q74).",
     "states": {
       "HI": 0.0893,
       "SD": 0.0388,
@@ -5211,8 +5138,8 @@
     }
   },
   "wood louse": {
-    "concept": "little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch i",
-    "summary": "Regional term for little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch i (Harvard Dialect Survey Q74).",
+    "concept": "little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch it",
+    "summary": "Regional term for little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch it (Harvard Dialect Survey Q74).",
     "states": {
       "DE": 0.0227,
       "ME": 0.0204,
@@ -5230,8 +5157,8 @@
     }
   },
   "roll-up bug": {
-    "concept": "little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch i",
-    "summary": "Regional term for little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch i (Harvard Dialect Survey Q74).",
+    "concept": "little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch it",
+    "summary": "Regional term for little gray creature (that looks like an insect but is actually a crustacean) that rolls up into a ball when you touch it (Harvard Dialect Survey Q74).",
     "states": {
       "WY": 0.0147,
       "WI": 0.0107
@@ -5304,50 +5231,50 @@
     "variants": [
       {
         "word": "shopping cart",
-        "region": "Strongest in NV",
+        "region": "Strongest in Nevada",
         "phrase": "I say \"shopping cart\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "buggy",
-        "region": "Strongest in MS",
+        "region": "Strongest in Mississippi",
         "phrase": "I say \"buggy\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "grocery cart",
-        "region": "Strongest in IA",
+        "region": "Strongest in Iowa",
         "phrase": "I say \"grocery cart\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "carriage",
-        "region": "Strongest in RI",
+        "region": "Strongest in Rhode Island",
         "phrase": "I say \"carriage\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "shopping wagon",
-        "region": "Strongest in ME",
+        "region": "Strongest in Maine",
         "phrase": "I say \"shopping wagon\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "shopping carriage",
-        "region": "Strongest in MA",
+        "region": "Strongest in Massachusetts",
         "phrase": "I say \"shopping carriage\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -5582,42 +5509,34 @@
     "variants": [
       {
         "word": "kitty-corner",
-        "region": "Strongest in MT",
+        "region": "Strongest in Montana",
         "phrase": "I say \"kitty-corner\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "catty-corner",
-        "region": "Strongest in KS",
+        "region": "Strongest in Kansas",
         "phrase": "I say \"catty-corner\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
-        "wave": "west"
-      },
-      {
-        "word": "i can only use \"diagonal\" for this",
-        "region": "Strongest in RI",
-        "phrase": "I say \"i can only use \"diagonal\" for this\".",
-        "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "catercorner",
-        "region": "Strongest in LA",
+        "region": "Strongest in Louisiana",
         "phrase": "I say \"catercorner\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "kitty wampus",
-        "region": "Strongest in WY",
+        "region": "Strongest in Wyoming",
         "phrase": "I say \"kitty wampus\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -5690,71 +5609,6 @@
       "question_id": 76,
       "answer_labels": [
         "catty-corner"
-      ]
-    }
-  },
-  "i can only use \"diagonal\" for this": {
-    "concept": "something that is across both streets from you at an intersection (or diagonally across from you in general)",
-    "summary": "Regional term for something that is across both streets from you at an intersection (or diagonally across from you in general) (Harvard Dialect Survey Q76).",
-    "states": {
-      "RI": 0.2887,
-      "HI": 0.25,
-      "NH": 0.25,
-      "MA": 0.2449,
-      "CT": 0.223,
-      "ME": 0.2143,
-      "VT": 0.1842,
-      "NJ": 0.1837,
-      "NY": 0.1781,
-      "MD": 0.168,
-      "FL": 0.1653,
-      "DE": 0.1591,
-      "CA": 0.1396,
-      "NC": 0.1387,
-      "VA": 0.1356,
-      "SC": 0.1159,
-      "KY": 0.1115,
-      "PA": 0.1077,
-      "NM": 0.1071,
-      "OH": 0.107,
-      "TN": 0.1059,
-      "DC": 0.0976,
-      "GA": 0.096,
-      "AZ": 0.095,
-      "LA": 0.0949,
-      "TX": 0.0942,
-      "AL": 0.0917,
-      "AR": 0.0833,
-      "IN": 0.0753,
-      "CO": 0.072,
-      "OR": 0.0673,
-      "AK": 0.0652,
-      "KS": 0.0633,
-      "OK": 0.0601,
-      "WV": 0.0588,
-      "MI": 0.0579,
-      "WA": 0.057,
-      "MS": 0.0522,
-      "MO": 0.052,
-      "IL": 0.0515,
-      "WI": 0.049,
-      "UT": 0.038,
-      "IA": 0.0332,
-      "NV": 0.0308,
-      "NE": 0.0294,
-      "SD": 0.0287,
-      "ND": 0.0265,
-      "MN": 0.026,
-      "ID": 0.0153,
-      "WY": 0.0147,
-      "MT": 0.0144
-    },
-    "variants": [],
-    "source": {
-      "survey": "Harvard Dialect Survey (Vaux & Golder, 2003)",
-      "question_id": 76,
-      "answer_labels": [
-        "i can only use \"diagonal\" for this"
       ]
     }
   },
@@ -5876,26 +5730,26 @@
     "variants": [
       {
         "word": "doing donuts",
-        "region": "Strongest in IN",
+        "region": "Strongest in Indiana",
         "phrase": "I say \"doing donuts\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "doing cookies",
-        "region": "Strongest in WY",
+        "region": "Strongest in Wyoming",
         "phrase": "I say \"doing cookies\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "whipping shitties",
-        "region": "Strongest in ND",
+        "region": "Strongest in North Dakota",
         "phrase": "I say \"whipping shitties\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -6022,18 +5876,18 @@
     "variants": [
       {
         "word": "scrap paper",
-        "region": "Strongest in ME",
+        "region": "Strongest in Maine",
         "phrase": "I say \"scrap paper\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "scratch paper",
-        "region": "Strongest in HI",
+        "region": "Strongest in Hawaii",
         "phrase": "I say \"scratch paper\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -6169,50 +6023,50 @@
     "variants": [
       {
         "word": "highway",
-        "region": "Strongest in NH",
+        "region": "Strongest in New Hampshire",
         "phrase": "I say \"highway\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "freeway",
-        "region": "Strongest in CA",
+        "region": "Strongest in California",
         "phrase": "I say \"freeway\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "expressway",
-        "region": "Strongest in MI",
+        "region": "Strongest in Michigan",
         "phrase": "I say \"expressway\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
-        "wave": "west"
-      },
-      {
-        "word": "a freeway is bigger than a highway",
-        "region": "Strongest in AK",
-        "phrase": "I say \"a freeway is bigger than a highway\".",
-        "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "turnpike",
-        "region": "Strongest in ME",
+        "region": "Strongest in Maine",
         "phrase": "I say \"turnpike\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "throughway/thru-way",
-        "region": "Strongest in NY",
+        "region": "Strongest in New York",
         "phrase": "I say \"throughway/thru-way\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
+        "wave": "west"
+      },
+      {
+        "word": "parkway",
+        "region": "Strongest in Kentucky",
+        "phrase": "I say \"parkway\".",
+        "ipa": "",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -6327,70 +6181,6 @@
       ]
     }
   },
-  "a freeway is bigger than a highway": {
-    "concept": "a big road that you drive relatively fast on",
-    "summary": "Regional term for a big road that you drive relatively fast on (Harvard Dialect Survey Q79).",
-    "states": {
-      "AK": 0.1522,
-      "OR": 0.1408,
-      "WA": 0.1383,
-      "NM": 0.1261,
-      "MN": 0.1135,
-      "ID": 0.1069,
-      "UT": 0.1056,
-      "WY": 0.1014,
-      "WI": 0.1013,
-      "AZ": 0.1006,
-      "CA": 0.0996,
-      "NV": 0.0938,
-      "IA": 0.0874,
-      "VT": 0.0811,
-      "ND": 0.0789,
-      "CO": 0.0723,
-      "TX": 0.0663,
-      "MT": 0.062,
-      "MI": 0.0616,
-      "AR": 0.0606,
-      "MS": 0.0526,
-      "AL": 0.0495,
-      "KY": 0.0478,
-      "OK": 0.0474,
-      "MD": 0.0443,
-      "SD": 0.0443,
-      "GA": 0.0424,
-      "MO": 0.042,
-      "DC": 0.0366,
-      "HI": 0.0357,
-      "NE": 0.0355,
-      "NC": 0.0354,
-      "TN": 0.0345,
-      "OH": 0.0324,
-      "KS": 0.0312,
-      "PA": 0.031,
-      "ME": 0.0306,
-      "IN": 0.0301,
-      "IL": 0.0272,
-      "FL": 0.0246,
-      "NY": 0.0238,
-      "VA": 0.0235,
-      "DE": 0.0227,
-      "LA": 0.0224,
-      "SC": 0.0224,
-      "CT": 0.0217,
-      "MA": 0.0216,
-      "RI": 0.0204,
-      "NJ": 0.0184,
-      "NH": 0.0179
-    },
-    "variants": [],
-    "source": {
-      "survey": "Harvard Dialect Survey (Vaux & Golder, 2003)",
-      "question_id": 79,
-      "answer_labels": [
-        "a freeway is bigger than a highway"
-      ]
-    }
-  },
   "turnpike": {
     "concept": "a big road that you drive relatively fast on",
     "summary": "Regional term for a big road that you drive relatively fast on (Harvard Dialect Survey Q79).",
@@ -6448,26 +6238,6 @@
       "question_id": 79,
       "answer_labels": [
         "parkway"
-      ]
-    }
-  },
-  "a freeway is free (i.e., doesn't charge tolls); a highway isn't": {
-    "concept": "a big road that you drive relatively fast on",
-    "summary": "Regional term for a big road that you drive relatively fast on (Harvard Dialect Survey Q79).",
-    "states": {
-      "IL": 0.0187,
-      "HI": 0.0179,
-      "CT": 0.0163,
-      "NY": 0.0134,
-      "AZ": 0.0112,
-      "ME": 0.0102
-    },
-    "variants": [],
-    "source": {
-      "survey": "Harvard Dialect Survey (Vaux & Golder, 2003)",
-      "question_id": 79,
-      "answer_labels": [
-        "a freeway is free (i.e., doesn't charge tolls); a highway isn't"
       ]
     }
   },
@@ -6530,34 +6300,34 @@
     "variants": [
       {
         "word": "sunshower",
-        "region": "Strongest in NJ",
+        "region": "Strongest in New Jersey",
         "phrase": "I say \"sunshower\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "the devil is beating his wife",
-        "region": "Strongest in MS",
+        "region": "Strongest in Mississippi",
         "phrase": "I say \"the devil is beating his wife\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "liquid sun",
-        "region": "Strongest in HI",
+        "region": "Strongest in Hawaii",
         "phrase": "I say \"liquid sun\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "monkey's wedding",
-        "region": "Strongest in ND",
+        "region": "Strongest in North Dakota",
         "phrase": "I say \"monkey's wedding\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -6735,50 +6505,50 @@
     "variants": [
       {
         "word": "sleep",
-        "region": "Strongest in LA",
+        "region": "Strongest in Louisiana",
         "phrase": "I say \"sleep\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "sleepy seed",
-        "region": "Strongest in ME",
+        "region": "Strongest in Maine",
         "phrase": "I say \"sleepy seed\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "eye booger",
-        "region": "Strongest in AK",
+        "region": "Strongest in Alaska",
         "phrase": "I say \"eye booger\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "sleepies",
-        "region": "Strongest in ME",
+        "region": "Strongest in Maine",
         "phrase": "I say \"sleepies\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "sleeper",
-        "region": "Strongest in RI",
+        "region": "Strongest in Rhode Island",
         "phrase": "I say \"sleeper\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "gunk",
-        "region": "Strongest in NV",
+        "region": "Strongest in Nevada",
         "phrase": "I say \"gunk\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -7463,50 +7233,50 @@
     "variants": [
       {
         "word": "blow-off",
-        "region": "Strongest in TX",
+        "region": "Strongest in Texas",
         "phrase": "I say \"blow-off\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "crip course",
-        "region": "Strongest in AL",
+        "region": "Strongest in Alabama",
         "phrase": "I say \"crip course\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "gut",
-        "region": "Strongest in VT",
+        "region": "Strongest in Vermont",
         "phrase": "I say \"gut\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "bird",
-        "region": "Strongest in HI",
+        "region": "Strongest in Hawaii",
         "phrase": "I say \"bird\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "crypt course",
-        "region": "Strongest in HI",
+        "region": "Strongest in Hawaii",
         "phrase": "I say \"crypt course\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "meat",
-        "region": "Strongest in ID",
+        "region": "Strongest in Idaho",
         "phrase": "I say \"meat\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -7791,42 +7561,42 @@
     "variants": [
       {
         "word": "rotary",
-        "region": "Strongest in MA",
+        "region": "Strongest in Massachusetts",
         "phrase": "I say \"rotary\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "roundabout",
-        "region": "Strongest in UT",
+        "region": "Strongest in Utah",
         "phrase": "I say \"roundabout\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "traffic circle",
-        "region": "Strongest in NC",
+        "region": "Strongest in North Carolina",
         "phrase": "I say \"traffic circle\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "circle",
-        "region": "Strongest in NJ",
+        "region": "Strongest in New Jersey",
         "phrase": "I say \"circle\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "traffic circus",
-        "region": "Strongest in HI",
+        "region": "Strongest in Hawaii",
         "phrase": "I say \"traffic circus\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -8109,42 +7879,42 @@
     "variants": [
       {
         "word": "duck-footed",
-        "region": "Strongest in WY",
+        "region": "Strongest in Wyoming",
         "phrase": "I say \"duck-footed\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "bow-legged",
-        "region": "Strongest in MS",
+        "region": "Strongest in Mississippi",
         "phrase": "I say \"bow-legged\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "slue-footed",
-        "region": "Strongest in MS",
+        "region": "Strongest in Mississippi",
         "phrase": "I say \"slue-footed\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "splay-footed",
-        "region": "Strongest in DC",
+        "region": "Strongest in District of Columbia",
         "phrase": "I say \"splay-footed\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "toed out",
-        "region": "Strongest in DE",
+        "region": "Strongest in Delaware",
         "phrase": "I say \"toed out\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -8456,26 +8226,18 @@
     "variants": [
       {
         "word": "coffin",
-        "region": "Strongest in HI",
+        "region": "Strongest in Hawaii",
         "phrase": "I say \"coffin\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "casket",
-        "region": "Strongest in MS",
+        "region": "Strongest in Mississippi",
         "phrase": "I say \"casket\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
-        "wave": "west"
-      },
-      {
-        "word": "a coffin and a casket are not the same, and i know the difference",
-        "region": "Strongest in DE",
-        "phrase": "I say \"a coffin and a casket are not the same, and i know the difference\".",
-        "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -8552,71 +8314,6 @@
       ]
     }
   },
-  "a coffin and a casket are not the same, and i know the difference": {
-    "concept": "box you bury a dead person in",
-    "summary": "Regional term for box you bury a dead person in (Harvard Dialect Survey Q90).",
-    "states": {
-      "DE": 0.2045,
-      "ME": 0.18,
-      "DC": 0.1707,
-      "NM": 0.1696,
-      "SC": 0.1691,
-      "UT": 0.1688,
-      "ND": 0.1593,
-      "IN": 0.148,
-      "SD": 0.1401,
-      "IL": 0.137,
-      "NH": 0.1339,
-      "NE": 0.1325,
-      "MN": 0.1297,
-      "MA": 0.1262,
-      "KY": 0.125,
-      "OR": 0.125,
-      "MI": 0.124,
-      "IA": 0.1228,
-      "TN": 0.1211,
-      "VA": 0.1203,
-      "OH": 0.1199,
-      "TX": 0.1187,
-      "GA": 0.1186,
-      "CT": 0.1173,
-      "CA": 0.1171,
-      "MD": 0.1158,
-      "ID": 0.1145,
-      "WA": 0.1144,
-      "AR": 0.1128,
-      "OK": 0.1126,
-      "NY": 0.1102,
-      "NC": 0.11,
-      "CO": 0.1088,
-      "AK": 0.1087,
-      "NV": 0.1077,
-      "KS": 0.1074,
-      "AZ": 0.105,
-      "PA": 0.1043,
-      "FL": 0.1029,
-      "MO": 0.1008,
-      "NJ": 0.0981,
-      "MT": 0.0978,
-      "WI": 0.0954,
-      "WV": 0.0932,
-      "RI": 0.0918,
-      "WY": 0.0882,
-      "AL": 0.0881,
-      "VT": 0.0789,
-      "LA": 0.0728,
-      "HI": 0.0714,
-      "MS": 0.0354
-    },
-    "variants": [],
-    "source": {
-      "survey": "Harvard Dialect Survey (Vaux & Golder, 2003)",
-      "question_id": 90,
-      "answer_labels": [
-        "a coffin and a casket are not the same, and i know the difference"
-      ]
-    }
-  },
   "chinese lane change": {
     "concept": "it when a driver changes over one or more lanes way too quickly",
     "summary": "Regional term for it when a driver changes over one or more lanes way too quickly (Harvard Dialect Survey Q92).",
@@ -8673,18 +8370,18 @@
     "variants": [
       {
         "word": "chinese lane change",
-        "region": "Strongest in SD",
+        "region": "Strongest in South Dakota",
         "phrase": "I say \"chinese lane change\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "chinese fire drill",
-        "region": "Strongest in WV",
+        "region": "Strongest in West Virginia",
         "phrase": "I say \"chinese fire drill\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -8819,42 +8516,34 @@
     "variants": [
       {
         "word": "trash can",
-        "region": "Strongest in KS",
+        "region": "Strongest in Kansas",
         "phrase": "I say \"trash can\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "garbage can",
-        "region": "Strongest in MT",
+        "region": "Strongest in Montana",
         "phrase": "I say \"garbage can\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
-        "wave": "west"
-      },
-      {
-        "word": "these words refer to different things",
-        "region": "Strongest in DC",
-        "phrase": "I say \"these words refer to different things\".",
-        "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "waste(paper) basket",
-        "region": "Strongest in ND",
+        "region": "Strongest in North Dakota",
         "phrase": "I say \"waste(paper) basket\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "rubbish bin",
-        "region": "Strongest in HI",
+        "region": "Strongest in Hawaii",
         "phrase": "I say \"rubbish bin\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -8928,71 +8617,6 @@
       "question_id": 97,
       "answer_labels": [
         "garbage can"
-      ]
-    }
-  },
-  "these words refer to different things": {
-    "concept": "preferred term",
-    "summary": "Regional term for preferred term (Harvard Dialect Survey Q97).",
-    "states": {
-      "DC": 0.3951,
-      "ME": 0.39,
-      "MA": 0.3869,
-      "CA": 0.3698,
-      "OR": 0.3695,
-      "CT": 0.3543,
-      "WY": 0.3478,
-      "NH": 0.3455,
-      "MI": 0.3419,
-      "RI": 0.3367,
-      "NY": 0.3281,
-      "PA": 0.3277,
-      "IA": 0.324,
-      "MN": 0.3235,
-      "DE": 0.3182,
-      "CO": 0.3176,
-      "VT": 0.3158,
-      "OH": 0.3051,
-      "IN": 0.3038,
-      "WA": 0.3036,
-      "MD": 0.2984,
-      "NE": 0.2976,
-      "IL": 0.2972,
-      "NJ": 0.2946,
-      "LA": 0.2943,
-      "FL": 0.2885,
-      "AR": 0.2879,
-      "NM": 0.2832,
-      "AZ": 0.2778,
-      "VA": 0.2731,
-      "WI": 0.27,
-      "NC": 0.2645,
-      "ND": 0.2632,
-      "AK": 0.2609,
-      "AL": 0.2599,
-      "TX": 0.2495,
-      "KY": 0.2492,
-      "UT": 0.2484,
-      "MO": 0.2431,
-      "WV": 0.2417,
-      "MT": 0.2409,
-      "GA": 0.2386,
-      "TN": 0.2384,
-      "ID": 0.2366,
-      "OK": 0.2328,
-      "HI": 0.2321,
-      "KS": 0.2308,
-      "SC": 0.219,
-      "NV": 0.2188,
-      "SD": 0.2136,
-      "MS": 0.193
-    },
-    "variants": [],
-    "source": {
-      "survey": "Harvard Dialect Survey (Vaux & Golder, 2003)",
-      "question_id": 97,
-      "answer_labels": [
-        "these words refer to different things"
       ]
     }
   },
@@ -9117,34 +8741,34 @@
     "variants": [
       {
         "word": "by accident",
-        "region": "Strongest in DC",
+        "region": "Strongest in District of Columbia",
         "phrase": "I say \"by accident\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "on accident",
-        "region": "Strongest in NV",
+        "region": "Strongest in Nevada",
         "phrase": "I say \"on accident\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "both",
-        "region": "Strongest in NV",
+        "region": "Strongest in Nevada",
         "phrase": "I say \"both\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "neither",
-        "region": "Strongest in WY",
+        "region": "Strongest in Wyoming",
         "phrase": "I say \"neither\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -9405,50 +9029,42 @@
     "variants": [
       {
         "word": "frontage road",
-        "region": "Strongest in MT",
+        "region": "Strongest in Montana",
         "phrase": "I say \"frontage road\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "service road",
-        "region": "Strongest in LA",
+        "region": "Strongest in Louisiana",
         "phrase": "I say \"service road\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "access road",
-        "region": "Strongest in GA",
+        "region": "Strongest in Georgia",
         "phrase": "I say \"access road\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "feeder road",
-        "region": "Strongest in TX",
+        "region": "Strongest in Texas",
         "phrase": "I say \"feeder road\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
-        "wave": "west"
-      },
-      {
-        "word": "i've never heard of this concept",
-        "region": "Strongest in DE",
-        "phrase": "I say \"i've never heard of this concept\".",
-        "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "gateway",
-        "region": "Strongest in WI",
+        "region": "Strongest in Wisconsin",
         "phrase": "I say \"gateway\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -9628,61 +9244,6 @@
       ]
     }
   },
-  "i've never heard of this concept": {
-    "concept": "preferred term",
-    "summary": "Regional term for preferred term (Harvard Dialect Survey Q99).",
-    "states": {
-      "DE": 0.1818,
-      "HI": 0.1481,
-      "VT": 0.1316,
-      "NH": 0.1261,
-      "MA": 0.1245,
-      "RI": 0.1158,
-      "ME": 0.11,
-      "PA": 0.0845,
-      "WV": 0.084,
-      "OR": 0.0816,
-      "WA": 0.0785,
-      "NV": 0.0769,
-      "KY": 0.0746,
-      "OH": 0.067,
-      "NJ": 0.0661,
-      "CT": 0.0651,
-      "CA": 0.0609,
-      "TN": 0.059,
-      "MD": 0.0556,
-      "SD": 0.0531,
-      "NY": 0.049,
-      "ID": 0.0462,
-      "AK": 0.0455,
-      "MS": 0.0439,
-      "MI": 0.0366,
-      "AL": 0.0351,
-      "IN": 0.0336,
-      "AZ": 0.0333,
-      "FL": 0.0328,
-      "NC": 0.0328,
-      "WI": 0.0322,
-      "GA": 0.0283,
-      "KS": 0.0283,
-      "NM": 0.0268,
-      "VA": 0.0255,
-      "IL": 0.0242,
-      "MO": 0.0226,
-      "IA": 0.0153,
-      "WY": 0.0145,
-      "DC": 0.0123,
-      "UT": 0.0123
-    },
-    "variants": [],
-    "source": {
-      "survey": "Harvard Dialect Survey (Vaux & Golder, 2003)",
-      "question_id": 99,
-      "answer_labels": [
-        "i've never heard of this concept"
-      ]
-    }
-  },
   "gateway": {
     "concept": "preferred term",
     "summary": "Regional term for preferred term (Harvard Dialect Survey Q99).",
@@ -9757,50 +9318,50 @@
     "variants": [
       {
         "word": "waterbug",
-        "region": "Strongest in ME",
+        "region": "Strongest in Maine",
         "phrase": "I say \"waterbug\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "waterstrider",
-        "region": "Strongest in AK",
+        "region": "Strongest in Alaska",
         "phrase": "I say \"waterstrider\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "water-spider",
-        "region": "Strongest in TN",
+        "region": "Strongest in Tennessee",
         "phrase": "I say \"water-spider\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "water beetle",
-        "region": "Strongest in ND",
+        "region": "Strongest in North Dakota",
         "phrase": "I say \"water beetle\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "skimmer",
-        "region": "Strongest in OR",
+        "region": "Strongest in Oregon",
         "phrase": "I say \"skimmer\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "backstrider",
-        "region": "Strongest in DE",
+        "region": "Strongest in Delaware",
         "phrase": "I say \"backstrider\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -10201,34 +9762,34 @@
     "variants": [
       {
         "word": "water fountain",
-        "region": "Strongest in NC",
+        "region": "Strongest in North Carolina",
         "phrase": "I say \"water fountain\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "drinking fountain",
-        "region": "Strongest in MI",
+        "region": "Strongest in Michigan",
         "phrase": "I say \"drinking fountain\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "bubbler",
-        "region": "Strongest in RI",
+        "region": "Strongest in Rhode Island",
         "phrase": "I say \"bubbler\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "water bubbler",
-        "region": "Strongest in MA",
+        "region": "Strongest in Massachusetts",
         "phrase": "I say \"water bubbler\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -10397,18 +9958,18 @@
     "variants": [
       {
         "word": "the T",
-        "region": "Strongest in MA",
+        "region": "Strongest in Massachusetts",
         "phrase": "I say \"the T\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "bart",
-        "region": "Strongest in CA",
+        "region": "Strongest in California",
         "phrase": "I say \"bart\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -10446,7 +10007,7 @@
     }
   },
   "soda": {
-    "concept": "What is your generic term for a sweetened carbonated beverage",
+    "concept": "sweetened carbonated beverage",
     "summary": "Common in the Northeast and West Coast.",
     "states": {
       "NJ": 0.9577,
@@ -10504,50 +10065,50 @@
     "variants": [
       {
         "word": "soda",
-        "region": "Strongest in NJ",
+        "region": "Strongest in New Jersey",
         "phrase": "I say \"soda\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "pop",
-        "region": "Strongest in SD",
+        "region": "Strongest in South Dakota",
         "phrase": "I say \"pop\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "coke",
-        "region": "Strongest in MS",
+        "region": "Strongest in Mississippi",
         "phrase": "I say \"coke\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "soft drink",
-        "region": "Strongest in NC",
+        "region": "Strongest in North Carolina",
         "phrase": "I say \"soft drink\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "tonic",
-        "region": "Strongest in MA",
+        "region": "Strongest in Massachusetts",
         "phrase": "I say \"tonic\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "cocola",
-        "region": "Strongest in AL",
+        "region": "Strongest in Alabama",
         "phrase": "I say \"cocola\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -10560,7 +10121,7 @@
     }
   },
   "pop": {
-    "concept": "What is your generic term for a sweetened carbonated beverage",
+    "concept": "sweetened carbonated beverage",
     "summary": "Midwest / Great Lakes word for soda.",
     "states": {
       "SD": 0.8454,
@@ -10647,7 +10208,7 @@
     }
   },
   "coke": {
-    "concept": "What is your generic term for a sweetened carbonated beverage",
+    "concept": "sweetened carbonated beverage",
     "summary": "Southern generic term for a carbonated soft drink.",
     "states": {
       "MS": 0.7368,
@@ -10709,8 +10270,8 @@
     }
   },
   "soft drink": {
-    "concept": "What is your generic term for a sweetened carbonated beverage",
-    "summary": "Regional term for What is your generic term for a sweetened carbonated beverage (Harvard Dialect Survey Q105).",
+    "concept": "sweetened carbonated beverage",
+    "summary": "Regional term for sweetened carbonated beverage (Harvard Dialect Survey Q105).",
     "states": {
       "NC": 0.2387,
       "KY": 0.2088,
@@ -10772,8 +10333,8 @@
     }
   },
   "tonic": {
-    "concept": "What is your generic term for a sweetened carbonated beverage",
-    "summary": "Regional term for What is your generic term for a sweetened carbonated beverage (Harvard Dialect Survey Q105).",
+    "concept": "sweetened carbonated beverage",
+    "summary": "Regional term for sweetened carbonated beverage (Harvard Dialect Survey Q105).",
     "states": {
       "MA": 0.1478,
       "NH": 0.1441,
@@ -10791,8 +10352,8 @@
     }
   },
   "cocola": {
-    "concept": "What is your generic term for a sweetened carbonated beverage",
-    "summary": "Regional term for What is your generic term for a sweetened carbonated beverage (Harvard Dialect Survey Q105).",
+    "concept": "sweetened carbonated beverage",
+    "summary": "Regional term for sweetened carbonated beverage (Harvard Dialect Survey Q105).",
     "states": {
       "AL": 0.0263,
       "SC": 0.0221,
@@ -10869,42 +10430,42 @@
     "variants": [
       {
         "word": "tp'ing",
-        "region": "Strongest in KS",
+        "region": "Strongest in Kansas",
         "phrase": "I say \"tp'ing\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "rolling",
-        "region": "Strongest in AL",
+        "region": "Strongest in Alabama",
         "phrase": "I say \"rolling\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "toilet papering",
-        "region": "Strongest in UT",
+        "region": "Strongest in Utah",
         "phrase": "I say \"toilet papering\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "wrapping",
-        "region": "Strongest in TX",
+        "region": "Strongest in Texas",
         "phrase": "I say \"wrapping\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "papering",
-        "region": "Strongest in TX",
+        "region": "Strongest in Texas",
         "phrase": "I say \"papering\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -11143,50 +10704,50 @@
     "variants": [
       {
         "word": "gapers' block",
-        "region": "Strongest in IL",
+        "region": "Strongest in Illinois",
         "phrase": "I say \"gapers' block\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "rubbernecking",
-        "region": "Strongest in CT",
+        "region": "Strongest in Connecticut",
         "phrase": "I say \"rubbernecking\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "gapers' delay",
-        "region": "Strongest in IL",
+        "region": "Strongest in Illinois",
         "phrase": "I say \"gapers' delay\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "curiosity delay",
-        "region": "Strongest in MA",
+        "region": "Strongest in Massachusetts",
         "phrase": "I say \"curiosity delay\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "lookie lou",
-        "region": "Strongest in WA",
+        "region": "Strongest in Washington",
         "phrase": "I say \"lookie lou\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "rubberneck",
-        "region": "Strongest in SD",
+        "region": "Strongest in South Dakota",
         "phrase": "I say \"rubberneck\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -11492,26 +11053,26 @@
     "variants": [
       {
         "word": "bag",
-        "region": "Strongest in NH",
+        "region": "Strongest in New Hampshire",
         "phrase": "I say \"bag\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "sack",
-        "region": "Strongest in OK",
+        "region": "Strongest in Oklahoma",
         "phrase": "I say \"sack\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "poke",
-        "region": "Strongest in WV",
+        "region": "Strongest in West Virginia",
         "phrase": "I say \"poke\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -11650,50 +11211,50 @@
     "variants": [
       {
         "word": "mischief night",
-        "region": "Strongest in DE",
+        "region": "Strongest in Delaware",
         "phrase": "I say \"mischief night\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "devil's night",
-        "region": "Strongest in MI",
+        "region": "Strongest in Michigan",
         "phrase": "I say \"devil's night\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "cabbage night",
-        "region": "Strongest in VT",
+        "region": "Strongest in Vermont",
         "phrase": "I say \"cabbage night\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "goosy night",
-        "region": "Strongest in NJ",
+        "region": "Strongest in New Jersey",
         "phrase": "I say \"goosy night\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "gate night",
-        "region": "Strongest in ND",
+        "region": "Strongest in North Dakota",
         "phrase": "I say \"gate night\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "devil's eve",
-        "region": "Strongest in AR",
+        "region": "Strongest in Arkansas",
         "phrase": "I say \"devil's eve\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -11939,50 +11500,50 @@
     "variants": [
       {
         "word": "heel",
-        "region": "Strongest in WV",
+        "region": "Strongest in West Virginia",
         "phrase": "I say \"heel\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "end",
-        "region": "Strongest in SC",
+        "region": "Strongest in South Carolina",
         "phrase": "I say \"end\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "crust",
-        "region": "Strongest in PA",
+        "region": "Strongest in Pennsylvania",
         "phrase": "I say \"crust\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "butt",
-        "region": "Strongest in MS",
+        "region": "Strongest in Mississippi",
         "phrase": "I say \"butt\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "nose",
-        "region": "Strongest in LA",
+        "region": "Strongest in Louisiana",
         "phrase": "I say \"nose\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "shpitzel",
-        "region": "Strongest in RI",
+        "region": "Strongest in Rhode Island",
         "phrase": "I say \"shpitzel\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -12272,26 +11833,26 @@
     "variants": [
       {
         "word": "a moot point",
-        "region": "Strongest in DC",
+        "region": "Strongest in District of Columbia",
         "phrase": "I say \"a moot point\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "a mute point",
-        "region": "Strongest in SD",
+        "region": "Strongest in South Dakota",
         "phrase": "I say \"a mute point\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "either one of the above",
-        "region": "Strongest in SD",
+        "region": "Strongest in South Dakota",
         "phrase": "I say \"either one of the above\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -12474,18 +12035,18 @@
     "variants": [
       {
         "word": "basement",
-        "region": "Strongest in MS",
+        "region": "Strongest in Mississippi",
         "phrase": "I say \"basement\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "cellar",
-        "region": "Strongest in RI",
+        "region": "Strongest in Rhode Island",
         "phrase": "I say \"cellar\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],
@@ -12532,120 +12093,6 @@
       ]
     }
   },
-  "we have these in my area, but we have no special term for them": {
-    "concept": "drive-through liquor store",
-    "summary": "Regional term for drive-through liquor store (Harvard Dialect Survey Q118).",
-    "states": {
-      "KY": 0.7517,
-      "WY": 0.7164,
-      "AZ": 0.7135,
-      "AR": 0.6718,
-      "NM": 0.6364,
-      "CO": 0.6103,
-      "LA": 0.5987,
-      "SD": 0.598,
-      "GA": 0.5908,
-      "ND": 0.5586,
-      "FL": 0.5444,
-      "NE": 0.5,
-      "OH": 0.4825,
-      "NV": 0.4603,
-      "MI": 0.4575,
-      "WV": 0.453,
-      "MO": 0.4491,
-      "TX": 0.4487,
-      "MT": 0.4291,
-      "TN": 0.4074,
-      "OK": 0.3966,
-      "IA": 0.3943,
-      "AL": 0.3616,
-      "IL": 0.3569,
-      "MD": 0.3405,
-      "DE": 0.3256,
-      "IN": 0.3214,
-      "KS": 0.32,
-      "SC": 0.3111,
-      "MN": 0.291,
-      "NC": 0.2769,
-      "PA": 0.2752,
-      "DC": 0.2692,
-      "RI": 0.2577,
-      "WI": 0.2364,
-      "MS": 0.2281,
-      "AK": 0.2174,
-      "VA": 0.2071,
-      "NJ": 0.1962,
-      "ID": 0.189,
-      "UT": 0.1859,
-      "NH": 0.1818,
-      "NY": 0.1704,
-      "ME": 0.1667,
-      "CA": 0.1661,
-      "CT": 0.1592,
-      "MA": 0.1514,
-      "VT": 0.1507,
-      "HI": 0.125,
-      "OR": 0.1138,
-      "WA": 0.0767
-    },
-    "variants": [
-      {
-        "word": "we have these in my area, but we have no special term for them",
-        "region": "Strongest in KY",
-        "phrase": "I say \"we have these in my area, but we have no special term for them\".",
-        "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
-        "wave": "west"
-      },
-      {
-        "word": "beer barn",
-        "region": "Strongest in MS",
-        "phrase": "I say \"beer barn\".",
-        "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
-        "wave": "west"
-      },
-      {
-        "word": "brew thru",
-        "region": "Strongest in VA",
-        "phrase": "I say \"brew thru\".",
-        "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
-        "wave": "west"
-      },
-      {
-        "word": "party barn",
-        "region": "Strongest in TX",
-        "phrase": "I say \"party barn\".",
-        "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
-        "wave": "west"
-      },
-      {
-        "word": "beverage barn",
-        "region": "Strongest in TX",
-        "phrase": "I say \"beverage barn\".",
-        "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
-        "wave": "west"
-      },
-      {
-        "word": "bootlegger",
-        "region": "Strongest in ID",
-        "phrase": "I say \"bootlegger\".",
-        "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
-        "wave": "west"
-      }
-    ],
-    "source": {
-      "survey": "Harvard Dialect Survey (Vaux & Golder, 2003)",
-      "question_id": 118,
-      "answer_labels": [
-        "we have these in my area, but we have no special term for them"
-      ]
-    }
-  },
   "beer barn": {
     "concept": "drive-through liquor store",
     "summary": "Regional term for drive-through liquor store (Harvard Dialect Survey Q118).",
@@ -12688,7 +12135,48 @@
       "RI": 0.0103,
       "MN": 0.01
     },
-    "variants": [],
+    "variants": [
+      {
+        "word": "beer barn",
+        "region": "Strongest in Mississippi",
+        "phrase": "I say \"beer barn\".",
+        "ipa": "",
+        "note": "",
+        "wave": "west"
+      },
+      {
+        "word": "brew thru",
+        "region": "Strongest in Virginia",
+        "phrase": "I say \"brew thru\".",
+        "ipa": "",
+        "note": "",
+        "wave": "west"
+      },
+      {
+        "word": "party barn",
+        "region": "Strongest in Texas",
+        "phrase": "I say \"party barn\".",
+        "ipa": "",
+        "note": "",
+        "wave": "west"
+      },
+      {
+        "word": "beverage barn",
+        "region": "Strongest in Texas",
+        "phrase": "I say \"beverage barn\".",
+        "ipa": "",
+        "note": "",
+        "wave": "west"
+      },
+      {
+        "word": "bootlegger",
+        "region": "Strongest in Idaho",
+        "phrase": "I say \"bootlegger\".",
+        "ipa": "",
+        "note": "",
+        "wave": "west"
+      }
+    ],
     "source": {
       "survey": "Harvard Dialect Survey (Vaux & Golder, 2003)",
       "question_id": 118,
@@ -12875,26 +12363,26 @@
     "variants": [
       {
         "word": "take-out",
-        "region": "Strongest in NH",
+        "region": "Strongest in New Hampshire",
         "phrase": "I say \"take-out\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "either take-out or carry-out",
-        "region": "Strongest in SD",
+        "region": "Strongest in South Dakota",
         "phrase": "I say \"either take-out or carry-out\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       },
       {
         "word": "carry-out",
-        "region": "Strongest in IN",
+        "region": "Strongest in Indiana",
         "phrase": "I say \"carry-out\".",
         "ipa": "",
-        "note": "Harvard Dialect Survey response option.",
+        "note": "",
         "wave": "west"
       }
     ],

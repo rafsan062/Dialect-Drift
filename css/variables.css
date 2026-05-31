@@ -20,11 +20,11 @@
   --accent: var(--neon-cyan);
   --accent-hover: #66f3ff;
 
-  --south: #3dffa8;
-  --midwest: var(--neon-magenta);
-  --northeast: var(--neon-violet);
-  --west: var(--neon-cyan);
-  --mid-atlantic: #c77dff;
+  --south: #9edec4;
+  --midwest: #eee682;
+  --northeast: #8ecae8;
+  --west: #f2c896;
+  --mid-atlantic: #f2acac;
 
   --map-base: #1a2436;
   --map-stroke: rgba(0, 229, 255, 0.42);

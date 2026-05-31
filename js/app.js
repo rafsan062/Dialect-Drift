@@ -72,13 +72,11 @@ const WAVE_COLORS = {
   west: "var(--west)",
 };
 
-const CLOUD_FILLER = [
-  { text: "dialect", trend: 0.12 },
-  { text: "regional", trend: 0.11 },
-  { text: "accent", trend: 0.1 },
-];
-
-const MAX_CLOUD_WORDS = 72;
+const TARGET_CLOUD_PLACED = 150;
+const MAX_CLOUD_CANDIDATES = 280;
+const CLOUD_MAX_SPIRAL_PX = 52;
+const CLOUD_LABEL_GAP = 3;
+const CLOUD_SAME_TEXT_MIN_RATIO = 0.2;
 
 
 // ==========================================
@@ -92,12 +90,27 @@ function escapeRegExp(text) {
   return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
+const META_TERM_RE = /i can only use|never heard of this|no special term for them|these words refer to different|not the same, and i know the difference|i spell it .* but pronounce|we have these in my area|a freeway is (bigger|free)/i;
+const MAX_DIALECT_TERM_CHARS = 30;
+const MAX_DIALECT_TERM_WORDS = 6;
+
+function isDialectTerm(word) {
+  const term = word.trim();
+  if (!term) return false;
+  if (META_TERM_RE.test(term)) return false;
+  if (term.length > MAX_DIALECT_TERM_CHARS) return false;
+  if (term.split(/\s+/).length > MAX_DIALECT_TERM_WORDS) return false;
+  return true;
+}
+
 function findWordKey(raw, words) {
   const normalized = normalizeText(raw).trim().replace(/\s+/g, " ");
   if (!normalized) return null;
-  if (words[normalized]) return normalized;
+  if (words[normalized] && isDialectTerm(normalized)) return normalized;
 
-  const keys = Object.keys(words).sort((a, b) => b.length - a.length);
+  const keys = Object.keys(words)
+    .filter(isDialectTerm)
+    .sort((a, b) => b.length - a.length);
   return keys.find((key) => key === normalized || normalizeText(key) === normalized) ?? null;
 }
 
@@ -114,7 +127,9 @@ function findDialectWords(text, words) {
 
 function findDialectMatches(text, words) {
   const matches = [];
-  const keys = Object.keys(words).sort((a, b) => b.length - a.length);
+  const keys = Object.keys(words)
+    .filter(isDialectTerm)
+    .sort((a, b) => b.length - a.length);
 
   keys.forEach((word) => {
     const pattern = new RegExp(
@@ -165,7 +180,40 @@ function getRegionStyle(word, words, regionStyles) {
 
   return best?.hits > 0
     ? { ...best }
-    : { name: "Broad US", color: "#8b9bb4", match: "" };
+    : { name: "Broad US", color: "#c4ced8", match: "" };
+}
+
+function formatRegionLegendLabel(name) {
+  return name
+    .replace("Midwest / Great Lakes", "Midwest")
+    .replace("Philadelphia / Mid-Atlantic", "Mid-Atlantic")
+    .replace("West / Broad US", "West");
+}
+
+function formatVariantRegion(region) {
+  if (!region) return "";
+  return region.replace(/^Strongest in ([A-Z]{2})$/, (_, abbr) => {
+    const name = STATE_ABBR_TO_NAME[abbr];
+    return name ? `Strongest in ${name}` : region;
+  });
+}
+
+function renderCloudLegend(listEl, regionStyles) {
+  if (!listEl) return;
+  const items = [
+    ...regionStyles,
+    { name: "Broad US", color: "#c4ced8" },
+  ];
+  listEl.innerHTML = items
+    .map(
+      (region) => `
+        <li class="cloud-legend-item">
+          <span class="cloud-legend-swatch" style="background:${region.color}"></span>
+          <span>${formatRegionLegendLabel(region.name)}</span>
+        </li>
+      `,
+    )
+    .join("");
 }
 
 function getVariantSet(word, words) {
@@ -220,20 +268,116 @@ function escapeForJs(text) {
   return text.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
 }
 
+function escapeHtmlAttr(text) {
+  return String(text).replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+}
+
 
 // ==========================================
 // 4. CONCEPT LABEL FORMATTER
 // ==========================================
-function formatConcept(raw) {
+function normalizeConcept(raw) {
   if (!raw) return "";
-  // Capitalize first letter
-  let text = raw.charAt(0).toUpperCase() + raw.slice(1);
-  // Truncate very long Harvard survey descriptions at a natural break
-  if (text.length > 60) {
-    const cutoff = text.lastIndexOf(" ", 57);
-    text = text.slice(0, cutoff > 20 ? cutoff : 57) + "…";
+  let text = raw.trim();
+  text = text
+    .replace(/^what (do you call|term do you use|is your .* term for|about your)\s+/i, "")
+    .replace(/^which of these terms do you prefer(?:\s+for\s+.+)?\??$/i, "preferred term")
+    .replace(/\s*\([^)]*\)\s*$/, "")
+    .replace(/\?$/, "")
+    .trim();
+  if (!text) return "Regional term";
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
+function formatConcept(raw, { maxLen = 60 } = {}) {
+  const text = normalizeConcept(raw);
+  if (!maxLen || text.length <= maxLen) return text;
+  const cutoff = text.lastIndexOf(" ", maxLen - 3);
+  return text.slice(0, cutoff > 20 ? cutoff : maxLen - 3) + "…";
+}
+
+const BOILERPLATE_NOTE_RE = /harvard dialect survey response option/i;
+
+const IPA_DIGRAPHS = [
+  ["tion", "ʃən"], ["sion", "ʒən"], ["ing", "ɪŋ"], ["igh", "aɪ"], ["eigh", "eɪ"],
+  ["ough", "ʌf"], ["augh", "ɔː"], ["sch", "sk"], ["tch", "tʃ"], ["dge", "dʒ"],
+  ["ch", "tʃ"], ["sh", "ʃ"], ["th", "θ"], ["ph", "f"], ["wh", "w"], ["ng", "ŋ"],
+  ["kn", "n"], ["wr", "r"], ["gn", "n"], ["ee", "iː"], ["ea", "iː"], ["oo", "uː"],
+  ["ou", "aʊ"], ["ow", "aʊ"], ["oi", "ɔɪ"], ["oy", "ɔɪ"], ["ai", "eɪ"], ["ay", "eɪ"],
+  ["au", "ɔː"], ["aw", "ɔː"], ["oa", "oʊ"], ["oe", "oʊ"], ["ue", "uː"], ["ui", "uː"],
+  ["ie", "iː"], ["ei", "eɪ"], ["ar", "ɑr"], ["er", "ɚ"], ["or", "ɔr"], ["ir", "ɚ"],
+  ["ur", "ɚ"], ["ck", "k"], ["qu", "kw"], ["x", "ks"],
+];
+
+const IPA_CHARS = {
+  a: "æ", b: "b", c: "k", d: "d", e: "ɛ", f: "f", g: "ɡ", h: "h", i: "ɪ",
+  j: "dʒ", k: "k", l: "l", m: "m", n: "n", o: "ɑ", p: "p", q: "k", r: "r",
+  s: "s", t: "t", u: "ʌ", v: "v", w: "w", x: "ks", y: "j", z: "z",
+};
+
+const IPA_LETTER_NAMES = {
+  a: "eɪ", b: "bi", c: "si", d: "di", e: "i", f: "ɛf", g: "dʒi", h: "eɪtʃ",
+  i: "aɪ", j: "dʒeɪ", k: "keɪ", l: "ɛl", m: "ɛm", n: "ɛn", o: "oʊ", p: "pi",
+  q: "kju", r: "ɑr", s: "ɛs", t: "ti", u: "ju", v: "vi", w: "dʌbəlju", x: "ɛks",
+  y: "waɪ", z: "zi",
+};
+
+function normalizeForIpa(word) {
+  return String(word || "")
+    .trim()
+    .toLowerCase()
+    .replace(/'/g, " ")
+    .replace(/[^a-z\s-]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function tokenToApproxIpa(token) {
+  if (!token) return "";
+  if (!/[aeiouy]/.test(token) && token.length <= 4) {
+    return [...token].map((ch) => IPA_LETTER_NAMES[ch] || ch).join("");
   }
-  return text;
+
+  let out = "";
+  for (let i = 0; i < token.length; ) {
+    let matched = false;
+    for (const [graph, ipa] of IPA_DIGRAPHS) {
+      if (token.startsWith(graph, i)) {
+        out += ipa;
+        i += graph.length;
+        matched = true;
+        break;
+      }
+    }
+    if (matched) continue;
+    if (token[i] === "-") {
+      i += 1;
+      continue;
+    }
+    out += IPA_CHARS[token[i]] || token[i];
+    i += 1;
+  }
+  return out;
+}
+
+function approximateIpa(word) {
+  const tokens = normalizeForIpa(word).split(/\s+/).filter(Boolean);
+  if (!tokens.length) return "";
+  const parts = tokens.map(tokenToApproxIpa).filter(Boolean);
+  if (!parts.length) return "";
+  parts[0] = `ˈ${parts[0]}`;
+  return `/${parts.join(" ")}/`;
+}
+
+function resolveVariantIpa(variant) {
+  const ipa = variant?.ipa?.trim();
+  if (ipa) return ipa;
+  return approximateIpa(variant?.word);
+}
+
+function resolveVariantNote(note) {
+  if (!note || BOILERPLATE_NOTE_RE.test(note) || note.includes("· Strongest in")) return "";
+  return note;
 }
 
 
@@ -520,7 +664,9 @@ function smoothWaveformSvg(word, wave, index) {
 function audioLane(variant, index, selectedWord) {
   const isSelected = variant.word === selectedWord;
   const wave = variant.wave || "west";
-  const safeWord = escapeForJs(variant.word);
+  const safeWord = escapeHtmlAttr(variant.word);
+  const ipa = resolveVariantIpa(variant);
+  const note = resolveVariantNote(variant.note);
 
   return `
     <div class="audio-lane ${isSelected ? "selected" : ""}" data-variant-word="${safeWord}" style="cursor:pointer">
@@ -529,16 +675,16 @@ function audioLane(variant, index, selectedWord) {
         <div class="lane-wave">${smoothWaveformSvg(variant.word, wave, index)}</div>
         <div class="lane-meta">
           <span class="lane-word">${variant.word}</span>
-          ${variant.ipa ? `<span class="lane-ipa" style="color: var(--neon-magenta); margin-right: 0.25rem;">${variant.ipa}</span>` : ""}
-          <span class="lane-region">${variant.region}</span>
-          ${variant.note && !variant.note.includes("· Strongest in") ? `<div class="lane-note" style="font-size: 0.85em; color: var(--text-muted); margin-top: 2px; line-height: 1.2;">${variant.note}</div>` : ""}
+          <span class="lane-region">${formatVariantRegion(variant.region)}</span>
+          ${ipa ? `<span class="lane-ipa">${ipa}</span>` : ""}
+          ${note ? `<span class="audio-note">${note}</span>` : ""}
         </div>
       </div>
     </div>
   `;
 }
 
-function renderAudioPanel(container, word, words, regionStyles, onVariantSelect) {
+function renderAudioPanel(container, word, words, regionStyles, onVariantSelect, selectedWord = word) {
   const data = words[word];
   if (!data) {
     container.innerHTML =
@@ -546,29 +692,27 @@ function renderAudioPanel(container, word, words, regionStyles, onVariantSelect)
     return;
   }
 
-  const grouped = data.variants?.length
-    ? data.variants
-    : [
-      {
-        word,
-        region: getRegionStyle(word, words, regionStyles).name,
-        ipa: "",
-        wave: "west",
-        note: "",
-      },
-    ];
+  const grouped = getVariantSet(word, words);
+  const lanes = (grouped.length ? grouped : [
+    {
+      word,
+      region: getRegionStyle(word, words, regionStyles).name,
+      ipa: "",
+      wave: "west",
+      note: "",
+    },
+  ]).slice(0, 4);
 
-  const cleanConcept = formatConcept(data.concept);
+  const cleanConcept = formatConcept(data.concept, { maxLen: 0 });
 
-  const lanes = grouped.slice(0, 4);
   container.innerHTML = `
     <div class="audio-comparison">
       <div class="audio-graph-head">
-        <div class="audio-graph-title">“${word}” · ${cleanConcept}</div>
-        <div class="audio-graph-subtitle">Same idea, different regional words · click a row to update map</div>
+        <div class="audio-graph-title">“${word}”</div>
+        <div class="audio-graph-concept">${cleanConcept}</div>
       </div>
       <div class="audio-stack">
-        ${lanes.map((v, i) => audioLane(v, i, word)).join("")}
+        ${lanes.map((v, i) => audioLane(v, i, selectedWord)).join("")}
       </div>
     </div>
   `;
@@ -584,15 +728,9 @@ function renderAudioPanel(container, word, words, regionStyles, onVariantSelect)
     });
   });
 
-  // Make each audio lane clickable to select that variant and update the map
   container.querySelectorAll(".audio-lane[data-variant-word]").forEach((lane) => {
     lane.addEventListener("click", () => {
-      const variantWord = lane.dataset.variantWord;
-      // Update visual selection within the audio panel
-      container.querySelectorAll(".audio-lane").forEach((l) => l.classList.remove("selected"));
-      lane.classList.add("selected");
-      // Notify the app to update the map
-      if (onVariantSelect) onVariantSelect(variantWord);
+      if (onVariantSelect) onVariantSelect(lane.dataset.variantWord);
     });
   });
 }
@@ -608,21 +746,35 @@ function resetAudioPlaceholder(container, mode) {
 // ==========================================
 // 6. FINGERPRINT TOKENS COMPONENT
 // ==========================================
-function renderFingerprintSummary(container, wordList, words, regionStyles) {
-  if (wordList.length === 0) {
-    container.innerHTML = '';
+function renderFingerprintSummary(summaryEl, legendEl, wordList, words, regionStyles) {
+  if (!wordList.length) {
+    if (summaryEl) summaryEl.textContent = "";
+    if (legendEl) legendEl.innerHTML = "";
     return;
   }
 
-  const regionNames = [
-    ...new Set(wordList.map((w) => getRegionStyle(w, words, regionStyles).name)),
-  ].map((n) =>
-    n
-      .replace("Midwest / Great Lakes", "Midwest")
-      .replace("Philadelphia / Mid-Atlantic", "Mid-Atlantic"),
-  );
+  if (summaryEl) {
+    summaryEl.textContent = `${wordList.length} clue${wordList.length === 1 ? "" : "s"}`;
+  }
 
-  container.textContent = `${wordList.length} clue${wordList.length === 1 ? "" : "s"} · ${regionNames.join(" + ")}`;
+  if (!legendEl) return;
+
+  const regions = new Map();
+  wordList.forEach((word) => {
+    const style = getRegionStyle(word, words, regionStyles);
+    if (!regions.has(style.name)) regions.set(style.name, style.color);
+  });
+
+  legendEl.innerHTML = [...regions.entries()]
+    .map(
+      ([name, color]) => `
+        <li class="fingerprint-legend-item">
+          <span class="fingerprint-legend-swatch" style="background:${color}"></span>
+          <span>${formatRegionLegendLabel(name)}</span>
+        </li>
+      `,
+    )
+    .join("");
 }
 
 function attachClueToken(span, word, displayText, currentWord, regionStyles, words, handlers) {
@@ -763,48 +915,92 @@ function cloudWeightedCenter(entries, proj) {
   return wt > 0 ? [wx / wt, wy / wt] : null;
 }
 
-function cloudOverlaps(ax, ay, aw, ah, placed) {
+function cloudSpreadScore(stateEntries) {
+  return stateEntries.filter(([, v]) => v > 0.15).length;
+}
+
+function cloudAnchorPoint(stateEntries, proj) {
+  if (!stateEntries.length) return null;
+  const total = stateEntries.reduce((sum, [, v]) => sum + v, 0);
+  const [[topState, topScore]] = stateEntries;
+  if (total > 0 && topScore / total >= 0.42) {
+    const c = CLOUD_STATE_CENTROIDS[topState];
+    const pt = c ? proj(c) : null;
+    if (pt) return pt;
+  }
+  const significant = stateEntries.filter(([, v]) => v >= Math.max(0.1, topScore * 0.35)).slice(0, 4);
+  return cloudWeightedCenter(significant.length ? significant : stateEntries.slice(0, 1), proj);
+}
+
+function cloudOverlaps(ax, ay, aw, ah, placed, overlapOpts = {}) {
+  const { text = null, sameTextMinPx = 0 } = overlapOpts;
   for (const p of placed) {
-    if (Math.abs(ax - p.x) < (aw + p.w) / 2 + 5 &&
-      Math.abs(ay - p.y) < (ah + p.h) / 2 + 5) return true;
+    if (Math.abs(ax - p.x) < (aw + p.w) / 2 + CLOUD_LABEL_GAP &&
+      Math.abs(ay - p.y) < (ah + p.h) / 2 + CLOUD_LABEL_GAP) return true;
+    if (text && p.text === text && sameTextMinPx > 0 &&
+      Math.hypot(ax - p.x, ay - p.y) < sameTextMinPx) return true;
   }
   return false;
 }
 
 // Returns [x, y, ok] — ok=false means no clear slot found, caller should skip
-function cloudFindSlot(ox, oy, bw, bh, placed, maxR) {
-  if (!cloudOverlaps(ox, oy, bw, bh, placed)) return [ox, oy, true];
-  const step = Math.max(6, bh * 0.35);
+function cloudFindSlot(ox, oy, bw, bh, placed, maxR, isBoxInLand, overlapOpts = {}) {
+  if (!cloudOverlaps(ox, oy, bw, bh, placed, overlapOpts) &&
+    (!isBoxInLand || isBoxInLand(ox, oy, bw, bh))) return [ox, oy, true];
+  const step = Math.max(4, bh * 0.25);
   for (let r = step; r <= maxR; r += step) {
-    const steps = Math.max(16, Math.round((2 * Math.PI * r) / Math.max(bw * 0.25, 8)));
+    const steps = Math.max(16, Math.round((2 * Math.PI * r) / Math.max(bw * 0.25, 6)));
     for (let i = 0; i < steps; i++) {
       const angle = (2 * Math.PI * i) / steps;
       const nx = ox + Math.cos(angle) * r;
       const ny = oy + Math.sin(angle) * r;
-      if (!cloudOverlaps(nx, ny, bw, bh, placed)) return [nx, ny, true];
+      if (!cloudOverlaps(nx, ny, bw, bh, placed, overlapOpts) &&
+        (!isBoxInLand || isBoxInLand(nx, ny, bw, bh))) return [nx, ny, true];
     }
   }
   return [ox, oy, false];
 }
 
-function buildWordCloudData(words, regionStyles) {
+function buildWordCloudData(words, regionStyles, { limit = MAX_CLOUD_CANDIDATES } = {}) {
   const ranked = Object.entries(words)
-    .map(([text]) => ({ text, trend: getSignalStrength(text, words), color: getRegionStyle(text, words, regionStyles).color }))
-    .filter(d => d.trend >= 0.30)
-    .sort((a, b) => b.trend - a.trend);
+    .filter(([text]) => isDialectTerm(text))
+    .map(([text, data]) => {
+      const states = Object.values(data.states || {});
+      const max = states.length ? Math.max(...states) : 0;
+      const sum = states.reduce((a, b) => a + b, 0);
+      const uniqueness = sum > 0 ? max / sum : 0; 
+      // max gives regional strength, uniqueness penalizes diluted words
+      const score = max * Math.pow(uniqueness, 0.4); 
+      return { 
+        text, 
+        trend: max, 
+        uniqueness,
+        score,
+        color: getRegionStyle(text, words, regionStyles).color 
+      };
+    })
+    .filter(d => d.trend >= 0.07)
+    .sort((a, b) => b.score - a.score);
 
-  // Trending iconic words first, then fill with other high-signal words
-  const trendingFirst = [
-    ...ranked.filter(d => TRENDING_WORDS.includes(d.text)),
-    ...ranked.filter(d => !TRENDING_WORDS.includes(d.text)),
-  ].slice(0, 42);
+  const topWords = ranked.slice(0, limit);
+  const n = topWords.length;
 
-  const trends = trendingFirst.map(d => d.trend);
-  const sizeScale = d3.scaleSqrt().domain([d3.min(trends), d3.max(trends)]).range([13, 44]);
-  return trendingFirst.map(d => ({ ...d, size: Math.round(sizeScale(d.trend)) }));
+  const scores = topWords.map(d => d.score);
+  const minScore = d3.min(scores) || 0;
+  const maxScore = d3.max(scores) || 1;
+  const scoreSize = d3.scaleSqrt().domain([minScore, maxScore]).range([13, 46]);
+
+  return topWords.map((d, i) => {
+    const rankT = i / Math.max(n - 1, 1);
+    const byRank = d3.interpolateNumber(58, 12)(rankT);
+    const bySignal = scoreSize(d.score);
+    const bySplit = 12 + d.uniqueness * 34;
+    const size = Math.round(byRank * 0.45 + bySignal * 0.35 + bySplit * 0.2);
+    return { ...d, size: Math.min(62, Math.max(11, size)) };
+  });
 }
 
-function renderWordCloudExplore({ mapEl, stage, exploreLayer, words, regionStyles, fontFamily, projection: extProj }) {
+function renderWordCloudExplore({ mapEl, stage, exploreLayer, words, regionStyles, fontFamily, projection: extProj, stateFeatures, nationMesh, onWordClick }) {
   const width = Math.max(mapEl.clientWidth || 0, 320);
   const height = Math.max(mapEl.clientHeight || 0, 240);
   stage.innerHTML = "";
@@ -814,16 +1010,72 @@ function renderWordCloudExplore({ mapEl, stage, exploreLayer, words, regionStyle
     const pts = Object.entries(CLOUD_STATE_CENTROIDS)
       .filter(([s]) => s !== 'AK' && s !== 'HI')
       .map(([, c]) => ({ type: "Feature", geometry: { type: "Point", coordinates: c }, properties: {} }));
-    return d3.geoAlbersUsa().fitExtent([[55, 55], [width - 55, height - 55]], { type: "FeatureCollection", features: pts });
+    // Extra right inset keeps labels clear of the region legend
+    return d3.geoAlbersUsa().fitExtent([[80, 80], [width - 170, height - 80]], { type: "FeatureCollection", features: pts });
   })();
+
+  // Render US Mask to offscreen canvas to verify landmass hits
+  const maskCanvas = document.createElement("canvas");
+  maskCanvas.width = width;
+  maskCanvas.height = height;
+  const maskCtx = maskCanvas.getContext("2d", { willReadFrequently: true });
+  const maskPath = d3.geoPath(proj, maskCtx);
+  
+  maskCtx.fillStyle = "black";
+  maskCtx.fillRect(0, 0, width, height);
+  if (stateFeatures) {
+    maskCtx.fillStyle = "white";
+    maskCtx.beginPath();
+    maskPath(stateFeatures);
+    maskCtx.fill();
+  }
+  const imgData = maskCtx.getImageData(0, 0, width, height).data;
+
+  function isLand(x, y) {
+    if (!stateFeatures) return true; // fallback if no states
+    if (x < 0 || x >= width || y < 0 || y >= height) return false;
+    const idx = (Math.floor(y) * width + Math.floor(x)) * 4;
+    return imgData[idx] > 128;
+  }
+  
+  function isBoxInLand(cx, cy, bw, bh) {
+    const hw = bw * 0.4, hh = bh * 0.4;
+    const pts = [
+      [cx, cy], // center
+      [cx - hw, cy - hh], [cx + hw, cy - hh], // top corners
+      [cx - hw, cy + hh], [cx + hw, cy + hh], // bottom corners
+      [cx - hw, cy], [cx + hw, cy],           // left/right edges
+      [cx, cy - hh], [cx, cy + hh]            // top/bottom edges
+    ];
+    let hits = 0;
+    for (const [px, py] of pts) {
+      if (isLand(px, py)) hits++;
+    }
+    return hits >= 6;
+  }
 
   const svg = d3.select(stage)
     .append("svg")
     .attr("viewBox", `0 0 ${width} ${height}`)
     .attr("preserveAspectRatio", "xMidYMid meet");
 
+  // Draw the US map border underneath
+  if (nationMesh) {
+    svg.append("g")
+      .attr("class", "word-cloud-basemap")
+      .style("opacity", "0.4") // keep it subtle
+      .style("pointer-events", "none")
+      .append("path")
+      .datum(nationMesh)
+      .attr("d", d3.geoPath(proj))
+      .attr("fill", "transparent")
+      .attr("stroke", "var(--text-muted, #8b9bb4)")
+      .attr("stroke-width", "1.0")
+      .attr("stroke-linejoin", "round");
+  }
+
   const placed = [];
-  const maxR = Math.hypot(width, height) * 0.55;
+  const sameTextMinPx = Math.min(width, height) * CLOUD_SAME_TEXT_MIN_RATIO;
 
   // Effective size: shrink long phrases so they fit on screen
   function effectiveSize(text, size) {
@@ -832,82 +1084,103 @@ function renderWordCloudExplore({ mapEl, stage, exploreLayer, words, regionStyle
     return natural > maxW ? Math.floor(size * (maxW / natural)) : size;
   }
 
-  function stamp(text, rawSize, color, ox, oy) {
-    const size = Math.max(10, effectiveSize(text, rawSize));
-    const bw = size * 0.58 * text.length;
-    const bh = size * 1.15;
-    const mg = 52;
-    ox = Math.max(mg + bw / 2, Math.min(width - mg - bw / 2, ox));
-    oy = Math.max(mg + bh / 2, Math.min(height - mg - bh / 2, oy));
-    const [fx, fy, ok] = cloudFindSlot(ox, oy, bw, bh, placed, maxR);
-    if (!ok) return false;
-    if (fx - bw / 2 < mg || fx + bw / 2 > width - mg) return false;
-    if (fy - bh / 2 < mg || fy + bh / 2 > height - mg) return false;
-    placed.push({ x: fx, y: fy, w: bw, h: bh });
-    svg.append("text")
-      .attr("x", fx).attr("y", fy)
-      .attr("text-anchor", "middle")
-      .attr("dominant-baseline", "middle")
-      .attr("font-size", `${size}px`)
-      .attr("font-family", fontFamily || "Inter")
-      .attr("font-weight", "500")
-      .attr("fill", color)
-      .attr("opacity", "0.93")
-      .attr("stroke", "var(--bg-base,#0d1520)")
-      .attr("stroke-width", "2.5")
-      .attr("stroke-linejoin", "round")
-      .attr("paint-order", "stroke fill")
-      .text(text);
-    return true;
+  function stamp(text, rawSize, color, ox, oy, { sameTextMinPx: minSameText = 0 } = {}) {
+    const overlapOpts = { text, sameTextMinPx: minSameText };
+    for (const shrink of [1, 0.84, 0.7]) {
+      const attemptSize = Math.max(9, effectiveSize(text, Math.max(9, Math.round(rawSize * shrink))));
+      let bw = attemptSize * 0.55 * text.length;
+      let bh = attemptSize * 1.0;
+
+      const mg = 2;
+      const sx = Math.max(mg + bw / 2, Math.min(width - mg - bw / 2, ox));
+      const sy = Math.max(mg + bh / 2, Math.min(height - mg - bh / 2, oy));
+      const localMaxR = Math.min(
+        Math.max(bw, bh) * 2.2 + rawSize * 0.25,
+        CLOUD_MAX_SPIRAL_PX,
+      );
+      const [fx, fy, ok] = cloudFindSlot(sx, sy, bw, bh, placed, localMaxR, isBoxInLand, overlapOpts);
+      if (!ok) continue;
+      if (fx - bw / 2 < mg || fx + bw / 2 > width - mg) continue;
+      if (fy - bh / 2 < mg || fy + bh / 2 > height - mg) continue;
+      placed.push({ x: fx, y: fy, w: bw, h: bh, text });
+
+      const textEl = svg.append("text")
+        .attr("x", fx).attr("y", fy)
+        .attr("text-anchor", "middle")
+        .attr("dominant-baseline", "middle")
+        .attr("font-size", `${attemptSize}px`)
+        .attr("font-family", fontFamily || "Inter")
+        .attr("font-weight", "500")
+        .attr("fill", color)
+        .attr("opacity", "0.93")
+        .attr("stroke", "var(--bg-base,#0d1520)")
+        .attr("stroke-width", "2.5")
+        .attr("stroke-linejoin", "round")
+        .attr("paint-order", "stroke fill")
+        .attr("class", "word-cloud-label")
+        .style("cursor", onWordClick ? "pointer" : "default")
+        .text(text);
+
+      if (onWordClick) {
+        textEl
+          .on("click", (event) => {
+            event.stopPropagation();
+            onWordClick(text);
+          })
+          .on("mouseenter", function () {
+            d3.select(this).attr("opacity", 1);
+          })
+          .on("mouseleave", function () {
+            d3.select(this).attr("opacity", 0.93);
+          });
+      }
+
+      return true;
+    }
+
+    return false;
   }
 
-  const cloudItems = buildWordCloudData(words, regionStyles);
+  const cloudItems = buildWordCloudData(words, regionStyles)
+    .sort((a, b) => b.size - a.size);
+
+  let placedCount = 0;
 
   for (const item of cloudItems) {
+    if (placedCount >= TARGET_CLOUD_PLACED) break;
+
     const stateEntries = Object.entries(words[item.text]?.states || {})
-      .filter(([, v]) => v > 0.12)
+      .filter(([, v]) => v > 0.08)
       .sort((a, b) => b[1] - a[1]);
 
-    if (!stateEntries.length) continue; // skip generic filler
+    if (!stateEntries.length) continue;
 
-    // Map states to screen positions
-    const screenPts = stateEntries
-      .map(([state, val]) => {
-        const c = CLOUD_STATE_CENTROIDS[state];
-        if (!c) return null;
-        const pt = proj(c);
-        if (!pt) return null;
-        return { state, val, x: pt[0], y: pt[1] };
-      })
-      .filter(Boolean);
+    const spread = cloudSpreadScore(stateEntries);
 
-    if (!screenPts.length) continue;
+    if (spread <= 5) {
+      const anchor = cloudAnchorPoint(stateEntries, proj);
+      if (!anchor) continue;
+      if (stamp(item.text, item.size, item.color, anchor[0], anchor[1])) {
+        placedCount += 1;
+      }
+      continue;
+    }
 
-    // Spread = 4+ states all with usage > 40% of the top state's value
-    const peak = stateEntries[0][1];
-    const highCount = stateEntries.filter(([, v]) => v > peak * 0.45).length;
+    const instanceSize = Math.max(10, Math.round(item.size * 0.78));
+    const stateCandidates = stateEntries.slice(0, 8).flatMap(([state]) => {
+      const c = CLOUD_STATE_CENTROIDS[state];
+      const pt = c ? proj(c) : null;
+      return pt ? [{ state, x: pt[0], y: pt[1] }] : [];
+    });
+    const anchors = cloudDiversePoints(stateCandidates, 3, sameTextMinPx * 0.85);
 
-    // Primary label at weighted centroid of top states
-    const center = cloudWeightedCenter(stateEntries.slice(0, 5), proj);
-    if (!center) continue;
-    stamp(item.text, item.size, item.color, center[0], center[1]);
-
-    // Spread words: add a second smaller instance biased toward the left side
-    if (highCount >= 3 && screenPts.length >= 2) {
-      const instanceSize = Math.max(12, Math.round(item.size * 0.72));
-      // Prefer a western anchor (x < 45% of width) so the left side stays full
-      const leftPts = screenPts.filter(p => p.x < width * 0.45);
-      const rightPts = screenPts.filter(p => p.x >= width * 0.45);
-      // If primary is on the right, try left first; otherwise try right
-      const altPool = center[0] > width * 0.45 ? leftPts : rightPts;
-      const fallback = center[0] > width * 0.45 ? rightPts : leftPts;
-      const alt = (altPool.length ? altPool : fallback).sort((a, b) => {
-        // pick point furthest from primary center
-        const da = Math.hypot(a.x - center[0], a.y - center[1]);
-        const db = Math.hypot(b.x - center[0], b.y - center[1]);
-        return db - da;
-      })[0];
-      if (alt) stamp(item.text, instanceSize, item.color, alt.x, alt.y);
+    for (const anchor of anchors) {
+      if (placedCount >= TARGET_CLOUD_PLACED) break;
+      if (stamp(item.text, instanceSize, item.color, anchor.x, anchor.y, {
+        sameTextMinPx: sameTextMinPx,
+      })) {
+        placedCount += 1;
+      }
     }
   }
 
@@ -940,12 +1213,14 @@ function createMapPanel({
   regionStyles,
   getCurrentWord,
   isWordMode,
+  onCloudWordClick,
 }) {
   let svg;
   let g;
   let path;
   let projection;
   let stateFeatures;
+  let nationMesh;
   let stateSelection;
   let highlightPath;
   let mapExploreActive = false;
@@ -960,6 +1235,9 @@ function createMapPanel({
   const titleEl = document.getElementById(titleId);
   const exploreLayer = document.getElementById(exploreId);
   const stage = document.getElementById(stageId);
+  const cloudLegendList = document.getElementById("map-legend-cloud-list");
+
+  renderCloudLegend(cloudLegendList, regionStyles);
 
   function updateTitle(explore, word = null) {
     if (explore) {
@@ -1031,7 +1309,7 @@ function createMapPanel({
 
   function hideExplore() {
     mapExploreActive = false;
-    if (g) g.style("opacity", 1);
+    document.querySelector(".grid")?.classList.remove("is-explore");
     hideWordCloudExplore(exploreLayer, stage);
     updateTitle(false, getCurrentWord());
   }
@@ -1039,20 +1317,26 @@ function createMapPanel({
   function showExplore() {
     if (isWordMode() || !stateSelection) return;
     mapExploreActive = true;
+    document.querySelector(".grid")?.classList.add("is-explore");
     resetMapBase();
-    if (g) g.style("opacity", 0);
     updateTitle(true);
     tooltip.style.opacity = 0;
-    resizeMap();
-    renderWordCloudExplore({
-      mapEl: container,
-      stage,
-      exploreLayer,
-      words,
-      regionStyles,
-      fontFamily: "Inter",
-      projection,
-    });
+    
+    // Defer to allow CSS layout reflow to finish before sizing word cloud
+    setTimeout(() => {
+      renderWordCloudExplore({
+        mapEl: container,
+        stage,
+        exploreLayer,
+        words,
+        regionStyles,
+        fontFamily: "Inter",
+        projection,
+        stateFeatures,
+        nationMesh,
+        onWordClick: onCloudWordClick,
+      });
+    }, 400);
   }
 
   function renderChoropleth(word) {
@@ -1061,8 +1345,9 @@ function createMapPanel({
       return;
     }
 
-    resizeMap();
+    const leavingExplore = mapExploreActive;
     hideExplore();
+    if (!leavingExplore) resizeMap();
 
     if (highlightPath) {
       highlightPath
@@ -1073,34 +1358,46 @@ function createMapPanel({
     const scores = words[word].states || {};
     const hasData = Object.keys(scores).length > 0;
 
-    stateSelection
-      .interrupt()
-      .classed("active", (d) => Boolean(scores[fipsToAbbr(d.id)]))
-      .transition()
-      .duration(650)
-      .style("fill", (d) => {
-        const abbr = fipsToAbbr(d.id);
-        return scores[abbr] ? colorScale(scores[abbr]) : "#1a2436";
-      })
-      .style("opacity", (d) => {
-        const abbr = fipsToAbbr(d.id);
-        return scores[abbr] ? 1 : 0.42;
-      });
+    const applyChoropleth = () => {
+      if (leavingExplore) resizeMap();
 
-    g.selectAll(".state-label")
-      .interrupt()
-      .transition()
-      .duration(650)
-      .style("fill", (d) => {
-        const abbr = fipsToAbbr(d.id);
-        const score = scores[abbr] || 0;
-        return score > 0.4 ? "#0c1018" : "#ffffff";
-      })
-      .style("opacity", (d) => {
-        const abbr = fipsToAbbr(d.id);
-        const score = scores[abbr] || 0;
-        return score > 0 ? 0.9 : 0.35;
-      });
+      stateSelection
+        .interrupt()
+        .classed("active", (d) => Boolean(scores[fipsToAbbr(d.id)]))
+        .transition("choropleth")
+        .duration(650)
+        .ease(d3.easeCubicInOut)
+        .style("fill", (d) => {
+          const abbr = fipsToAbbr(d.id);
+          return scores[abbr] ? colorScale(scores[abbr]) : "#1a2436";
+        })
+        .style("opacity", (d) => {
+          const abbr = fipsToAbbr(d.id);
+          return scores[abbr] ? 1 : 0.42;
+        });
+
+      g.selectAll(".state-label")
+        .interrupt()
+        .transition("choropleth-labels")
+        .duration(650)
+        .ease(d3.easeCubicInOut)
+        .style("fill", (d) => {
+          const abbr = fipsToAbbr(d.id);
+          const score = scores[abbr] || 0;
+          return score > 0.4 ? "#0c1018" : "#ffffff";
+        })
+        .style("opacity", (d) => {
+          const abbr = fipsToAbbr(d.id);
+          const score = scores[abbr] || 0;
+          return score > 0 ? 0.9 : 0.35;
+        });
+    };
+
+    if (leavingExplore) {
+      setTimeout(applyChoropleth, 620);
+    } else {
+      applyChoropleth();
+    }
 
     updateTitle(false, word);
 
@@ -1136,6 +1433,7 @@ function createMapPanel({
       throw err;
     }
     stateFeatures = topojson.feature(us, us.objects.states);
+    nationMesh = topojson.mesh(us, us.objects.states, (a, b) => a === b);
 
     const { width, height } = layoutSize();
     mapWidth = width;
@@ -1234,23 +1532,8 @@ function createMapPanel({
       stateSelection?.attr("d", path);
     });
 
-    if (typeof ResizeObserver !== "undefined") {
-      const ro = new ResizeObserver(() => {
-        resizeMap();
-        if (mapExploreActive && !isWordMode()) {
-          renderWordCloudExplore({
-            mapEl: container,
-            stage,
-            exploreLayer,
-            words,
-            regionStyles,
-            fontFamily: "Inter",
-            projection,
-          });
-        }
-      });
-      ro.observe(container);
-    }
+    // ResizeObserver removed: Map does not need to dynamically recalculate on layout changes.
+    // Native SVG preserveAspectRatio or stretching is preferred for performance and smoothness.
 
     showExplore();
   }
@@ -1298,7 +1581,7 @@ function createApp({ words, regionStyles, popover }) {
     sentenceBlock: document.getElementById("sentence-input-block"),
     sentenceSamples: document.getElementById("sentence-samples"),
     fingerprintTitle: document.getElementById("fingerprint-title"),
-    fingerprintKicker: document.getElementById("fingerprint-kicker"),
+    legend: document.getElementById("fingerprint-legend"),
   };
 
 
@@ -1308,6 +1591,26 @@ function createApp({ words, regionStyles, popover }) {
     onHover: (word, anchor) => popover.show(word, anchor, words, regionStyles),
     onHoverEnd: () => popover.scheduleHide(),
   };
+
+  let typeInterval = null;
+
+  function typeIntoSentence(text) {
+    if (!text) return;
+    if (typeInterval) clearInterval(typeInterval);
+    els.sentence.value = "";
+    els.analyzeBtn.disabled = true;
+    let i = 0;
+    typeInterval = setInterval(() => {
+      els.sentence.value += text.charAt(i);
+      i += 1;
+      if (i >= text.length) {
+        clearInterval(typeInterval);
+        typeInterval = null;
+        updateAnalyzeButtonState();
+        els.sentence.focus();
+      }
+    }, 15);
+  }
 
   const map = createMapPanel({
     containerId: "map",
@@ -1320,16 +1623,12 @@ function createApp({ words, regionStyles, popover }) {
     regionStyles,
     getCurrentWord: () => currentWord,
     isWordMode: () => appMode === "word",
+    onCloudWordClick: typeIntoSentence,
   });
 
   // Called when user clicks a variant row in the audio panel
   function handleVariantSelect(variantWord) {
-    // If the variant word exists in the dictionary, update the map for it
-    if (words[variantWord]) {
-      currentWord = variantWord;
-      map.renderChoropleth(variantWord);
-      syncTokenSelection(currentWord);
-    }
+    if (words[variantWord]) selectWord(variantWord);
   }
 
   function showFingerprintMode() {
@@ -1362,19 +1661,19 @@ function createApp({ words, regionStyles, popover }) {
       );
       renderFingerprintSummary(
         els.summary,
+        els.legend,
         detected.includes(word) ? detected : [word, ...detected],
         words,
         regionStyles,
       );
-      map.renderChoropleth(word);
     } else {
       renderWordToken(els.tokens, word, regionStyles, words, currentWord, tokenHandlers);
-      renderFingerprintSummary(els.summary, [word], words, regionStyles);
-      map.renderChoropleth(word);
+      renderFingerprintSummary(els.summary, els.legend, [word], words, regionStyles);
     }
 
     syncTokenSelection(currentWord);
     renderAudioPanel(els.variants, word, words, regionStyles, handleVariantSelect);
+    map.renderChoropleth(word);
   }
 
 
@@ -1398,7 +1697,7 @@ function createApp({ words, regionStyles, popover }) {
         if (!word) {
           renderMissingWord(els.tokens, raw);
 
-          renderFingerprintSummary(els.summary, [], words, regionStyles);
+          renderFingerprintSummary(els.summary, els.legend, [], words, regionStyles);
           showFingerprintMode();
           if (mapReady) map.resetMapBase();
           els.variants.innerHTML =
@@ -1407,10 +1706,10 @@ function createApp({ words, regionStyles, popover }) {
         }
         currentWord = word;
         renderWordToken(els.tokens, word, regionStyles, words, currentWord, tokenHandlers);
-        renderFingerprintSummary(els.summary, [word], words, regionStyles);
+        renderFingerprintSummary(els.summary, els.legend, [word], words, regionStyles);
         showFingerprintMode();
-        if (mapReady) map.renderChoropleth(word);
         renderAudioPanel(els.variants, word, words, regionStyles, handleVariantSelect);
+        if (mapReady) map.renderChoropleth(word);
         return;
       }
 
@@ -1426,7 +1725,7 @@ function createApp({ words, regionStyles, popover }) {
         primary || "",
         tokenHandlers,
       );
-      renderFingerprintSummary(els.summary, detected, words, regionStyles);
+      renderFingerprintSummary(els.summary, els.legend, detected, words, regionStyles);
       showFingerprintMode();
 
       if (!primary) {
@@ -1437,8 +1736,8 @@ function createApp({ words, regionStyles, popover }) {
 
       currentWord = primary;
       syncTokenSelection(currentWord);
-      if (mapReady) map.renderChoropleth(currentWord);
       renderAudioPanel(els.variants, currentWord, words, regionStyles, handleVariantSelect);
+      if (mapReady) map.renderChoropleth(currentWord);
     } catch (err) {
       console.error(err);
       els.summary.textContent = `Could not analyze text: ${err.message}`;
@@ -1471,21 +1770,7 @@ function createApp({ words, regionStyles, popover }) {
 
     document.querySelectorAll("[data-sample]").forEach((btn) => {
       btn.addEventListener("click", () => {
-        const targetText = SAMPLE_SENTENCES[btn.dataset.sample];
-        els.sentence.value = "";
-        let i = 0;
-        
-        els.analyzeBtn.disabled = true;
-
-        const typeInterval = setInterval(() => {
-          els.sentence.value += targetText.charAt(i);
-          // Trigger input event to update any other listeners, but we control button state here manually
-          i++;
-          if (i >= targetText.length) {
-            clearInterval(typeInterval);
-            updateAnalyzeButtonState();
-          }
-        }, 15);
+        typeIntoSentence(SAMPLE_SENTENCES[btn.dataset.sample]);
       });
     });
 

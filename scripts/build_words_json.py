@@ -23,6 +23,25 @@ from survey_vocab import (
 MIN_STATE_SCORE = 0.01  # omit states below 1% usage
 MAX_VARIANTS_PER_CONCEPT = 6
 
+STATE_ABBR_TO_NAME = {
+    "AL": "Alabama", "AK": "Alaska", "AZ": "Arizona", "AR": "Arkansas", "CA": "California",
+    "CO": "Colorado", "CT": "Connecticut", "DE": "Delaware", "FL": "Florida", "GA": "Georgia",
+    "HI": "Hawaii", "ID": "Idaho", "IL": "Illinois", "IN": "Indiana", "IA": "Iowa",
+    "KS": "Kansas", "KY": "Kentucky", "LA": "Louisiana", "ME": "Maine", "MD": "Maryland",
+    "MA": "Massachusetts", "MI": "Michigan", "MN": "Minnesota", "MS": "Mississippi", "MO": "Missouri",
+    "MT": "Montana", "NE": "Nebraska", "NV": "Nevada", "NH": "New Hampshire", "NJ": "New Jersey",
+    "NM": "New Mexico", "NY": "New York", "NC": "North Carolina", "ND": "North Dakota", "OH": "Ohio",
+    "OK": "Oklahoma", "OR": "Oregon", "PA": "Pennsylvania", "RI": "Rhode Island", "SC": "South Carolina",
+    "SD": "South Dakota", "TN": "Tennessee", "TX": "Texas", "UT": "Utah", "VT": "Vermont",
+    "VA": "Virginia", "WA": "Washington", "WV": "West Virginia", "WI": "Wisconsin", "WY": "Wyoming",
+    "DC": "District of Columbia",
+}
+
+
+def strongest_in_label(state_abbr: str) -> str:
+    name = STATE_ABBR_TO_NAME.get(state_abbr, state_abbr)
+    return f"Strongest in {name}"
+
 
 def load_yaml(path: Path) -> dict:
     with path.open(encoding="utf-8") as f:
@@ -55,15 +74,17 @@ def auto_variants(siblings: list[tuple[str, dict[str, float]]]) -> list[dict]:
     ranked = sorted(siblings, key=lambda x: peak_score(x[1]), reverse=True)
     variants = []
     for word, states in ranked[:MAX_VARIANTS_PER_CONCEPT]:
+        if should_skip_answer(word):
+            continue
         top = next(iter(states.items()), None)
-        region = f"Strongest in {top[0]}" if top else "Regional"
+        region = strongest_in_label(top[0]) if top else "Regional"
         variants.append(
             {
                 "word": word,
                 "region": region,
                 "phrase": f'I say "{word}".',
                 "ipa": "",
-                "note": "Harvard Dialect Survey response option.",
+                "note": "",
                 "wave": "west",
             }
         )

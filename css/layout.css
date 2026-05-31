@@ -66,6 +66,46 @@
   display: grid;
   grid-template-columns: 58fr 42fr;
   gap: var(--space-gap);
+  transition: grid-template-columns 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), gap 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.grid.is-explore {
+  grid-template-columns: 100fr 0fr;
+  gap: 0;
+}
+
+.side-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap);
+  min-height: 0;
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity 0.4s ease 0.2s;
+}
+
+.grid.map-explore {
+  position: absolute;
+  top: 1.75rem;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.grid.is-explore .map-explore {
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 0.4s ease 0.4s;
+}
+
+.grid.is-explore .side-stack {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
 }
 
 .panel {
@@ -98,6 +138,14 @@
   flex: 1;
   min-height: 0;
   position: relative;
+  opacity: 1;
+  transition: opacity 0.4s ease 0.4s;
+}
+
+.grid.is-explore #map {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
 }
 
 #map svg {
@@ -110,7 +158,6 @@
 #map .state {
   stroke: var(--map-stroke);
   stroke-width: 0.8;
-  transition: fill 0.35s ease, opacity 0.35s ease;
 }
 
 #map .state.active {
