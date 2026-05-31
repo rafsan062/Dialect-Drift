@@ -150,8 +150,8 @@ function getRegionStyle(word, words, regionStyles) {
     .sort((a, b) => b.hits - a.hits)[0];
 
   return best?.hits > 0
-    ? best
-    : { name: "Regional", color: "var(--neon-amber)", states: [] };
+    ? { ...best }
+    : { name: "Broad US", color: "#8b9bb4", match: "" };
 }
 
 function getVariantSet(word, words) {
@@ -164,6 +164,7 @@ function getVariantSet(word, words) {
   );
   return owner?.variants || [];
 }
+
 
 const MAP_COLOR_LOW = "#1a2436";
 const MAP_COLOR_HIGH = "#00e5ff";
@@ -207,7 +208,23 @@ function escapeForJs(text) {
 
 
 // ==========================================
-// 4. DETAILS POPOVER COMPONENT
+// 4. CONCEPT LABEL FORMATTER
+// ==========================================
+function formatConcept(raw) {
+  if (!raw) return "";
+  // Capitalize first letter
+  let text = raw.charAt(0).toUpperCase() + raw.slice(1);
+  // Truncate very long Harvard survey descriptions at a natural break
+  if (text.length > 60) {
+    const cutoff = text.lastIndexOf(" ", 57);
+    text = text.slice(0, cutoff > 20 ? cutoff : 57) + "…";
+  }
+  return text;
+}
+
+
+// ==========================================
+// 5. DETAILS POPOVER COMPONENT
 // ==========================================
 function createPopover({ popoverId, wordElId, metaElId, bodyElId }) {
   const popover = document.getElementById(popoverId);
@@ -222,7 +239,17 @@ function createPopover({ popoverId, wordElId, metaElId, bodyElId }) {
 
     const style = getRegionStyle(word, words, regionStyles);
     const states = getTopStates(word, words, 6);
-    const variants = getVariantSet(word, words).slice(0, 3);
+    
+    // Deduplicate variants to prevent repeated items
+    const rawVariants = getVariantSet(word, words);
+    const uniqueVariantsMap = new Map();
+    for (const v of rawVariants) {
+      if (!uniqueVariantsMap.has(v.word.toLowerCase())) {
+        uniqueVariantsMap.set(v.word.toLowerCase(), v);
+      }
+    }
+    const variants = Array.from(uniqueVariantsMap.values()).slice(0, 3);
+    
     const fallback = [{ word, region: style.name, ipa: "", note: data.summary }];
 
     return { data, style, states, variants: variants.length ? variants : fallback };
@@ -248,21 +275,27 @@ function createPopover({ popoverId, wordElId, metaElId, bodyElId }) {
     if (!content) return;
 
     clearTimeout(hideTimer);
+    
+    // Clean up original Harvard survey questions into nice concepts
+    const cleanConcept = formatConcept(content.data.concept);
+
     wordEl.textContent = word;
-    metaEl.textContent = `${content.data.concept} · ${content.style.name}`;
+    metaEl.textContent = `${cleanConcept} · ${content.style.name}`;
+    const sourceLabel = content.data.source?.survey || "Auto-discovered via AI Dictionary";
+    
+    let cleanSummary = content.data.summary || "";
+    // If the summary is identical to the concept, don't repeat it
+    if (cleanSummary && content.data.concept && cleanSummary.toLowerCase() === content.data.concept.toLowerCase() || 
+        cleanSummary && cleanConcept && cleanSummary.toLowerCase() === cleanConcept.toLowerCase()) {
+      cleanSummary = "";
+    }
+
     bodyEl.innerHTML = `
-      <p class="details-popover-summary">${content.data.summary}</p>
+      ${cleanSummary ? `<p class="details-popover-summary">${cleanSummary}</p>` : ""}
       <div class="details-popover-states"><strong>Top states:</strong> ${content.states.join(", ") || "No state data."}</div>
-      ${content.variants
-        .map(
-          (v) => `
-        <div class="details-popover-variant">
-          <strong>${v.word}</strong> · ${v.region}
-          ${v.ipa ? `<br><span class="ipa-pill">${v.ipa}</span>` : ""}
-          ${v.note ? `<br>${v.note}` : ""}
-        </div>`,
-        )
-        .join("")}
+      <div class="provenance-footer" style="margin-top: 12px; font-size: 0.75em; color: var(--text-muted, #8b9bb4); border-top: 1px solid var(--border-color, #2a3441); padding-top: 8px;">
+         <strong>Source:</strong> ${sourceLabel}
+      </div>
     `;
 
     popover.classList.remove("hidden");
@@ -289,44 +322,186 @@ function createPopover({ popoverId, wordElId, metaElId, bodyElId }) {
 
   return { show, scheduleHide, close };
 }
-
-
 // ==========================================
-// 5. AUDIO COMPARISON PANEL COMPONENT
+// 5. SMOOTH WAVEFORM & SYLLABLE PARSER
 // ==========================================
-function wordBurstSvg(wave, index) {
-  const width = 400;
-  const height = 38;
-  const mid = height / 2;
-  const upper = [];
-  const amp = wave === "south" ? 14 : wave === "midwest" ? 11 : wave === "northeast" ? 9 : 8;
-  const freq = wave === "south" ? 0.09 : wave === "northeast" ? 0.14 : 0.11;
 
-  for (let x = 0; x <= width; x += 2) {
-    const t = x / width;
-    const envelope =
-      Math.exp(-Math.pow((t - 0.58) / 0.12, 2)) * 0.95 +
-      Math.exp(-Math.pow((t - 0.22) / 0.08, 2)) * 0.12;
-    const y = mid - Math.sin(x * freq + index * 0.7) * amp * envelope;
-    upper.push([x, y]);
+function estimateSyllablesFromText(word) {
+  if (!word) return { phonemes: [], syllables: [] };
+  // Keep only letters and apostrophes for clean syllables
+  const clean = word.toLowerCase().replace(/[^a-z']/g, '').trim();
+  if (!clean) return { phonemes: [], syllables: [] };
+
+  const vowelPattern = /[aeiouy]+/g;
+  const matches = [...clean.matchAll(vowelPattern)];
+  const syllableCount = Math.max(1, matches.length);
+  const phonemes = [];
+  const syllables = [];
+  let charIdx = 0;
+
+  for (let s = 0; s < syllableCount; s++) {
+    const syl = { phonemes: [], stressed: s === 0, label: '', isGap: false };
+    const start = matches[s]?.index ?? charIdx;
+    const vowelEnd = start + (matches[s]?.[0]?.length ?? 1);
+
+    for (let i = charIdx; i < start && i < clean.length; i++) {
+      const ph = { char:clean[i], type:'consonant', amplitude:0.35, duration:0.4 };
+      phonemes.push(ph); syl.phonemes.push(ph);
+    }
+    for (let i = start; i < vowelEnd && i < clean.length; i++) {
+      const ph = { char:clean[i], type:'vowel', amplitude:s===0?0.95:0.75, duration:1.0 };
+      phonemes.push(ph); syl.phonemes.push(ph);
+    }
+    const nextStart = matches[s + 1]?.index ?? clean.length;
+    // Split consonants between syllables evenly
+    const codaEnd = s < syllableCount - 1 ? Math.floor((vowelEnd + nextStart) / 2 + 0.5) : clean.length;
+    for (let i = vowelEnd; i < codaEnd && i < clean.length; i++) {
+      const ph = { char:clean[i], type:'consonant', amplitude:0.3, duration:0.35 };
+      phonemes.push(ph); syl.phonemes.push(ph);
+    }
+    charIdx = codaEnd;
+    syl.label = syl.phonemes.map(p => p.char).join('');
+    syllables.push(syl);
+  }
+  if (charIdx < clean.length) {
+    const last = syllables[syllables.length - 1];
+    for (let i = charIdx; i < clean.length; i++) {
+      const ph = { char:clean[i], type:'consonant', amplitude:0.25, duration:0.3 };
+      phonemes.push(ph); if (last) last.phonemes.push(ph);
+    }
+    if (last) last.label = last.phonemes.map(p => p.char).join('');
+  }
+  return { phonemes, syllables };
+}
+
+// ── Seeded random for subtle wave variations ──
+function seededRandom(seed) {
+  let s = seed;
+  return function() { s = (s * 1664525 + 1013904223) & 0xFFFFFFFF; return (s >>> 0) / 0xFFFFFFFF; };
+}
+function hashString(str) {
+  let h = 5381;
+  for (let i = 0; i < str.length; i++) h = ((h << 5) + h + str.charCodeAt(i)) & 0xFFFFFFFF;
+  return h;
+}
+
+// ── Smooth envelope waveform generator ──
+function smoothWaveformSvg(word, wave, index) {
+  const WIDTH = 440;
+  const WAVE_H = 44;
+  const LABEL_H = 18;
+  const TOTAL_H = WAVE_H + LABEL_H;
+  const MID = WAVE_H / 2;
+  const MARGIN_X = 8;
+  const usableW = WIDTH - MARGIN_X * 2;
+
+  const { phonemes, syllables } = estimateSyllablesFromText(word);
+  if (!phonemes.length) {
+    return `<svg viewBox="0 0 ${WIDTH} ${TOTAL_H}" preserveAspectRatio="none"><text x="${WIDTH/2}" y="${MID}" text-anchor="middle" fill="var(--muted)" font-size="10">${word}</text></svg>`;
   }
 
-  const lower = upper
-    .slice()
-    .reverse()
-    .map(([x, y]) => [x, height - (y - mid) + mid]);
+  // Map parts to pixel positions
+  const totalDur = phonemes.reduce((s, p) => s + p.duration, 0);
+  const phPos = [];
+  let xC = MARGIN_X;
+  for (const ph of phonemes) {
+    const w = (ph.duration / totalDur) * usableW;
+    phPos.push({ ...ph, x: xC, w });
+    xC += w;
+  }
 
-  let d = `M ${upper[0][0]},${mid}`;
-  upper.forEach(([x, y]) => {
-    d += ` L ${x},${y}`;
-  });
-  lower.forEach(([x, y]) => {
-    d += ` L ${x},${y}`;
-  });
-  d += " Z";
+  let phI = 0;
+  const sylPos = [];
+  for (const syl of syllables) {
+    if (!syl.phonemes.length) continue;
+    const s0 = phPos[phI], s1 = phPos[phI + syl.phonemes.length - 1];
+    if (s0 && s1) sylPos.push({ x: s0.x, w: (s1.x + s1.w) - s0.x, stressed: syl.stressed, label: syl.label });
+    phI += syl.phonemes.length;
+  }
 
-  return `<svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none"><path class="fill" d="${d}"></path></svg>`;
+  // Regional aesthetic modifiers
+  const regionMod = {
+    south:     { ampScale: 0.95, freqScale: 0.8 },
+    midwest:   { ampScale: 1.0,  freqScale: 1.0 },
+    northeast: { ampScale: 1.05, freqScale: 1.2 },
+    west:      { ampScale: 1.0,  freqScale: 1.0 },
+  };
+  const mod = regionMod[wave] || regionMod.west;
+
+  // Generate smooth waveform samples
+  const rand = seededRandom(hashString(word + wave + index));
+  const totalSamples = Math.ceil(usableW * 1.5);
+  const upper = [], lower = [];
+  const maxAmp = WAVE_H * 0.45;
+
+  for (let s = 0; s <= totalSamples; s++) {
+    const x = MARGIN_X + (s / totalSamples) * usableW;
+    let ph = phPos[0], phLocalT = 0;
+    for (const p of phPos) {
+      if (x >= p.x && x < p.x + p.w) { ph = p; phLocalT = p.w > 0 ? (x - p.x) / p.w : 0; break; }
+    }
+    if (!ph) ph = phPos[phPos.length - 1];
+
+    const amp = ph.amplitude * mod.ampScale;
+    const freq = (0.2 + (index * 0.05)) * mod.freqScale;
+    
+    // Smooth envelope over the phoneme
+    const env = Math.sin(phLocalT * Math.PI) * 0.4 + 0.6;
+    
+    // Aesthetic smooth overlapping sine waves
+    const wv = Math.sin(x * freq + index * 1.1) * 0.75 + 
+               Math.sin(x * freq * 2.3 + 0.5) * 0.25;
+               
+    // Subtle jitter so it feels organic
+    const jitter = (rand() - 0.5) * 0.15;
+
+    let sY = amp * env * maxAmp * Math.abs(wv + jitter);
+
+    // Taper the outer edges smoothly
+    const gT = s / totalSamples;
+    sY *= Math.min(gT * 8, (1 - gT) * 8, 1);
+    
+    upper.push([x, MID - sY]);
+    lower.push([x, MID + sY]);
+  }
+
+  lower.reverse();
+  let pathD = `M ${upper[0][0].toFixed(1)},${MID.toFixed(1)}`;
+  for (const [x, y] of upper) pathD += ` L ${x.toFixed(1)},${y.toFixed(1)}`;
+  for (const [x, y] of lower) pathD += ` L ${x.toFixed(1)},${y.toFixed(1)}`;
+  pathD += ' Z';
+
+  let svg = `<svg class="phoneme-waveform" viewBox="0 0 ${WIDTH} ${TOTAL_H}" preserveAspectRatio="none">`;
+
+  // Stressed syllable background bands
+  for (const sl of sylPos) {
+    if (sl.stressed) svg += `<rect class="stress-bg" x="${sl.x.toFixed(1)}" y="0" width="${sl.w.toFixed(1)}" height="${WAVE_H}" rx="3"/>`;
+  }
+
+  // Waveform path
+  svg += `<path class="waveform-fill" d="${pathD}"/>`;
+
+  // Syllable boundary dashed lines
+  for (let i = 1; i < sylPos.length; i++) {
+    svg += `<line class="syl-boundary" x1="${sylPos[i].x.toFixed(1)}" y1="2" x2="${sylPos[i].x.toFixed(1)}" y2="${WAVE_H - 2}"/>`;
+  }
+
+  // English syllable labels
+  for (const sl of sylPos) {
+    const cx = sl.x + sl.w / 2;
+    const ly = WAVE_H + LABEL_H * 0.75;
+    const cls = sl.stressed ? 'syl-label stressed' : 'syl-label';
+    svg += `<text class="${cls}" x="${cx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="middle">${sl.label}</text>`;
+  }
+
+  svg += '</svg>';
+  return svg;
 }
+
+
+// ==========================================
+// 5b. AUDIO COMPARISON PANEL COMPONENT
+// ==========================================
 
 function audioLane(variant, index, selectedWord) {
   const isSelected = variant.word === selectedWord;
@@ -334,21 +509,21 @@ function audioLane(variant, index, selectedWord) {
   const safeWord = escapeForJs(variant.word);
 
   return `
-    <div class="audio-lane ${isSelected ? "selected" : ""}">
+    <div class="audio-lane ${isSelected ? "selected" : ""}" data-variant-word="${safeWord}" style="cursor:pointer">
       <button type="button" class="lane-play" data-speak-word="${safeWord}" data-speak-wave="${wave}" data-speak-index="${index}" title="Play “${variant.word}”">▶</button>
       <div class="lane-body">
-        <div class="lane-wave">${wordBurstSvg(wave, index)}</div>
+        <div class="lane-wave">${smoothWaveformSvg(variant.word, wave, index)}</div>
         <div class="lane-meta">
           <span class="lane-word">${variant.word}</span>
           <span class="lane-region">${variant.region}</span>
-          <span class="lane-ipa">${variant.ipa || ""}</span>
+          ${variant.note ? `<div class="lane-note" style="font-size: 0.85em; color: var(--text-muted); margin-top: 2px; line-height: 1.2;">${variant.note}</div>` : ""}
         </div>
       </div>
     </div>
   `;
 }
 
-function renderAudioPanel(container, word, words, regionStyles) {
+function renderAudioPanel(container, word, words, regionStyles, onVariantSelect) {
   const data = words[word];
   if (!data) {
     container.innerHTML =
@@ -368,27 +543,42 @@ function renderAudioPanel(container, word, words, regionStyles) {
         },
       ];
 
+  const cleanConcept = formatConcept(data.concept);
+
   const lanes = grouped.slice(0, 4);
   container.innerHTML = `
     <div class="audio-comparison">
       <div class="audio-graph-head">
-        <div class="audio-graph-title">“${word}” · ${data.concept}</div>
-        <div class="audio-graph-subtitle">Same idea, different regional words</div>
+        <div class="audio-graph-title">“${word}” · ${cleanConcept}</div>
+        <div class="audio-graph-subtitle">Same idea, different regional words · click a row to update map</div>
       </div>
       <div class="audio-stack">
         ${lanes.map((v, i) => audioLane(v, i, word)).join("")}
       </div>
-      <div class="audio-note">Yellow band = spoken-word timing (placeholder). Web Speech plays on ▶.</div>
+      <div class="audio-note">Syllables and emphasis are estimated visually · ▶ to hear pronunciation</div>
     </div>
   `;
 
   container.querySelectorAll("[data-speak-word]").forEach((btn) => {
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
       speakWord(
         btn.dataset.speakWord,
         btn.dataset.speakWave,
         Number(btn.dataset.speakIndex),
       );
+    });
+  });
+
+  // Make each audio lane clickable to select that variant and update the map
+  container.querySelectorAll(".audio-lane[data-variant-word]").forEach((lane) => {
+    lane.addEventListener("click", () => {
+      const variantWord = lane.dataset.variantWord;
+      // Update visual selection within the audio panel
+      container.querySelectorAll(".audio-lane").forEach((l) => l.classList.remove("selected"));
+      lane.classList.add("selected");
+      // Notify the app to update the map
+      if (onVariantSelect) onVariantSelect(variantWord);
     });
   });
 }
@@ -455,8 +645,11 @@ function renderSentenceTokens(container, text, words, regionStyles, currentWord,
   container.innerHTML = "";
 
   if (matches.length === 0) {
-    container.innerHTML =
-      '<span class="muted small">No regional vocabulary found. Try hoagie, pop, y\'all, bubbler, or crawfish.</span>';
+    container.innerHTML = `
+      <div class="muted small" style="display:flex; justify-content:space-between; align-items:center; width:100%; border-top: 1px solid var(--border); padding-top: 12px; margin-top: 8px;">
+        <span>No regional vocabulary found. Try hoagie, pop, y'all, bubbler, or crawfish.</span>
+        <button id="sentence-ai-btn" class="ask-ai-btn" style="background: var(--surface-hover); border: 1px solid var(--border); padding: 4px 8px; border-radius: 4px; cursor: pointer; color: var(--text);">Ask AI to Analyze</button>
+      </div>`;
     return matches;
   }
 
@@ -488,7 +681,11 @@ function renderWordToken(container, word, regionStyles, words, currentWord, hand
 }
 
 function renderMissingWord(container, raw) {
-  container.innerHTML = `<span class="muted small">${raw ? `"${raw}" is not in the dialect dictionary yet.` : "Enter a dialect word to explore."} Try hoagie, pop, y'all, bubbler, or soda.</span>`;
+  container.innerHTML = `
+    <div class="muted small" style="display:flex; justify-content:space-between; align-items:center; width:100%; border-top: 1px solid var(--border); padding-top: 12px; margin-top: 8px;">
+      <span>${raw ? `"${raw}" is not in the dialect dictionary yet.` : "Enter a dialect word to explore."} Try hoagie, pop, y'all, bubbler, or soda.</span>
+      <button id="word-ai-btn" class="ask-ai-btn" style="background: var(--surface-hover); border: 1px solid var(--border); padding: 4px 8px; border-radius: 4px; cursor: pointer; color: var(--text);">Ask AI to Analyze</button>
+    </div>`;
 }
 
 function syncTokenSelection(currentWord) {
@@ -1099,6 +1296,16 @@ function createApp({ words, regionStyles, popover }) {
     isWordMode: () => appMode === "word",
   });
 
+  // Called when user clicks a variant row in the audio panel
+  function handleVariantSelect(variantWord) {
+    // If the variant word exists in the dictionary, update the map for it
+    if (words[variantWord]) {
+      currentWord = variantWord;
+      map.renderChoropleth(variantWord);
+      syncTokenSelection(currentWord);
+    }
+  }
+
   function updateModeChrome() {
     const isWord = appMode === "word";
     els.body.dataset.mode = appMode;
@@ -1167,7 +1374,49 @@ function createApp({ words, regionStyles, popover }) {
     }
 
     syncTokenSelection(currentWord);
-    renderAudioPanel(els.variants, word, words, regionStyles);
+    renderAudioPanel(els.variants, word, words, regionStyles, handleVariantSelect);
+  }
+
+  async function analyzeWithAI(query, type) {
+    const btnId = type === 'sentence' ? 'sentence-ai-btn' : 'word-ai-btn';
+    const btn = document.getElementById(btnId);
+    if (btn) btn.textContent = "AI Analyzing...";
+
+    try {
+      const response = await fetch('http://localhost:3000/fallback', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ query })
+      });
+
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+
+      const generatedData = await response.json();
+      const slangKey = Object.keys(generatedData)[0];
+      if (!slangKey) {
+        alert("The AI couldn't find any regional slang matching that query.");
+        if (btn) btn.textContent = "Ask AI to Analyze";
+        return;
+      }
+
+      // Merge into live dictionary
+      words[slangKey] = generatedData[slangKey];
+      
+      // If it was a word search, update the input to the formal slang key
+      if (type === 'word') els.wordInput.value = slangKey;
+
+      // Re-trigger analysis
+      analyze();
+
+    } catch (err) {
+      console.error(err);
+      alert("Error analyzing with AI. Make sure your local fallback-server is running (npm run fallback-server).");
+      if (btn) btn.textContent = "Ask AI to Analyze";
+    }
   }
 
   async function analyze() {
@@ -1188,6 +1437,9 @@ function createApp({ words, regionStyles, popover }) {
         const word = findWordKey(raw, words);
         if (!word) {
           renderMissingWord(els.tokens, raw);
+          const btn = document.getElementById('word-ai-btn');
+          if (btn) btn.addEventListener('click', () => analyzeWithAI(raw, 'word'));
+          
           renderFingerprintSummary(els.summary, [], words, regionStyles);
           showFingerprintMode();
           if (mapReady) map.resetMapBase();
@@ -1200,7 +1452,7 @@ function createApp({ words, regionStyles, popover }) {
         renderFingerprintSummary(els.summary, [word], words, regionStyles);
         showFingerprintMode();
         if (mapReady) map.renderChoropleth(word);
-        renderAudioPanel(els.variants, word, words, regionStyles);
+        renderAudioPanel(els.variants, word, words, regionStyles, handleVariantSelect);
         return;
       }
 
@@ -1222,13 +1474,15 @@ function createApp({ words, regionStyles, popover }) {
       if (!primary) {
         if (mapReady) map.showExplore();
         resetAudioPlaceholder(els.variants, appMode);
+        const btn = document.getElementById('sentence-ai-btn');
+        if (btn) btn.addEventListener('click', () => analyzeWithAI(text, 'sentence'));
         return;
       }
 
       currentWord = primary;
       syncTokenSelection(currentWord);
       if (mapReady) map.renderChoropleth(currentWord);
-      renderAudioPanel(els.variants, currentWord, words, regionStyles);
+      renderAudioPanel(els.variants, currentWord, words, regionStyles, handleVariantSelect);
     } catch (err) {
       console.error(err);
       els.summary.textContent = `Could not analyze text: ${err.message}`;

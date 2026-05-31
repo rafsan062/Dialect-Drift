@@ -5,18 +5,28 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run bundle-vendor && vite build",
+    "build": "npm run bundle-vendor && vite build && cp -r js dist/js",
     "preview": "vite preview",
     "live": "npm run build && vite preview --port 5500",
     "bundle-vendor": "node scripts/bundle-vendor.mjs",
-    "postinstall": "npm run bundle-vendor"
+    "make-static": "node scripts/make-static-assets.mjs",
+    "postinstall": "npm run bundle-vendor",
+    "enrich": "node scripts/enrich_dataset.mjs",
+    "auto-discover": "node scripts/auto_discover.mjs",
+    "add-pronunciations": "node scripts/enrich_pronunciations.mjs",
+    "fallback-server": "node scripts/fallback_api.mjs"
   },
   "dependencies": {
+    "cors": "^2.8.6",
     "d3": "^7.9.0",
     "d3-cloud": "^1.2.7",
+    "express": "^5.2.1",
+    "openai": "^6.39.1",
     "topojson-client": "^3.1.0"
   },
   "devDependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "dotenv": "^17.4.2",
     "esbuild": "^0.25.0",
     "vite": "^5.4.11"
   }

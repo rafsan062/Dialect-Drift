@@ -14,3 +14,4 @@ dist/
 # Large raw downloads (processed outputs are committed)
 data/raw/*.html
 data/raw/*.zip
+design_docs/
