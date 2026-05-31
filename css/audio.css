@@ -34,7 +34,7 @@
   gap: 0.5rem;
   padding: 0.5rem;
   border-radius: var(--radius-sm);
-  border: 1px solid transparent;
+  border: 1px solid var(--panel-border);
   background: var(--bg-elevated);
   transition: border-color 0.2s, box-shadow 0.2s;
 }

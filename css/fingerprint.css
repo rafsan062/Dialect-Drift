@@ -1,7 +1,7 @@
 .fingerprint-header {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
   margin-bottom: 0.45rem;
@@ -29,17 +29,21 @@
 }
 
 #resetBtn {
-  border: 1px solid var(--panel-border);
-  background: transparent;
-  color: var(--muted);
-  padding: 0.35rem 0.75rem;
+  border: none;
+  background: linear-gradient(135deg, var(--neon-violet), var(--neon-magenta));
+  color: #fff;
+  padding: 0.45rem 1.25rem;
   border-radius: var(--radius-sm);
-  font-size: var(--text-xs);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 0 24px rgba(255, 61, 206, 0.35);
+  transition: transform 0.15s, box-shadow 0.2s;
 }
 
 #resetBtn:hover {
-  border-color: var(--neon-cyan);
-  color: var(--text);
+  transform: translateY(-1px);
+  box-shadow: 0 0 32px rgba(255, 61, 206, 0.5);
 }
 
 .sentence-tokens {
@@ -47,7 +51,7 @@
   flex-wrap: wrap;
   align-items: baseline;
   gap: 0.15rem 0.35rem;
-  line-height: 1.65;
+  line-height: 1.5;
   font-size: var(--text-lg);
   font-weight: 300;
 }

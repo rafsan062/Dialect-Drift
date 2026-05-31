@@ -31,6 +31,20 @@ const STATE_ABBR_TO_NAME = {
   "DC": "District of Columbia"
 };
 
+const STATE_POPULATIONS = {
+  "AL": "5.1M", "AK": "0.7M", "AZ": "7.4M", "AR": "3.1M", "CA": "39.6M",
+  "CO": "5.9M", "CT": "3.6M", "DE": "1.0M", "FL": "22.6M", "GA": "11.0M",
+  "HI": "1.4M", "ID": "2.0M", "IL": "12.5M", "IN": "6.8M", "IA": "3.2M",
+  "KS": "2.9M", "KY": "4.5M", "LA": "4.6M", "ME": "1.4M", "MD": "6.2M",
+  "MA": "7.0M", "MI": "10.0M", "MN": "5.7M", "MS": "2.9M", "MO": "6.2M",
+  "MT": "1.1M", "NE": "2.0M", "NV": "3.2M", "NH": "1.4M", "NJ": "9.3M",
+  "NM": "2.1M", "NY": "19.6M", "NC": "10.8M", "ND": "0.8M", "OH": "11.8M",
+  "OK": "4.1M", "OR": "4.2M", "PA": "13.1M", "RI": "1.1M", "SC": "5.4M",
+  "SD": "0.9M", "TN": "7.1M", "TX": "30.5M", "UT": "3.4M", "VT": "0.6M",
+  "VA": "8.7M", "WA": "7.8M", "WV": "1.8M", "WI": "5.9M", "WY": "0.6M",
+  "DC": "0.7M"
+};
+
 const US_ATLAS_URL = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
 
 const SAMPLE_SENTENCES = {
@@ -239,7 +253,7 @@ function createPopover({ popoverId, wordElId, metaElId, bodyElId }) {
 
     const style = getRegionStyle(word, words, regionStyles);
     const states = getTopStates(word, words, 6);
-    
+
     // Deduplicate variants to prevent repeated items
     const rawVariants = getVariantSet(word, words);
     const uniqueVariantsMap = new Map();
@@ -249,7 +263,7 @@ function createPopover({ popoverId, wordElId, metaElId, bodyElId }) {
       }
     }
     const variants = Array.from(uniqueVariantsMap.values()).slice(0, 3);
-    
+
     const fallback = [{ word, region: style.name, ipa: "", note: data.summary }];
 
     return { data, style, states, variants: variants.length ? variants : fallback };
@@ -275,18 +289,18 @@ function createPopover({ popoverId, wordElId, metaElId, bodyElId }) {
     if (!content) return;
 
     clearTimeout(hideTimer);
-    
+
     // Clean up original Harvard survey questions into nice concepts
     const cleanConcept = formatConcept(content.data.concept);
 
     wordEl.textContent = word;
     metaEl.textContent = `${cleanConcept} · ${content.style.name}`;
     const sourceLabel = content.data.source?.survey || "Auto-discovered via AI Dictionary";
-    
+
     let cleanSummary = content.data.summary || "";
     // If the summary is identical to the concept, don't repeat it
-    if (cleanSummary && content.data.concept && cleanSummary.toLowerCase() === content.data.concept.toLowerCase() || 
-        cleanSummary && cleanConcept && cleanSummary.toLowerCase() === cleanConcept.toLowerCase()) {
+    if (cleanSummary && content.data.concept && cleanSummary.toLowerCase() === content.data.concept.toLowerCase() ||
+      cleanSummary && cleanConcept && cleanSummary.toLowerCase() === cleanConcept.toLowerCase()) {
       cleanSummary = "";
     }
 
@@ -345,18 +359,18 @@ function estimateSyllablesFromText(word) {
     const vowelEnd = start + (matches[s]?.[0]?.length ?? 1);
 
     for (let i = charIdx; i < start && i < clean.length; i++) {
-      const ph = { char:clean[i], type:'consonant', amplitude:0.35, duration:0.4 };
+      const ph = { char: clean[i], type: 'consonant', amplitude: 0.35, duration: 0.4 };
       phonemes.push(ph); syl.phonemes.push(ph);
     }
     for (let i = start; i < vowelEnd && i < clean.length; i++) {
-      const ph = { char:clean[i], type:'vowel', amplitude:s===0?0.95:0.75, duration:1.0 };
+      const ph = { char: clean[i], type: 'vowel', amplitude: s === 0 ? 0.95 : 0.75, duration: 1.0 };
       phonemes.push(ph); syl.phonemes.push(ph);
     }
     const nextStart = matches[s + 1]?.index ?? clean.length;
     // Split consonants between syllables evenly
     const codaEnd = s < syllableCount - 1 ? Math.floor((vowelEnd + nextStart) / 2 + 0.5) : clean.length;
     for (let i = vowelEnd; i < codaEnd && i < clean.length; i++) {
-      const ph = { char:clean[i], type:'consonant', amplitude:0.3, duration:0.35 };
+      const ph = { char: clean[i], type: 'consonant', amplitude: 0.3, duration: 0.35 };
       phonemes.push(ph); syl.phonemes.push(ph);
     }
     charIdx = codaEnd;
@@ -366,7 +380,7 @@ function estimateSyllablesFromText(word) {
   if (charIdx < clean.length) {
     const last = syllables[syllables.length - 1];
     for (let i = charIdx; i < clean.length; i++) {
-      const ph = { char:clean[i], type:'consonant', amplitude:0.25, duration:0.3 };
+      const ph = { char: clean[i], type: 'consonant', amplitude: 0.25, duration: 0.3 };
       phonemes.push(ph); if (last) last.phonemes.push(ph);
     }
     if (last) last.label = last.phonemes.map(p => p.char).join('');
@@ -377,7 +391,7 @@ function estimateSyllablesFromText(word) {
 // ── Seeded random for subtle wave variations ──
 function seededRandom(seed) {
   let s = seed;
-  return function() { s = (s * 1664525 + 1013904223) & 0xFFFFFFFF; return (s >>> 0) / 0xFFFFFFFF; };
+  return function () { s = (s * 1664525 + 1013904223) & 0xFFFFFFFF; return (s >>> 0) / 0xFFFFFFFF; };
 }
 function hashString(str) {
   let h = 5381;
@@ -397,7 +411,7 @@ function smoothWaveformSvg(word, wave, index) {
 
   const { phonemes, syllables } = estimateSyllablesFromText(word);
   if (!phonemes.length) {
-    return `<svg viewBox="0 0 ${WIDTH} ${TOTAL_H}" preserveAspectRatio="none"><text x="${WIDTH/2}" y="${MID}" text-anchor="middle" fill="var(--muted)" font-size="10">${word}</text></svg>`;
+    return `<svg viewBox="0 0 ${WIDTH} ${TOTAL_H}" preserveAspectRatio="none"><text x="${WIDTH / 2}" y="${MID}" text-anchor="middle" fill="var(--muted)" font-size="10">${word}</text></svg>`;
   }
 
   // Map parts to pixel positions
@@ -421,10 +435,10 @@ function smoothWaveformSvg(word, wave, index) {
 
   // Regional aesthetic modifiers
   const regionMod = {
-    south:     { ampScale: 0.95, freqScale: 0.8 },
-    midwest:   { ampScale: 1.0,  freqScale: 1.0 },
+    south: { ampScale: 0.95, freqScale: 0.8 },
+    midwest: { ampScale: 1.0, freqScale: 1.0 },
     northeast: { ampScale: 1.05, freqScale: 1.2 },
-    west:      { ampScale: 1.0,  freqScale: 1.0 },
+    west: { ampScale: 1.0, freqScale: 1.0 },
   };
   const mod = regionMod[wave] || regionMod.west;
 
@@ -444,14 +458,14 @@ function smoothWaveformSvg(word, wave, index) {
 
     const amp = ph.amplitude * mod.ampScale;
     const freq = (0.2 + (index * 0.05)) * mod.freqScale;
-    
+
     // Smooth envelope over the phoneme
     const env = Math.sin(phLocalT * Math.PI) * 0.4 + 0.6;
-    
+
     // Aesthetic smooth overlapping sine waves
-    const wv = Math.sin(x * freq + index * 1.1) * 0.75 + 
-               Math.sin(x * freq * 2.3 + 0.5) * 0.25;
-               
+    const wv = Math.sin(x * freq + index * 1.1) * 0.75 +
+      Math.sin(x * freq * 2.3 + 0.5) * 0.25;
+
     // Subtle jitter so it feels organic
     const jitter = (rand() - 0.5) * 0.15;
 
@@ -460,7 +474,7 @@ function smoothWaveformSvg(word, wave, index) {
     // Taper the outer edges smoothly
     const gT = s / totalSamples;
     sY *= Math.min(gT * 8, (1 - gT) * 8, 1);
-    
+
     upper.push([x, MID - sY]);
     lower.push([x, MID + sY]);
   }
@@ -515,8 +529,9 @@ function audioLane(variant, index, selectedWord) {
         <div class="lane-wave">${smoothWaveformSvg(variant.word, wave, index)}</div>
         <div class="lane-meta">
           <span class="lane-word">${variant.word}</span>
+          ${variant.ipa ? `<span class="lane-ipa" style="color: var(--neon-magenta); margin-right: 0.25rem;">${variant.ipa}</span>` : ""}
           <span class="lane-region">${variant.region}</span>
-          ${variant.note ? `<div class="lane-note" style="font-size: 0.85em; color: var(--text-muted); margin-top: 2px; line-height: 1.2;">${variant.note}</div>` : ""}
+          ${variant.note && !variant.note.includes("· Strongest in") ? `<div class="lane-note" style="font-size: 0.85em; color: var(--text-muted); margin-top: 2px; line-height: 1.2;">${variant.note}</div>` : ""}
         </div>
       </div>
     </div>
@@ -534,14 +549,14 @@ function renderAudioPanel(container, word, words, regionStyles, onVariantSelect)
   const grouped = data.variants?.length
     ? data.variants
     : [
-        {
-          word,
-          region: getRegionStyle(word, words, regionStyles).name,
-          ipa: "",
-          wave: "west",
-          note: "",
-        },
-      ];
+      {
+        word,
+        region: getRegionStyle(word, words, regionStyles).name,
+        ipa: "",
+        wave: "west",
+        note: "",
+      },
+    ];
 
   const cleanConcept = formatConcept(data.concept);
 
@@ -555,7 +570,6 @@ function renderAudioPanel(container, word, words, regionStyles, onVariantSelect)
       <div class="audio-stack">
         ${lanes.map((v, i) => audioLane(v, i, word)).join("")}
       </div>
-      <div class="audio-note">Syllables and emphasis are estimated visually · ▶ to hear pronunciation</div>
     </div>
   `;
 
@@ -596,8 +610,7 @@ function resetAudioPlaceholder(container, mode) {
 // ==========================================
 function renderFingerprintSummary(container, wordList, words, regionStyles) {
   if (wordList.length === 0) {
-    container.textContent =
-      "No clues yet. Try hoagie, pop, y'all, bubbler, or crawfish.";
+    container.innerHTML = '';
     return;
   }
 
@@ -645,11 +658,16 @@ function renderSentenceTokens(container, text, words, regionStyles, currentWord,
   container.innerHTML = "";
 
   if (matches.length === 0) {
-    container.innerHTML = `
-      <div class="muted small" style="display:flex; justify-content:space-between; align-items:center; width:100%; border-top: 1px solid var(--border); padding-top: 12px; margin-top: 8px;">
-        <span>No regional vocabulary found. Try hoagie, pop, y'all, bubbler, or crawfish.</span>
-        <button id="sentence-ai-btn" class="ask-ai-btn" style="background: var(--surface-hover); border: 1px solid var(--border); padding: 4px 8px; border-radius: 4px; cursor: pointer; color: var(--text);">Ask AI to Analyze</button>
-      </div>`;
+    appendPlain(container, text);
+    const note = document.createElement("div");
+    note.style.width = "100%";
+    note.style.marginTop = "0.75rem";
+    note.style.paddingTop = "0.75rem";
+    note.style.borderTop = "1px solid var(--border)";
+    note.style.color = "var(--text-muted)";
+    note.style.fontSize = "0.85rem";
+    note.innerHTML = `No regional vocabulary detected. Try: <em>"I'm going to get a hoagie and a pop."</em>`;
+    container.appendChild(note);
     return matches;
   }
 
@@ -682,9 +700,9 @@ function renderWordToken(container, word, regionStyles, words, currentWord, hand
 
 function renderMissingWord(container, raw) {
   container.innerHTML = `
-    <div class="muted small" style="display:flex; justify-content:space-between; align-items:center; width:100%; border-top: 1px solid var(--border); padding-top: 12px; margin-top: 8px;">
-      <span>${raw ? `"${raw}" is not in the dialect dictionary yet.` : "Enter a dialect word to explore."} Try hoagie, pop, y'all, bubbler, or soda.</span>
-      <button id="word-ai-btn" class="ask-ai-btn" style="background: var(--surface-hover); border: 1px solid var(--border); padding: 4px 8px; border-radius: 4px; cursor: pointer; color: var(--text);">Ask AI to Analyze</button>
+    <span class="token-plain">"${raw}"</span>
+    <div style="width: 100%; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.85rem;">
+      Not found in dictionary. Try common dialect words like hoagie, pop, bubbler, or crawfish.
     </div>`;
 }
 
@@ -701,19 +719,19 @@ function syncTokenSelection(currentWord) {
 
 // Approximate geographic centroids [lng, lat] for each US state
 const CLOUD_STATE_CENTROIDS = {
-  AL: [-86.79, 32.80], AK: [-152.0,  64.20], AZ: [-111.50, 34.30], AR: [-92.40, 34.90],
-  CA: [-119.70, 36.80], CO: [-105.50, 39.00], CT: [-72.70,  41.60], DE: [-75.50, 39.00],
-  DC: [-77.00,  38.90], FL: [ -81.50, 27.80], GA: [ -83.40, 32.70], HI: [-157.50, 20.30],
-  ID: [-114.50, 44.40], IL: [ -89.20, 40.00], IN: [ -86.30, 40.00], IA: [-93.10, 42.00],
-  KS: [ -98.40, 38.50], KY: [ -84.30, 37.80], LA: [ -91.80, 31.20], ME: [-69.40, 45.40],
-  MD: [ -76.80, 39.00], MA: [ -71.50, 42.40], MI: [ -84.50, 44.30], MN: [-94.30, 46.40],
-  MS: [ -89.70, 32.70], MO: [ -92.50, 38.50], MT: [-110.50, 47.00], NE: [-99.90, 41.50],
-  NV: [-116.40, 38.50], NH: [ -71.60, 44.00], NJ: [ -74.50, 40.10], NM: [-106.10, 34.50],
-  NY: [ -75.00, 43.00], NC: [ -79.40, 35.60], ND: [-100.50, 47.50], OH: [-82.80, 40.40],
-  OK: [ -97.50, 35.50], OR: [-120.60, 44.00], PA: [ -77.20, 40.90], RI: [-71.50, 41.70],
-  SC: [ -80.90, 33.80], SD: [-100.20, 44.40], TN: [ -86.70, 35.80], TX: [-99.30, 31.50],
-  UT: [-111.90, 39.30], VT: [ -72.70, 44.00], VA: [ -78.50, 37.50], WA: [-120.50, 47.40],
-  WV: [ -80.60, 38.90], WI: [ -89.60, 44.30], WY: [-107.60, 43.00],
+  AL: [-86.79, 32.80], AK: [-152.0, 64.20], AZ: [-111.50, 34.30], AR: [-92.40, 34.90],
+  CA: [-119.70, 36.80], CO: [-105.50, 39.00], CT: [-72.70, 41.60], DE: [-75.50, 39.00],
+  DC: [-77.00, 38.90], FL: [-81.50, 27.80], GA: [-83.40, 32.70], HI: [-157.50, 20.30],
+  ID: [-114.50, 44.40], IL: [-89.20, 40.00], IN: [-86.30, 40.00], IA: [-93.10, 42.00],
+  KS: [-98.40, 38.50], KY: [-84.30, 37.80], LA: [-91.80, 31.20], ME: [-69.40, 45.40],
+  MD: [-76.80, 39.00], MA: [-71.50, 42.40], MI: [-84.50, 44.30], MN: [-94.30, 46.40],
+  MS: [-89.70, 32.70], MO: [-92.50, 38.50], MT: [-110.50, 47.00], NE: [-99.90, 41.50],
+  NV: [-116.40, 38.50], NH: [-71.60, 44.00], NJ: [-74.50, 40.10], NM: [-106.10, 34.50],
+  NY: [-75.00, 43.00], NC: [-79.40, 35.60], ND: [-100.50, 47.50], OH: [-82.80, 40.40],
+  OK: [-97.50, 35.50], OR: [-120.60, 44.00], PA: [-77.20, 40.90], RI: [-71.50, 41.70],
+  SC: [-80.90, 33.80], SD: [-100.20, 44.40], TN: [-86.70, 35.80], TX: [-99.30, 31.50],
+  UT: [-111.90, 39.30], VT: [-72.70, 44.00], VA: [-78.50, 37.50], WA: [-120.50, 47.40],
+  WV: [-80.60, 38.90], WI: [-89.60, 44.30], WY: [-107.60, 43.00],
 };
 
 // Pick up to `limit` screen points that are maximally far apart (furthest-point greedy)
@@ -748,7 +766,7 @@ function cloudWeightedCenter(entries, proj) {
 function cloudOverlaps(ax, ay, aw, ah, placed) {
   for (const p of placed) {
     if (Math.abs(ax - p.x) < (aw + p.w) / 2 + 5 &&
-        Math.abs(ay - p.y) < (ah + p.h) / 2 + 5) return true;
+      Math.abs(ay - p.y) < (ah + p.h) / 2 + 5) return true;
   }
   return false;
 }
@@ -787,12 +805,12 @@ function buildWordCloudData(words, regionStyles) {
 }
 
 function renderWordCloudExplore({ mapEl, stage, exploreLayer, words, regionStyles, fontFamily, projection: extProj }) {
-  const width  = Math.max(mapEl.clientWidth  || 0, 320);
+  const width = Math.max(mapEl.clientWidth || 0, 320);
   const height = Math.max(mapEl.clientHeight || 0, 240);
   stage.innerHTML = "";
 
   // Fit the projection to the actual continental state centroids so words fill the panel
-  const proj = (function() {
+  const proj = (function () {
     const pts = Object.entries(CLOUD_STATE_CENTROIDS)
       .filter(([s]) => s !== 'AK' && s !== 'HI')
       .map(([, c]) => ({ type: "Feature", geometry: { type: "Point", coordinates: c }, properties: {} }));
@@ -819,11 +837,11 @@ function renderWordCloudExplore({ mapEl, stage, exploreLayer, words, regionStyle
     const bw = size * 0.58 * text.length;
     const bh = size * 1.15;
     const mg = 52;
-    ox = Math.max(mg + bw / 2, Math.min(width  - mg - bw / 2, ox));
+    ox = Math.max(mg + bw / 2, Math.min(width - mg - bw / 2, ox));
     oy = Math.max(mg + bh / 2, Math.min(height - mg - bh / 2, oy));
     const [fx, fy, ok] = cloudFindSlot(ox, oy, bw, bh, placed, maxR);
     if (!ok) return false;
-    if (fx - bw / 2 < mg || fx + bw / 2 > width  - mg) return false;
+    if (fx - bw / 2 < mg || fx + bw / 2 > width - mg) return false;
     if (fy - bh / 2 < mg || fy + bh / 2 > height - mg) return false;
     placed.push({ x: fx, y: fy, w: bw, h: bh });
     svg.append("text")
@@ -878,11 +896,11 @@ function renderWordCloudExplore({ mapEl, stage, exploreLayer, words, regionStyle
     if (highCount >= 3 && screenPts.length >= 2) {
       const instanceSize = Math.max(12, Math.round(item.size * 0.72));
       // Prefer a western anchor (x < 45% of width) so the left side stays full
-      const leftPts  = screenPts.filter(p => p.x < width * 0.45);
+      const leftPts = screenPts.filter(p => p.x < width * 0.45);
       const rightPts = screenPts.filter(p => p.x >= width * 0.45);
       // If primary is on the right, try left first; otherwise try right
-      const altPool = center[0] > width * 0.45 ? leftPts  : rightPts;
-      const fallback =                             center[0] > width * 0.45 ? rightPts : leftPts;
+      const altPool = center[0] > width * 0.45 ? leftPts : rightPts;
+      const fallback = center[0] > width * 0.45 ? rightPts : leftPts;
       const alt = (altPool.length ? altPool : fallback).sort((a, b) => {
         // pick point furthest from primary center
         const da = Math.hypot(a.x - center[0], a.y - center[1]);
@@ -906,7 +924,8 @@ function hideWordCloudExplore(exploreLayer, stage) {
 // 8. INTERACTIVE US CHOROPLETH MAP COMPONENT
 // ==========================================
 function fipsToAbbr(id) {
-  return STATE_FIPS_TO_ABBR[String(id).padStart(2, "0")];
+  if (id === null || id === undefined) return "";
+  return STATE_FIPS_TO_ABBR[String(id).padStart(2, "0")] || "";
 }
 
 function createMapPanel({
@@ -978,9 +997,13 @@ function createMapPanel({
     }
 
     g.selectAll(".state-label")
-      .attr("transform", d => {
+      .attr("x", d => {
         const centroid = path.centroid(d);
-        return (centroid && !isNaN(centroid[0]) && !isNaN(centroid[1])) ? `translate(${centroid[0]}, ${centroid[1]})` : "translate(-9999, -9999)";
+        return (centroid && !isNaN(centroid[0])) ? centroid[0] : -9999;
+      })
+      .attr("y", d => {
+        const centroid = path.centroid(d);
+        return (centroid && !isNaN(centroid[1])) ? centroid[1] : -9999;
       });
   }
 
@@ -1146,14 +1169,15 @@ function createMapPanel({
         if (mapExploreActive) return;
         const abbr = fipsToAbbr(d.id);
         const fullName = STATE_ABBR_TO_NAME[abbr] || abbr;
+        const pop = STATE_POPULATIONS[abbr] || "N/A";
         const word = getCurrentWord();
         const value = words[word]?.states?.[abbr] || 0;
         tooltip.style.opacity = 1;
         tooltip.style.left = `${event.offsetX + 14}px`;
         tooltip.style.top = `${event.offsetY + 14}px`;
         tooltip.innerHTML = word
-          ? `<strong>${fullName} (${abbr})</strong><br>${Math.round(value * 100)}% use “${word}”`
-          : `<strong>${fullName} (${abbr})</strong>`;
+          ? `<strong>${fullName} (${abbr})</strong><span style="display:block; font-size: 0.85em; color: var(--muted); margin-bottom: 0.35rem;">Population: ~${pop}</span><span style="color: var(--neon-cyan); font-weight: 700; font-size: 1.25em;">${Math.round(value * 100)}%</span> use “${word}”`
+          : `<strong>${fullName} (${abbr})</strong><span style="display:block; font-size: 0.85em; color: var(--muted);">Population: ~${pop}</span>`;
       })
       .on("mouseleave", function (event, d) {
         tooltip.style.opacity = 0;
@@ -1193,7 +1217,15 @@ function createMapPanel({
       .attr("text-anchor", "middle")
       .attr("dominant-baseline", "central")
       .style("pointer-events", "none")
-      .text(d => fipsToAbbr(d.id));
+      .text(d => fipsToAbbr(d.id))
+      .attr("x", d => {
+        const centroid = path.centroid(d);
+        return (centroid && !isNaN(centroid[0])) ? centroid[0] : -9999;
+      })
+      .attr("y", d => {
+        const centroid = path.centroid(d);
+        return (centroid && !isNaN(centroid[1])) ? centroid[1] : -9999;
+      });
 
     resetMapBase();
 
@@ -1259,23 +1291,17 @@ function createApp({ words, regionStyles, popover }) {
     inputPanel: document.getElementById("input-panel"),
     fingerprintPanel: document.getElementById("fingerprint-panel"),
     sentence: document.getElementById("sentence"),
-    wordInput: document.getElementById("word-input"),
     tokens: document.getElementById("sentence-tokens"),
     summary: document.getElementById("fingerprint-summary"),
     variants: document.getElementById("variants"),
     inputLabel: document.getElementById("input-label"),
     sentenceBlock: document.getElementById("sentence-input-block"),
-    wordBlock: document.getElementById("word-input-block"),
     sentenceSamples: document.getElementById("sentence-samples"),
-    wordSamples: document.getElementById("word-samples"),
     fingerprintTitle: document.getElementById("fingerprint-title"),
     fingerprintKicker: document.getElementById("fingerprint-kicker"),
   };
 
-  function setAnalyzeButtonLabel() {
-    els.analyzeBtn.innerHTML =
-      appMode === "word" ? "Explore<br>word" : "Reveal<br>fingerprint";
-  }
+
 
   const tokenHandlers = {
     onSelect: (word) => selectWord(word),
@@ -1306,27 +1332,6 @@ function createApp({ words, regionStyles, popover }) {
     }
   }
 
-  function updateModeChrome() {
-    const isWord = appMode === "word";
-    els.body.dataset.mode = appMode;
-    els.inputLabel.textContent = isWord ? "Enter a dialect word" : "Paste a sentence";
-    els.inputLabel.setAttribute("for", isWord ? "word-input" : "sentence");
-    els.sentenceBlock.classList.toggle("hidden", isWord);
-    els.wordBlock.classList.toggle("hidden", !isWord);
-    els.sentenceSamples.classList.toggle("hidden", isWord);
-    els.wordSamples.classList.toggle("hidden", !isWord);
-    els.fingerprintTitle.textContent = isWord ? "Word focus" : "Sentence fingerprint";
-    els.fingerprintKicker.textContent = isWord
-      ? "Hover for details · map hidden in word mode"
-      : "Hover for details · click to update map and audio";
-    document.querySelectorAll(".mode-btn").forEach((btn) => {
-      const active = btn.dataset.mode === appMode;
-      btn.classList.toggle("active", active);
-      btn.setAttribute("aria-selected", String(active));
-    });
-    setAnalyzeButtonLabel();
-  }
-
   function showFingerprintMode() {
     els.inputPanel.classList.add("hidden");
     els.fingerprintPanel.classList.remove("hidden");
@@ -1336,13 +1341,8 @@ function createApp({ words, regionStyles, popover }) {
     els.fingerprintPanel.classList.add("hidden");
     els.inputPanel.classList.remove("hidden");
     popover.close();
-    resetAudioPlaceholder(els.variants, appMode);
-    if (appMode === "sentence") {
-      map.showExplore();
-    } else {
-      map.hideExplore();
-      map.resetMapBase();
-    }
+    resetAudioPlaceholder(els.variants, "sentence");
+    map.showExplore();
   }
 
   function selectWord(word) {
@@ -1377,47 +1377,7 @@ function createApp({ words, regionStyles, popover }) {
     renderAudioPanel(els.variants, word, words, regionStyles, handleVariantSelect);
   }
 
-  async function analyzeWithAI(query, type) {
-    const btnId = type === 'sentence' ? 'sentence-ai-btn' : 'word-ai-btn';
-    const btn = document.getElementById(btnId);
-    if (btn) btn.textContent = "AI Analyzing...";
 
-    try {
-      const response = await fetch('http://localhost:3000/fallback', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ query })
-      });
-
-      if (!response.ok) {
-        throw new Error(`API error: ${response.status}`);
-      }
-
-      const generatedData = await response.json();
-      const slangKey = Object.keys(generatedData)[0];
-      if (!slangKey) {
-        alert("The AI couldn't find any regional slang matching that query.");
-        if (btn) btn.textContent = "Ask AI to Analyze";
-        return;
-      }
-
-      // Merge into live dictionary
-      words[slangKey] = generatedData[slangKey];
-      
-      // If it was a word search, update the input to the formal slang key
-      if (type === 'word') els.wordInput.value = slangKey;
-
-      // Re-trigger analysis
-      analyze();
-
-    } catch (err) {
-      console.error(err);
-      alert("Error analyzing with AI. Make sure your local fallback-server is running (npm run fallback-server).");
-      if (btn) btn.textContent = "Ask AI to Analyze";
-    }
-  }
 
   async function analyze() {
     els.analyzeBtn.disabled = true;
@@ -1437,9 +1397,7 @@ function createApp({ words, regionStyles, popover }) {
         const word = findWordKey(raw, words);
         if (!word) {
           renderMissingWord(els.tokens, raw);
-          const btn = document.getElementById('word-ai-btn');
-          if (btn) btn.addEventListener('click', () => analyzeWithAI(raw, 'word'));
-          
+
           renderFingerprintSummary(els.summary, [], words, regionStyles);
           showFingerprintMode();
           if (mapReady) map.resetMapBase();
@@ -1474,8 +1432,6 @@ function createApp({ words, regionStyles, popover }) {
       if (!primary) {
         if (mapReady) map.showExplore();
         resetAudioPlaceholder(els.variants, appMode);
-        const btn = document.getElementById('sentence-ai-btn');
-        if (btn) btn.addEventListener('click', () => analyzeWithAI(text, 'sentence'));
         return;
       }
 
@@ -1491,74 +1447,70 @@ function createApp({ words, regionStyles, popover }) {
     }
   }
 
-  function setMode(mode) {
-    if (mode === appMode) return;
-    appMode = mode;
-    popover.close();
-    showInputMode();
-    updateModeChrome();
+
+
+  let isMapLoaded = false;
+
+  function updateAnalyzeButtonState() {
+    if (!isMapLoaded) return;
+    els.analyzeBtn.disabled = els.sentence.value.trim() === "";
   }
 
   function bindEvents() {
     els.analyzeBtn.addEventListener("click", analyze);
     document.getElementById("resetBtn").addEventListener("click", showInputMode);
 
+    els.sentence.addEventListener("input", updateAnalyzeButtonState);
+
     els.sentence.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && !e.shiftKey && appMode === "sentence") {
+      if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
-        analyze();
+        if (!els.analyzeBtn.disabled) analyze();
       }
-    });
-
-    els.wordInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        analyze();
-      }
-    });
-
-    document.querySelectorAll(".mode-btn").forEach((btn) => {
-      btn.addEventListener("click", () => setMode(btn.dataset.mode));
     });
 
     document.querySelectorAll("[data-sample]").forEach((btn) => {
       btn.addEventListener("click", () => {
-        setMode("sentence");
-        els.sentence.value = SAMPLE_SENTENCES[btn.dataset.sample];
-        analyze();
+        const targetText = SAMPLE_SENTENCES[btn.dataset.sample];
+        els.sentence.value = "";
+        let i = 0;
+        
+        els.analyzeBtn.disabled = true;
+
+        const typeInterval = setInterval(() => {
+          els.sentence.value += targetText.charAt(i);
+          // Trigger input event to update any other listeners, but we control button state here manually
+          i++;
+          if (i >= targetText.length) {
+            clearInterval(typeInterval);
+            updateAnalyzeButtonState();
+          }
+        }, 15);
       });
     });
 
-    document.querySelectorAll("[data-word]").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        setMode("word");
-        els.wordInput.value = btn.dataset.word;
-        analyze();
-      });
-    });
   }
 
   async function init() {
     bindEvents();
-    updateModeChrome();
     els.analyzeBtn.disabled = true;
     els.analyzeBtn.innerHTML = "Loading<br>map…";
 
     try {
       await map.init();
+      isMapLoaded = true;
     } catch (err) {
       console.error(err);
       els.summary.textContent =
         "US map data could not load. Ensure you have network access to load the topoJSON boundaries.";
     } finally {
-      els.analyzeBtn.disabled = false;
-      setAnalyzeButtonLabel();
+      els.analyzeBtn.innerHTML = "Reveal fingerprint";
+      updateAnalyzeButtonState();
+      showInputMode();
     }
-
-    showInputMode();
   }
 
-  return { init, analyze, setMode };
+  return { init, analyze };
 }
 
 // ==========================================

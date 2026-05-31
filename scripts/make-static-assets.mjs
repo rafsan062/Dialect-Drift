@@ -7,13 +7,14 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const regionStyles = JSON.parse(readFileSync(join(root, "public/data/region_styles.json"), "utf8"));
 const words = JSON.parse(readFileSync(join(root, "public/data/words.json"), "utf8"));
 
-let stagingWords = {};
-try {
-  stagingWords = JSON.parse(readFileSync(join(root, "public/data/words_staging.json"), "utf8"));
-} catch (e) {
-  // Ignore
-}
-Object.assign(words, stagingWords);
+// We are keeping words_staging.json but NOT using it per user request
+// let stagingWords = {};
+// try {
+//   stagingWords = JSON.parse(readFileSync(join(root, "public/data/words_staging.json"), "utf8"));
+// } catch (e) {
+//   // Ignore
+// }
+// Object.assign(words, stagingWords);
 
 const outputContent = `// Automatically generated from public/data JSON files.
 window.DICTIONARY_DATA = {

@@ -25,17 +25,17 @@ function dictionaryPaths(filename) {
 export async function loadDictionary() {
   const words = await fetchJsonFirst(dictionaryPaths("words.json"));
   
-  let stagingWords = {};
-  try {
-    stagingWords = await fetchJsonFirst(dictionaryPaths("words_staging.json"));
-  } catch (err) {
-    // Staging might not exist yet, ignore
-  }
-
-  // Merge staging into main words dict
-  for (const key in stagingWords) {
-    words[key] = stagingWords[key];
-  }
+  // let stagingWords = {};
+  // try {
+  //   stagingWords = await fetchJsonFirst(dictionaryPaths("words_staging.json"));
+  // } catch (err) {
+  //   // Staging might not exist yet, ignore
+  // }
+  //
+  // // Merge staging into main words dict
+  // for (const key in stagingWords) {
+  //   words[key] = stagingWords[key];
+  // }
 
   const regionStyles = await fetchJsonFirst(dictionaryPaths("region_styles.json"));
   return { words, regionStyles };

@@ -66,11 +66,10 @@
   min-width: 0;
 }
 
-#sentence-input-block textarea,
-#word-input-block .word-input {
+#sentence-input-block input {
   display: block;
   width: 100%;
-  margin: 0.25rem 0.4rem 0.25rem 0.15rem;
+  margin: 0;
   padding: 0.55rem 0.75rem;
   font-family: inherit;
   font-size: var(--text-base);
@@ -81,13 +80,9 @@
   box-sizing: border-box;
 }
 
-#sentence-input-block textarea {
-  height: 4.5rem;
-  min-height: 4.5rem;
-  max-height: 4.5rem;
-  resize: none;
-  overflow-y: auto;
-  line-height: 1.45;
+#sentence-input-block input {
+  height: 2.75rem;
+  min-height: 2.75rem;
 }
 
 #word-input-block .word-input {
@@ -99,8 +94,7 @@ body[data-mode="word"] .input-compose {
   align-items: center;
 }
 
-#sentence-input-block textarea:focus,
-#word-input-block .word-input:focus {
+#sentence-input-block input:focus {
   outline: none;
   border-color: var(--neon-cyan);
   box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.2);
@@ -131,15 +125,16 @@ body[data-mode="word"] .input-compose {
 .reveal-btn {
   flex-shrink: 0;
   align-self: stretch;
-  margin: 0.25rem 0.15rem 0.25rem 0;
+  margin: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 6.75rem;
-  max-width: 6.75rem;
+  width: auto;
+  height: 2.75rem;
+  box-sizing: border-box;
   text-align: center;
-  line-height: 1.25;
-  white-space: normal;
+  line-height: 1;
+  white-space: nowrap;
   border: none;
   background: linear-gradient(135deg, var(--neon-violet), var(--neon-magenta));
   color: #fff;
@@ -158,5 +153,5 @@ body[data-mode="word"] .input-compose {
 
 .reveal-btn:disabled {
   opacity: 0.55;
-  cursor: wait;
+  cursor: not-allowed;
 }

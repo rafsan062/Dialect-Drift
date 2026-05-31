@@ -18,23 +18,14 @@
   <main class="app-main">
     <div class="top-bar">
       <section class="top-mode input-mode" id="input-panel">
-        <div class="input-head">
-          <label for="sentence" id="input-label">Paste a sentence</label>
-          <div class="mode-switch" role="tablist" aria-label="Explore mode">
-            <button type="button" class="mode-btn active" data-mode="sentence" role="tab" aria-selected="true">Sentence</button>
-            <button type="button" class="mode-btn" data-mode="word" role="tab" aria-selected="false">Word</button>
-          </div>
-        </div>
         <div class="input-compose">
           <div class="input-field-wrap">
             <div id="sentence-input-block">
-              <textarea id="sentence" rows="3" placeholder="Try: Y'all want to grab a hoagie and a pop?">Y'all want to grab a hoagie and a pop before we watch the game?</textarea>
+              <input type="text" id="sentence" placeholder="Paste a sentence. Try: Y'all want to grab a hoagie and a pop?">
             </div>
-            <div id="word-input-block" class="hidden">
-              <input class="word-input" id="word-input" type="text" placeholder="Try: hoagie, pop, y'all, bubbler…" value="hoagie">
-            </div>
+
           </div>
-          <button type="button" class="reveal-btn" id="analyzeBtn">Reveal<br>fingerprint</button>
+          <button type="button" class="reveal-btn" id="analyzeBtn">Reveal fingerprint</button>
         </div>
         <div class="samples sentence-samples" id="sentence-samples">
           <button type="button" data-sample="sandwich">Sandwich showdown</button>
@@ -43,25 +34,18 @@
           <button type="button" data-sample="south">Southern signal</button>
           <button type="button" data-sample="midwest">Midwest signal</button>
         </div>
-        <div class="samples word-samples hidden" id="word-samples">
-          <button type="button" data-word="hoagie">hoagie</button>
-          <button type="button" data-word="pop">pop</button>
-          <button type="button" data-word="y'all">y'all</button>
-          <button type="button" data-word="bubbler">bubbler</button>
-          <button type="button" data-word="crawfish">crawfish</button>
-          <button type="button" data-word="soda">soda</button>
-        </div>
+
       </section>
 
       <section class="top-mode fingerprint-mode hidden" id="fingerprint-panel">
         <div class="fingerprint-header">
-          <div>
+          <div style="display: flex; align-items: baseline; gap: 0.75rem; flex: 1; flex-wrap: wrap;">
             <h2 class="fingerprint-title" id="fingerprint-title">Sentence fingerprint</h2>
-            <div class="fingerprint-kicker" id="fingerprint-kicker">Hover for details · click to update map and audio</div>
+            <div id="fingerprint-summary" class="fingerprint-summary" style="font-size: var(--text-sm);"></div>
+            <div class="fingerprint-kicker" id="fingerprint-kicker" style="margin-top: 0; margin-left: auto; padding-right: 1rem;">Hover for details · click to update map and audio</div>
           </div>
           <div class="fingerprint-actions">
-            <div id="fingerprint-summary" class="fingerprint-summary">Waiting for clues…</div>
-            <button type="button" id="resetBtn">Edit</button>
+            <button type="button" id="resetBtn">Edit sentence</button>
           </div>
         </div>
         <div id="sentence-tokens" class="sentence-tokens"></div>
@@ -70,22 +54,24 @@
 
     <section class="grid">
       <div class="panel map-wrap">
-        <div class="panel-title" id="map-panel-title">Map · trending dialect splits</div>
+        <div class="map-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--panel-border);">
+          <div class="panel-title" id="map-panel-title" style="margin-bottom: 0; border-bottom: none;">Map · trending dialect splits</div>
+          <div class="legend" id="map-legend-choropleth">
+            <span>low</span>
+            <span class="swatch"></span>
+            <span>high usage</span>
+          </div>
+        </div>
         <div id="map"></div>
         <div id="map-explore" class="map-explore hidden">
           <div id="word-cloud-stage" class="word-cloud-stage"></div>
         </div>
         <div class="tooltip" id="tooltip"></div>
-        <div class="legend" id="map-legend-choropleth">
-          <span>low</span>
-          <span class="swatch"></span>
-          <span>high usage</span>
-        </div>
       </div>
 
       <aside class="side-stack">
         <div class="panel pronunciation-window">
-          <div class="panel-title">Audio · regional pronunciations</div>
+          <div class="panel-title">Pronunciation window</div>
           <div id="variants"></div>
         </div>
       </aside>
