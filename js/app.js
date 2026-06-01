@@ -111,7 +111,11 @@ function findWordKey(raw, words) {
   const keys = Object.keys(words)
     .filter(isDialectTerm)
     .sort((a, b) => b.length - a.length);
-  return keys.find((key) => key === normalized || normalizeText(key) === normalized) ?? null;
+  return keys.find((key) => {
+    let regexStr = escapeRegExp(key).replace(/^(a|an|the) /i, '(?:(?:a|an|the) )?');
+    const pattern = new RegExp(`^${regexStr}$`, 'i');
+    return pattern.test(normalized) || key === normalized || normalizeText(key) === normalized;
+  }) ?? null;
 }
 
 function findDialectWords(text, words) {
@@ -132,8 +136,9 @@ function findDialectMatches(text, words) {
     .sort((a, b) => b.length - a.length);
 
   keys.forEach((word) => {
+    let regexStr = escapeRegExp(word).replace(/^(a|an|the) /i, '(?:(?:a|an|the) )?');
     const pattern = new RegExp(
-      `(^|[^a-z'])(${escapeRegExp(word)})(?=$|[^a-z'])`,
+      `(^|[^a-z'])(${regexStr})(?=$|[^a-z'])`,
       "gi",
     );
     let match;
@@ -255,13 +260,21 @@ const RATES = { south: 0.86, midwest: 0.94, northeast: 1.02, west: 1.0 };
 const PITCHES = { south: 0.9, midwest: 1.0, northeast: 1.06, west: 1.0 };
 
 function speakWord(word, wave = "west", index = 0) {
-  if (!("speechSynthesis" in window)) return;
-  speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(word);
-  utterance.lang = "en-US";
-  utterance.rate = RATES[wave] ?? [0.92, 1.0, 0.86, 1.08][index % 4];
-  utterance.pitch = PITCHES[wave] ?? [0.95, 1.03, 0.9, 1.08][index % 4];
-  speechSynthesis.speak(utterance);
+  const sanitizedWord = word.replace(/[^a-zA-Z0-9]/g, '_');
+  const audioUrl = `./public/audio/${sanitizedWord}.mp3`;
+  
+  const audio = new Audio(audioUrl);
+  
+  audio.play().catch(e => {
+    console.warn("Failed to play MP3, falling back to speechSynthesis", e);
+    if (!("speechSynthesis" in window)) return;
+    speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(word);
+    utterance.lang = "en-US";
+    utterance.rate = RATES[wave] ?? [0.92, 1.0, 0.86, 1.08][index % 4];
+    utterance.pitch = PITCHES[wave] ?? [0.95, 1.03, 0.9, 1.08][index % 4];
+    speechSynthesis.speak(utterance);
+  });
 }
 
 function escapeForJs(text) {
@@ -289,8 +302,17 @@ function normalizeConcept(raw) {
   return text.charAt(0).toUpperCase() + text.slice(1);
 }
 
-function formatConcept(raw, { maxLen = 60 } = {}) {
-  const text = normalizeConcept(raw);
+function formatConcept(raw, { maxLen = 60, data = null } = {}) {
+  let text = normalizeConcept(raw);
+  
+  if (data && data.source && data.source.question_id) {
+    if (data.source.question_id === 58) {
+      text = "A sale of miscellaneous household goods, typically held in a garage or front yard";
+    } else if (data.source.question_id === 97) {
+      text = "A container for temporarily storing household waste or refuse";
+    }
+  }
+
   if (!maxLen || text.length <= maxLen) return text;
   const cutoff = text.lastIndexOf(" ", maxLen - 3);
   return text.slice(0, cutoff > 20 ? cutoff : maxLen - 3) + "…";
@@ -435,7 +457,7 @@ function createPopover({ popoverId, wordElId, metaElId, bodyElId }) {
     clearTimeout(hideTimer);
 
     // Clean up original Harvard survey questions into nice concepts
-    const cleanConcept = formatConcept(content.data.concept);
+    const cleanConcept = formatConcept(content.data.concept, { data: content.data });
 
     wordEl.textContent = word;
     metaEl.textContent = `${cleanConcept} · ${content.style.name}`;
@@ -511,8 +533,9 @@ function estimateSyllablesFromText(word) {
       phonemes.push(ph); syl.phonemes.push(ph);
     }
     const nextStart = matches[s + 1]?.index ?? clean.length;
-    // Split consonants between syllables evenly
-    const codaEnd = s < syllableCount - 1 ? Math.floor((vowelEnd + nextStart) / 2 + 0.5) : clean.length;
+    // Maximize onset: middle consonants go to the next syllable (e.g. cra-yfish, wa-ter)
+    // If there are multiple consonants, keep only the first one or two in the coda depending on length
+    const codaEnd = vowelEnd + Math.floor((nextStart - vowelEnd) / 2);
     for (let i = vowelEnd; i < codaEnd && i < clean.length; i++) {
       const ph = { char: clean[i], type: 'consonant', amplitude: 0.3, duration: 0.35 };
       phonemes.push(ph); syl.phonemes.push(ph);
@@ -543,117 +566,123 @@ function hashString(str) {
   return h;
 }
 
-// ── Smooth envelope waveform generator ──
+// ── Smooth envelope waveform generator (Placeholder) ──
 function smoothWaveformSvg(word, wave, index) {
-  const WIDTH = 440;
-  const WAVE_H = 44;
-  const LABEL_H = 18;
-  const TOTAL_H = WAVE_H + LABEL_H;
-  const MID = WAVE_H / 2;
-  const MARGIN_X = 8;
-  const usableW = WIDTH - MARGIN_X * 2;
+  const safeWord = word.replace(/[^a-zA-Z0-9]/g, '_');
+  return `<div id="waveform-container-${safeWord}-${index}" class="waveform-placeholder" style="width: 100%; height: 62px; position: relative;"></div>`;
+}
 
-  const { phonemes, syllables } = estimateSyllablesFromText(word);
-  if (!phonemes.length) {
-    return `<svg viewBox="0 0 ${WIDTH} ${TOTAL_H}" preserveAspectRatio="none"><text x="${WIDTH / 2}" y="${MID}" text-anchor="middle" fill="var(--muted)" font-size="10">${word}</text></svg>`;
-  }
+// ── Dynamic Audio Waveform Loader ──
+let sharedAudioContext = null;
+const audioBufferCache = new Map();
 
-  // Map parts to pixel positions
-  const totalDur = phonemes.reduce((s, p) => s + p.duration, 0);
-  const phPos = [];
-  let xC = MARGIN_X;
-  for (const ph of phonemes) {
-    const w = (ph.duration / totalDur) * usableW;
-    phPos.push({ ...ph, x: xC, w });
-    xC += w;
-  }
-
-  let phI = 0;
-  const sylPos = [];
-  for (const syl of syllables) {
-    if (!syl.phonemes.length) continue;
-    const s0 = phPos[phI], s1 = phPos[phI + syl.phonemes.length - 1];
-    if (s0 && s1) sylPos.push({ x: s0.x, w: (s1.x + s1.w) - s0.x, stressed: syl.stressed, label: syl.label });
-    phI += syl.phonemes.length;
-  }
-
-  // Regional aesthetic modifiers
-  const regionMod = {
-    south: { ampScale: 0.95, freqScale: 0.8 },
-    midwest: { ampScale: 1.0, freqScale: 1.0 },
-    northeast: { ampScale: 1.05, freqScale: 1.2 },
-    west: { ampScale: 1.0, freqScale: 1.0 },
-  };
-  const mod = regionMod[wave] || regionMod.west;
-
-  // Generate smooth waveform samples
-  const rand = seededRandom(hashString(word + wave + index));
-  const totalSamples = Math.ceil(usableW * 1.5);
-  const upper = [], lower = [];
-  const maxAmp = WAVE_H * 0.45;
-
-  for (let s = 0; s <= totalSamples; s++) {
-    const x = MARGIN_X + (s / totalSamples) * usableW;
-    let ph = phPos[0], phLocalT = 0;
-    for (const p of phPos) {
-      if (x >= p.x && x < p.x + p.w) { ph = p; phLocalT = p.w > 0 ? (x - p.x) / p.w : 0; break; }
+function renderWaveformSvg(word, index, audioBuffer, maxDuration) {
+  const safeWord = word.replace(/[^a-zA-Z0-9]/g, '_');
+  const containerId = `waveform-container-${safeWord}-${index}`;
+  const containerEl = document.getElementById(containerId);
+  if (!containerEl) return;
+  
+  try {
+    // Scale by duration so we have a common ms x-axis
+    const duration = audioBuffer.duration;
+    const MAX_DURATION = maxDuration; // Represent 440px
+    const WIDTH = 440;
+    const WAVE_H = 44;
+    const LABEL_H = 18;
+    const TOTAL_H = WAVE_H + LABEL_H;
+    const MID = WAVE_H / 2;
+    const MARGIN_X = 8;
+    
+    // The width of this specific waveform based on time
+    const waveWidth = Math.min(WIDTH - MARGIN_X * 2, (duration / MAX_DURATION) * (WIDTH - MARGIN_X * 2));
+    
+    // Downsample the channel data
+    const rawData = audioBuffer.getChannelData(0);
+    // Adjust bins based on width so resolution is consistent
+    const bins = Math.max(50, Math.floor((waveWidth / (WIDTH - MARGIN_X * 2)) * 300));
+    const blockSize = Math.floor(rawData.length / bins);
+    const peaks = [];
+    
+    for (let i = 0; i < bins; i++) {
+      let start = i * blockSize;
+      let sum = 0;
+      for (let j = 0; j < blockSize && start + j < rawData.length; j++) {
+        sum += Math.abs(rawData[start + j]);
+      }
+      peaks.push(sum / blockSize);
     }
-    if (!ph) ph = phPos[phPos.length - 1];
+    
+    // Normalize peaks
+    const maxPeak = Math.max(...peaks, 0.001);
+    const normalized = peaks.map(p => p / maxPeak);
+    
+    const upper = [];
+    const lower = [];
+    
+    for (let i = 0; i < bins; i++) {
+      const x = MARGIN_X + (i / (bins - 1)) * waveWidth;
+      const amp = normalized[i] * (WAVE_H * 0.45);
+      upper.push([x, MID - amp]);
+      lower.push([x, MID + amp]);
+    }
+    
+    lower.reverse();
+    let pathD = `M ${upper[0][0].toFixed(1)},${MID.toFixed(1)}`;
+    for (const [x, y] of upper) pathD += ` L ${x.toFixed(1)},${y.toFixed(1)}`;
+    for (const [x, y] of lower) pathD += ` L ${x.toFixed(1)},${y.toFixed(1)}`;
+    pathD += ' Z';
+    
+    // Syllables
+    const { phonemes, syllables } = estimateSyllablesFromText(word);
+    const totalDur = phonemes.reduce((s, p) => s + p.duration, 0);
+    const phPos = [];
+    let xC = MARGIN_X;
+    for (const ph of phonemes) {
+      const w = (ph.duration / totalDur) * waveWidth;
+      phPos.push({ ...ph, x: xC, w });
+      xC += w;
+    }
+    
+    let phI = 0;
+    const sylPos = [];
+    for (const syl of syllables) {
+      if (!syl.phonemes.length) continue;
+      const s0 = phPos[phI], s1 = phPos[phI + syl.phonemes.length - 1];
+      if (s0 && s1) sylPos.push({ x: s0.x, w: (s1.x + s1.w) - s0.x, label: syl.label });
+      phI += syl.phonemes.length;
+    }
 
-    const amp = ph.amplitude * mod.ampScale;
-    const freq = (0.2 + (index * 0.05)) * mod.freqScale;
+    // Tick marks
+    let ticksSvg = '';
+    for (let t = 0; t <= Math.ceil(duration * 4) / 4; t += 0.25) {
+      if (t > duration) break;
+      const x = MARGIN_X + (t / MAX_DURATION) * (WIDTH - MARGIN_X * 2);
+      // Use yellow (#f0a038) for the time markers, solid thicker strokes
+      ticksSvg += `<line x1="${x.toFixed(1)}" y1="2" x2="${x.toFixed(1)}" y2="${WAVE_H - 2}" stroke="#f0a038" stroke-opacity="0.5" stroke-width="2" />`;
+      if (t > 0) {
+        ticksSvg += `<text x="${(x + 2).toFixed(1)}" y="10" fill="#f0a038" font-size="9" text-anchor="start">${t * 1000}ms</text>`;
+      }
+    }
 
-    // Smooth envelope over the phoneme
-    const env = Math.sin(phLocalT * Math.PI) * 0.4 + 0.6;
-
-    // Aesthetic smooth overlapping sine waves
-    const wv = Math.sin(x * freq + index * 1.1) * 0.75 +
-      Math.sin(x * freq * 2.3 + 0.5) * 0.25;
-
-    // Subtle jitter so it feels organic
-    const jitter = (rand() - 0.5) * 0.15;
-
-    let sY = amp * env * maxAmp * Math.abs(wv + jitter);
-
-    // Taper the outer edges smoothly
-    const gT = s / totalSamples;
-    sY *= Math.min(gT * 8, (1 - gT) * 8, 1);
-
-    upper.push([x, MID - sY]);
-    lower.push([x, MID + sY]);
+    let svg = `<svg class="phoneme-waveform" viewBox="0 0 ${WIDTH} ${TOTAL_H}" preserveAspectRatio="xMinYMin meet">`;
+    svg += `<path class="waveform-fill" d="${pathD}" style="transition: d 0.3s ease;"/>`;
+    svg += ticksSvg;
+    
+    for (let i = 1; i < sylPos.length; i++) {
+      svg += `<line class="syl-boundary" x1="${sylPos[i].x.toFixed(1)}" y1="2" x2="${sylPos[i].x.toFixed(1)}" y2="${WAVE_H - 2}"/>`;
+    }
+    
+    for (const sl of sylPos) {
+      const cx = sl.x + sl.w / 2;
+      const ly = WAVE_H + LABEL_H * 0.75;
+      svg += `<text class="syl-label" x="${cx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="middle">${sl.label}</text>`;
+    }
+    
+    svg += '</svg>';
+    containerEl.innerHTML = svg;
+  } catch (err) {
+    console.warn("Could not generate true waveform for", word, err);
   }
-
-  lower.reverse();
-  let pathD = `M ${upper[0][0].toFixed(1)},${MID.toFixed(1)}`;
-  for (const [x, y] of upper) pathD += ` L ${x.toFixed(1)},${y.toFixed(1)}`;
-  for (const [x, y] of lower) pathD += ` L ${x.toFixed(1)},${y.toFixed(1)}`;
-  pathD += ' Z';
-
-  let svg = `<svg class="phoneme-waveform" viewBox="0 0 ${WIDTH} ${TOTAL_H}" preserveAspectRatio="none">`;
-
-  // Stressed syllable background bands
-  for (const sl of sylPos) {
-    if (sl.stressed) svg += `<rect class="stress-bg" x="${sl.x.toFixed(1)}" y="0" width="${sl.w.toFixed(1)}" height="${WAVE_H}" rx="3"/>`;
-  }
-
-  // Waveform path
-  svg += `<path class="waveform-fill" d="${pathD}"/>`;
-
-  // Syllable boundary dashed lines
-  for (let i = 1; i < sylPos.length; i++) {
-    svg += `<line class="syl-boundary" x1="${sylPos[i].x.toFixed(1)}" y1="2" x2="${sylPos[i].x.toFixed(1)}" y2="${WAVE_H - 2}"/>`;
-  }
-
-  // English syllable labels
-  for (const sl of sylPos) {
-    const cx = sl.x + sl.w / 2;
-    const ly = WAVE_H + LABEL_H * 0.75;
-    const cls = sl.stressed ? 'syl-label stressed' : 'syl-label';
-    svg += `<text class="${cls}" x="${cx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="middle">${sl.label}</text>`;
-  }
-
-  svg += '</svg>';
-  return svg;
 }
 
 
@@ -703,13 +732,17 @@ function renderAudioPanel(container, word, words, regionStyles, onVariantSelect,
     },
   ]).slice(0, 4);
 
-  const cleanConcept = formatConcept(data.concept, { maxLen: 0 });
+  const cleanConcept = formatConcept(data.concept, { maxLen: 0, data: data });
+  const isGeneric = !cleanConcept || cleanConcept.toLowerCase() === "preferred term" || cleanConcept.toLowerCase() === "regional term";
 
   container.innerHTML = `
     <div class="audio-comparison">
-      <div class="audio-graph-head">
-        <div class="audio-graph-title">“${word}”</div>
-        <div class="audio-graph-concept">${cleanConcept}</div>
+      <div class="audio-graph-head" style="margin-bottom: 12px;">
+        ${isGeneric 
+          ? `<div class="audio-graph-title" style="font-size: 1.25em; font-weight: 600; color: var(--text);">“${word}”</div>`
+          : `<div class="audio-graph-concept" style="color: #f0a038; font-size: 1.15em; font-weight: 500; line-height: 1.4;">${cleanConcept}</div>`
+        }
+        <div style="font-size: 0.85em; color: var(--muted); margin-top: 4px;">Y-axis indicates acoustic amplitude (loudness).</div>
       </div>
       <div class="audio-stack">
         ${lanes.map((v, i) => audioLane(v, i, selectedWord)).join("")}
@@ -733,6 +766,46 @@ function renderAudioPanel(container, word, words, regionStyles, onVariantSelect,
       if (onVariantSelect) onVariantSelect(lane.dataset.variantWord);
     });
   });
+  
+  // Asynchronously load and render actual audio waveforms dynamically scaled to the max local duration
+  (async () => {
+    if (!sharedAudioContext) {
+      sharedAudioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    
+    const variantBuffers = await Promise.all(lanes.map(async (v) => {
+      const safeWord = v.word.replace(/[^a-zA-Z0-9]/g, '_');
+      const audioUrl = `./public/audio/${safeWord}.mp3`;
+      try {
+        let audioBuffer = audioBufferCache.get(audioUrl);
+        if (!audioBuffer) {
+          const response = await fetch(audioUrl);
+          if (!response.ok) return null;
+          const arrayBuffer = await response.arrayBuffer();
+          audioBuffer = await sharedAudioContext.decodeAudioData(arrayBuffer);
+          audioBufferCache.set(audioUrl, audioBuffer);
+        }
+        return audioBuffer;
+      } catch (e) {
+        return null;
+      }
+    }));
+    
+    let localMaxDuration = 0.5;
+    for (const b of variantBuffers) {
+      if (b && b.duration > localMaxDuration) {
+        localMaxDuration = b.duration;
+      }
+    }
+    // Add a tiny 5% visual margin so the longest wave doesn't touch the absolute right edge
+    localMaxDuration = localMaxDuration * 1.05;
+    
+    lanes.forEach((v, i) => {
+      if (variantBuffers[i]) {
+        renderWaveformSvg(v.word, i, variantBuffers[i], localMaxDuration);
+      }
+    });
+  })();
 }
 
 function resetAudioPlaceholder(container, mode) {
@@ -1773,6 +1846,21 @@ function createApp({ words, regionStyles, popover }) {
         typeIntoSentence(SAMPLE_SENTENCES[btn.dataset.sample]);
       });
     });
+
+    const infoBtn = document.getElementById("infoBtn");
+    const infoModal = document.getElementById("info-modal");
+    const infoClose = document.getElementById("info-modal-close");
+    const infoBackdrop = document.getElementById("info-modal-backdrop");
+    
+    if (infoBtn && infoModal) {
+      const closeModal = () => infoModal.classList.add("hidden");
+      infoBtn.addEventListener("click", () => infoModal.classList.remove("hidden"));
+      infoClose.addEventListener("click", closeModal);
+      infoBackdrop.addEventListener("click", closeModal);
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeModal();
+      });
+    }
 
   }
 

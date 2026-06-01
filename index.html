@@ -12,6 +12,14 @@
     <div class="app-header-row">
       <h1>DialectDrift</h1>
       <p class="tagline">One ordinary sentence. Several different Americas hiding inside it.</p>
+      <button id="infoBtn" class="info-btn" aria-label="About DialectDrift">
+        <svg viewBox="0 0 24 24" width="28" height="28">
+          <circle cx="12.5" cy="12.5" r="11" fill="#c47e15" />
+          <circle cx="11" cy="11" r="11" fill="#f0a038" />
+          <circle cx="11" cy="5.5" r="1.8" fill="#f4f7ff" />
+          <path d="M 8.5 9.5 h 2.5 v 6.5 m -2 0 h 4" stroke="#f4f7ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+        </svg>
+      </button>
     </div>
   </header>
 
@@ -76,7 +84,7 @@
 
       <aside class="side-stack">
         <div class="panel pronunciation-window">
-          <div class="panel-title">Pronunciation</div>
+          <div class="panel-title">Regional Variants</div>
           <div id="variants"></div>
         </div>
       </aside>
@@ -90,6 +98,26 @@
       <div class="details-popover-meta" id="popover-meta"></div>
     </div>
     <div class="details-popover-body" id="details-popover-body"></div>
+  </div>
+
+  <div id="info-modal" class="info-modal hidden" role="dialog" aria-modal="true">
+    <div class="info-modal-backdrop" id="info-modal-backdrop"></div>
+    <div class="info-modal-content">
+      <button class="info-modal-close" id="info-modal-close" aria-label="Close info">×</button>
+      <h2>About DialectDrift</h2>
+      <p>DialectDrift translates ordinary sentences into regional dialects to reveal the linguistic fingerprints of American English.</p>
+      
+      <h3>Data & Methodology</h3>
+      <p>Data originates from the Harvard Dialect Survey and regional vocabulary datasets. Audio visualizations are dynamically generated using browser Web Audio APIs directly from text-to-speech waveforms (OpenAI TTS-1 model). Word clouds and maps utilize D3.js to visualize the geographic boundaries and intensity of these linguistic quirks.</p>
+      
+      <h3>Tools Used</h3>
+      <ul>
+        <li>HTML5 / CSS3 / Vanilla JS</li>
+        <li>D3.js & TopoJSON for mapping</li>
+        <li>d3-cloud for word clouds</li>
+        <li>Web Audio API for real-time acoustic analysis</li>
+      </ul>
+    </div>
   </div>
 
   <!-- D3, TopoJSON, and word cloud layout libraries from CDNs -->
