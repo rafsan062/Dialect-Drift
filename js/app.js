@@ -1454,11 +1454,17 @@ function createMapPanel({
       swatch.style.backgroundColor = highColor;
     }
 
-    // Dynamically set borders and glow based on the region color
+    // Dynamically set borders and glow based on the region color and active count
     const baseColor = d3.color(highColor);
     if (baseColor) {
+      const activeCount = Object.keys(scores).length;
+      let glowOpacity = 0.85;
+      if (activeCount > 3) {
+        const t = Math.min(1, (activeCount - 3) / 17);
+        glowOpacity = 0.85 - t * 0.70; // 3 or fewer states: 0.85 opacity; 20 or more states: 0.15 opacity
+      }
       container.style.setProperty("--map-stroke", baseColor.copy({ opacity: 0.35 }).toString());
-      container.style.setProperty("--map-glow", baseColor.copy({ opacity: 0.85 }).toString());
+      container.style.setProperty("--map-glow", baseColor.copy({ opacity: glowOpacity }).toString());
     }
 
     const applyChoropleth = () => {
