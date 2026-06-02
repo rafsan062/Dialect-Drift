@@ -230,8 +230,8 @@
 .legend {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
-  font-size: var(--text-xs);
+  gap: 0.6rem;
+  font-size: var(--text-sm);
   color: var(--muted);
   padding: 0.2rem 0.65rem 0.2rem 0.5rem;
   background: none;
@@ -240,9 +240,9 @@
 }
 
 .legend .swatch {
-  width: 64px;
-  height: 8px;
-  border-radius: 4px;
+  width: 96px;
+  height: 14px;
+  border-radius: 2px;
   background: linear-gradient(90deg, #000000, transparent);
   background-color: var(--neon-cyan);
   transition: background-color 0.65s cubic-bezier(0.25, 1, 0.5, 1);
