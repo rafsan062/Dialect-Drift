@@ -84,7 +84,7 @@ export function renderAudioPanel(container, word, words, regionStyles) {
   container.innerHTML = `
     <div class="audio-comparison">
       <div class="audio-graph-head">
-        <div class="audio-graph-title">“${word}” · ${data.concept}</div>
+        <div class="audio-graph-title">“${word}” · Meaning: ${data.concept}</div>
         <div class="audio-graph-subtitle">Same idea, different regional words</div>
       </div>
       <div class="audio-stack">

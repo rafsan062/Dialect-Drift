@@ -743,7 +743,7 @@ function renderAudioPanel(container, word, words, regionStyles, onVariantSelect,
       <div class="audio-graph-head" style="margin-bottom: 12px;">
         ${isGeneric
       ? `<div class="audio-graph-title" style="font-size: 1.25em; font-weight: 600; color: var(--text);">“${word}”</div>`
-      : `<div class="audio-graph-concept" style="color: #f0a038; font-size: 1.15em; font-weight: 500; line-height: 1.4;">${cleanConcept}</div>`
+      : `<div class="audio-graph-concept" style="color: var(--text-deep); font-size: 1.15em; font-weight: 500; line-height: 1.4;">Meaning: ${cleanConcept}</div>`
     }
         <div style="font-size: 0.85em; color: var(--muted); margin-top: 4px;">Y-axis indicates acoustic amplitude (loudness).</div>
       </div>
