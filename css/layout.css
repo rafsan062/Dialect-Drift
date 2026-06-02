@@ -216,6 +216,14 @@
   border-radius: 4px;
 }
 
+.pronunciation-footer {
+  padding: 0.55rem 0.65rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  border-top: 1px solid var(--panel-border);
+  background: color-mix(in srgb, var(--bg-elevated) 50%, transparent);
+}
+
 .app-footer {
   flex-shrink: 0;
   padding: 0.15rem 0 0;
