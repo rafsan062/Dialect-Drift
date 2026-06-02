@@ -3,7 +3,7 @@ window.DICTIONARY_DATA = {
   regionStyles: [
   {
     "name": "South",
-    "color": "#9edec4",
+    "color": "#86efac",
     "states": [
       "TX",
       "GA",
@@ -21,7 +21,7 @@ window.DICTIONARY_DATA = {
   },
   {
     "name": "Midwest / Great Lakes",
-    "color": "#eee682",
+    "color": "#ffeb3b",
     "states": [
       "MI",
       "OH",
@@ -39,7 +39,7 @@ window.DICTIONARY_DATA = {
   },
   {
     "name": "Mid-Atlantic",
-    "color": "#f2acac",
+    "color": "#ff65a3",
     "states": [
       "PA",
       "NJ",
@@ -50,7 +50,7 @@ window.DICTIONARY_DATA = {
   },
   {
     "name": "Northeast",
-    "color": "#8ecae8",
+    "color": "#58c7f9",
     "states": [
       "NY",
       "MA",
@@ -63,7 +63,7 @@ window.DICTIONARY_DATA = {
   },
   {
     "name": "West / Broad US",
-    "color": "#f2c896",
+    "color": "#b76eff",
     "states": [
       "CA",
       "WA",

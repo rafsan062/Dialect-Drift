@@ -158,10 +158,19 @@
 #map .state {
   stroke: var(--map-stroke);
   stroke-width: 0.8;
+  transition: stroke 0.65s cubic-bezier(0.25, 1, 0.5, 1), filter 0.65s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 #map .state.active {
-  filter: drop-shadow(0 0 6px var(--map-glow));
+  filter: drop-shadow(0 0 3px var(--map-glow)) drop-shadow(0 0 10px var(--map-glow));
+}
+
+#map .nation-boundary {
+  stroke: var(--map-stroke);
+  stroke-width: 1.5px;
+  fill: none;
+  pointer-events: none;
+  transition: stroke 0.65s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 #map .state-label {

@@ -2,7 +2,7 @@
 
 import { d3, feature } from "./vendor/deps.js";
 import { STATE_FIPS_TO_ABBR, US_ATLAS_URL } from "./config.js";
-import { colorScale } from "./dialectLookup.js";
+import { getRegionStyle } from "./dialectLookup.js";
 import { hideWordCloudExplore, renderWordCloudExplore } from "./wordCloud.js";
 
 function fipsToAbbr(id) {
@@ -71,6 +71,8 @@ export function createMapPanel({
     path = d3.geoPath(projection);
     svg.attr("viewBox", `0 0 ${width} ${height}`);
     stateSelection.attr("d", path);
+
+    g.select(".nation-boundary").attr("d", path);
   }
 
   function resetMapBase() {
@@ -78,8 +80,19 @@ export function createMapPanel({
     stateSelection
       .interrupt()
       .classed("active", false)
-      .style("fill", "#1a2436")
+      .style("fill", "#000000")
       .style("opacity", 0.88);
+    
+    // Reset borders & glow to defaults
+    container.style.removeProperty("--map-stroke");
+    container.style.removeProperty("--map-glow");
+
+    // Reset legend swatch color
+    const swatch = legend.querySelector(".swatch");
+    if (swatch) {
+      swatch.style.backgroundColor = "";
+    }
+
     updateTitle(mapExploreActive);
   }
 
@@ -121,6 +134,24 @@ export function createMapPanel({
     const scores = words[word].states || {};
     const hasData = Object.keys(scores).length > 0;
 
+    const MAP_COLOR_LOW = "#000000";
+    const MAP_COLOR_HIGH = "#00e5ff";
+    const style = getRegionStyle(word, words, regionStyles);
+    const highColor = style ? style.color : MAP_COLOR_HIGH;
+
+    // Update the legend swatch color dynamically
+    const swatch = legend.querySelector(".swatch");
+    if (swatch) {
+      swatch.style.backgroundColor = highColor;
+    }
+
+    // Dynamically set borders and glow based on the region color
+    const baseColor = d3.color(highColor);
+    if (baseColor) {
+      container.style.setProperty("--map-stroke", baseColor.copy({ opacity: 0.35 }).toString());
+      container.style.setProperty("--map-glow", baseColor.copy({ opacity: 0.85 }).toString());
+    }
+
     stateSelection
       .interrupt()
       .classed("active", (d) => Boolean(scores[fipsToAbbr(d.id)]))
@@ -128,7 +159,7 @@ export function createMapPanel({
       .duration(650)
       .style("fill", (d) => {
         const abbr = fipsToAbbr(d.id);
-        return scores[abbr] ? colorScale(scores[abbr], d3) : "#1a2436";
+        return scores[abbr] ? d3.interpolateRgb(MAP_COLOR_LOW, highColor)(Math.max(0, Math.min(1, scores[abbr]))) : "#000000";
       })
       .style("opacity", (d) => {
         const abbr = fipsToAbbr(d.id);
@@ -203,6 +234,14 @@ export function createMapPanel({
       .on("mouseleave", () => {
         tooltip.style.opacity = 0;
       });
+
+    const nationMesh = topojson.mesh(us, us.objects.states, (a, b) => a === b);
+
+    // Draw the overall US outer boundary (nation outline)
+    g.append("path")
+      .datum(nationMesh)
+      .attr("class", "nation-boundary")
+      .attr("d", path);
 
     resetMapBase();
 

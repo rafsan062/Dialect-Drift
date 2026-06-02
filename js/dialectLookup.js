@@ -95,7 +95,7 @@ export function getVariantSet(word, words) {
   return owner?.variants || [];
 }
 
-const MAP_COLOR_LOW = "#1a2436";
+const MAP_COLOR_LOW = "#000000";
 const MAP_COLOR_HIGH = "#00e5ff";
 
 export function colorScale(value, d3) {

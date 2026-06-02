@@ -129,8 +129,7 @@ body[data-mode="word"] .input-compose {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: auto;
-  height: 2.75rem;
+  width: 12rem;
   box-sizing: border-box;
   text-align: center;
   line-height: 1;

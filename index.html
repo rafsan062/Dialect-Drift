@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>DialectDrift</title>
   <link rel="stylesheet" href="./css/main.css">
 </head>
+
 <body data-mode="sentence">
   <div id="boot-banner" class="boot-banner" hidden></div>
   <header class="app-header">
@@ -17,7 +19,8 @@
           <circle cx="12.5" cy="12.5" r="11" fill="#c47e15" />
           <circle cx="11" cy="11" r="11" fill="#f0a038" />
           <circle cx="11" cy="5.5" r="1.8" fill="#f4f7ff" />
-          <path d="M 8.5 9.5 h 2.5 v 6.5 m -2 0 h 4" stroke="#f4f7ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+          <path d="M 8.5 9.5 h 2.5 v 6.5 m -2 0 h 4" stroke="#f4f7ff" stroke-width="2.5" stroke-linecap="round"
+            stroke-linejoin="round" fill="none" />
         </svg>
       </button>
     </div>
@@ -29,11 +32,12 @@
         <div class="input-compose">
           <div class="input-field-wrap">
             <div id="sentence-input-block">
-              <input type="text" id="sentence" placeholder="Paste a sentence. Try: Y'all want to grab a hoagie and a pop?">
+              <input type="text" id="sentence"
+                placeholder="Paste a sentence. Try: Y'all want to grab a hoagie and a pop?">
             </div>
 
           </div>
-          <button type="button" class="reveal-btn" id="analyzeBtn">Reveal fingerprint</button>
+          <button type="button" class="reveal-btn" id="analyzeBtn">Analyze</button>
         </div>
         <div class="samples sentence-samples" id="sentence-samples">
           <button type="button" data-sample="sandwich">Sandwich showdown</button>
@@ -48,8 +52,9 @@
       <section class="top-mode fingerprint-mode hidden" id="fingerprint-panel">
         <div class="fingerprint-header">
           <div style="display: flex; align-items: baseline; gap: 0.75rem; flex: 1; flex-wrap: wrap;">
-            <h2 class="fingerprint-title" id="fingerprint-title">Sentence fingerprint</h2>
-            <div id="fingerprint-summary" class="fingerprint-summary" style="font-size: var(--text-sm);"></div>
+            <h2 class="fingerprint-title" id="fingerprint-title">Regional Signal</h2>
+            <span class="fingerprint-dot">•</span>
+            <div id="fingerprint-summary" class="fingerprint-summary"></div>
             <ul class="fingerprint-legend" id="fingerprint-legend" aria-label="Region colors in sentence"></ul>
           </div>
           <div class="fingerprint-actions">
@@ -62,8 +67,10 @@
 
     <section class="grid is-explore">
       <div class="panel map-wrap">
-        <div class="map-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--panel-border);">
-          <div class="panel-title" id="map-panel-title" style="margin-bottom: 0; border-bottom: none;">Map · trending dialect splits</div>
+        <div class="map-header"
+          style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--panel-border);">
+          <div class="panel-title" id="map-panel-title" style="margin-bottom: 0; border-bottom: none;">Map · trending
+            dialect splits</div>
           <div class="legend" id="map-legend-choropleth">
             <span>low</span>
             <span class="swatch"></span>
@@ -76,7 +83,23 @@
           <aside class="cloud-legend" id="map-legend-cloud" aria-label="Word cloud region colors">
             <div class="cloud-legend-title">Region</div>
             <ul class="cloud-legend-list" id="map-legend-cloud-list"></ul>
-            <p class="cloud-legend-note">Color = where the word is strongest · size = sharper split</p>
+          </aside>
+          <aside class="cloud-legend-guide" id="map-legend-guide" aria-label="Word cloud interpretation guide">
+            <div class="cloud-legend-guide-title">Interpretation Guide</div>
+            <div class="cloud-legend-guide-content">
+              <div class="guide-item">
+                <span class="guide-indicator-title">Color:</span>
+                <span class="guide-desc">Dominant region for the word.</span>
+              </div>
+              <div class="guide-item">
+                <span class="guide-indicator-title">Size:</span>
+                <span class="guide-desc">Dialect uniqueness. Larger words mean sharper regional splits.</span>
+              </div>
+              <div class="guide-item">
+                <span class="guide-indicator-title">Position:</span>
+                <span class="guide-desc">Map location. Words are placed near states with highest usage.</span>
+              </div>
+            </div>
           </aside>
         </div>
         <div class="tooltip" id="tooltip"></div>
@@ -105,11 +128,15 @@
     <div class="info-modal-content">
       <button class="info-modal-close" id="info-modal-close" aria-label="Close info">×</button>
       <h2>About DialectDrift</h2>
-      <p>DialectDrift translates ordinary sentences into regional dialects to reveal the linguistic fingerprints of American English.</p>
-      
+      <p>DialectDrift translates ordinary sentences into regional dialects to reveal the linguistic fingerprints of
+        American English.</p>
+
       <h3>Data & Methodology</h3>
-      <p>Data originates from the Harvard Dialect Survey and regional vocabulary datasets. Audio visualizations are dynamically generated using browser Web Audio APIs directly from text-to-speech waveforms (OpenAI TTS-1 model). Word clouds and maps utilize D3.js to visualize the geographic boundaries and intensity of these linguistic quirks.</p>
-      
+      <p>Data originates from the Harvard Dialect Survey and regional vocabulary datasets. Audio visualizations are
+        dynamically generated using browser Web Audio APIs directly from text-to-speech waveforms (OpenAI TTS-1 model).
+        Word clouds and maps utilize D3.js to visualize the geographic boundaries and intensity of these linguistic
+        quirks.</p>
+
       <h3>Tools Used</h3>
       <ul>
         <li>HTML5 / CSS3 / Vanilla JS</li>
@@ -131,4 +158,5 @@
   <!-- Main application script -->
   <script src="./js/app.js"></script>
 </body>
+
 </html>

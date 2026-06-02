@@ -20,15 +20,15 @@
   --accent: var(--neon-cyan);
   --accent-hover: #66f3ff;
 
-  --south: #9edec4;
-  --midwest: #eee682;
-  --northeast: #8ecae8;
-  --west: #f2c896;
-  --mid-atlantic: #f2acac;
+  --south: #86efac;
+  --midwest: #ffeb3b;
+  --northeast: #58c7f9;
+  --west: #b76eff;
+  --mid-atlantic: #ff65a3;
 
-  --map-base: #1a2436;
+  --map-base: #000000;
   --map-stroke: rgba(0, 229, 255, 0.42);
-  --map-glow: rgba(0, 229, 255, 0.5);
+  --map-glow: rgba(0, 229, 255, 0.85);
 
   --shadow: rgba(0, 0, 0, 0.45);
   --radius: 12px;

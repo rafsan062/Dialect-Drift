@@ -233,7 +233,7 @@ function getVariantSet(word, words) {
 }
 
 
-const MAP_COLOR_LOW = "#1a2436";
+const MAP_COLOR_LOW = "#000000";
 const MAP_COLOR_HIGH = "#00e5ff";
 
 function colorScale(value) {
@@ -262,9 +262,9 @@ const PITCHES = { south: 0.9, midwest: 1.0, northeast: 1.06, west: 1.0 };
 function speakWord(word, wave = "west", index = 0) {
   const sanitizedWord = word.replace(/[^a-zA-Z0-9]/g, '_');
   const audioUrl = `./public/audio/${sanitizedWord}.mp3`;
-  
+
   const audio = new Audio(audioUrl);
-  
+
   audio.play().catch(e => {
     console.warn("Failed to play MP3, falling back to speechSynthesis", e);
     if (!("speechSynthesis" in window)) return;
@@ -304,7 +304,7 @@ function normalizeConcept(raw) {
 
 function formatConcept(raw, { maxLen = 60, data = null } = {}) {
   let text = normalizeConcept(raw);
-  
+
   if (data && data.source && data.source.question_id) {
     if (data.source.question_id === 58) {
       text = "A sale of miscellaneous household goods, typically held in a garage or front yard";
@@ -361,7 +361,7 @@ function tokenToApproxIpa(token) {
   }
 
   let out = "";
-  for (let i = 0; i < token.length; ) {
+  for (let i = 0; i < token.length;) {
     let matched = false;
     for (const [graph, ipa] of IPA_DIGRAPHS) {
       if (token.startsWith(graph, i)) {
@@ -581,7 +581,7 @@ function renderWaveformSvg(word, index, audioBuffer, maxDuration) {
   const containerId = `waveform-container-${safeWord}-${index}`;
   const containerEl = document.getElementById(containerId);
   if (!containerEl) return;
-  
+
   try {
     // Scale by duration so we have a common ms x-axis
     const duration = audioBuffer.duration;
@@ -592,17 +592,17 @@ function renderWaveformSvg(word, index, audioBuffer, maxDuration) {
     const TOTAL_H = WAVE_H + LABEL_H;
     const MID = WAVE_H / 2;
     const MARGIN_X = 8;
-    
+
     // The width of this specific waveform based on time
     const waveWidth = Math.min(WIDTH - MARGIN_X * 2, (duration / MAX_DURATION) * (WIDTH - MARGIN_X * 2));
-    
+
     // Downsample the channel data
     const rawData = audioBuffer.getChannelData(0);
     // Adjust bins based on width so resolution is consistent
     const bins = Math.max(50, Math.floor((waveWidth / (WIDTH - MARGIN_X * 2)) * 300));
     const blockSize = Math.floor(rawData.length / bins);
     const peaks = [];
-    
+
     for (let i = 0; i < bins; i++) {
       let start = i * blockSize;
       let sum = 0;
@@ -611,27 +611,27 @@ function renderWaveformSvg(word, index, audioBuffer, maxDuration) {
       }
       peaks.push(sum / blockSize);
     }
-    
+
     // Normalize peaks
     const maxPeak = Math.max(...peaks, 0.001);
     const normalized = peaks.map(p => p / maxPeak);
-    
+
     const upper = [];
     const lower = [];
-    
+
     for (let i = 0; i < bins; i++) {
       const x = MARGIN_X + (i / (bins - 1)) * waveWidth;
       const amp = normalized[i] * (WAVE_H * 0.45);
       upper.push([x, MID - amp]);
       lower.push([x, MID + amp]);
     }
-    
+
     lower.reverse();
     let pathD = `M ${upper[0][0].toFixed(1)},${MID.toFixed(1)}`;
     for (const [x, y] of upper) pathD += ` L ${x.toFixed(1)},${y.toFixed(1)}`;
     for (const [x, y] of lower) pathD += ` L ${x.toFixed(1)},${y.toFixed(1)}`;
     pathD += ' Z';
-    
+
     // Syllables
     const { phonemes, syllables } = estimateSyllablesFromText(word);
     const totalDur = phonemes.reduce((s, p) => s + p.duration, 0);
@@ -642,7 +642,7 @@ function renderWaveformSvg(word, index, audioBuffer, maxDuration) {
       phPos.push({ ...ph, x: xC, w });
       xC += w;
     }
-    
+
     let phI = 0;
     const sylPos = [];
     for (const syl of syllables) {
@@ -667,17 +667,17 @@ function renderWaveformSvg(word, index, audioBuffer, maxDuration) {
     let svg = `<svg class="phoneme-waveform" viewBox="0 0 ${WIDTH} ${TOTAL_H}" preserveAspectRatio="xMinYMin meet">`;
     svg += `<path class="waveform-fill" d="${pathD}" style="transition: d 0.3s ease;"/>`;
     svg += ticksSvg;
-    
+
     for (let i = 1; i < sylPos.length; i++) {
       svg += `<line class="syl-boundary" x1="${sylPos[i].x.toFixed(1)}" y1="2" x2="${sylPos[i].x.toFixed(1)}" y2="${WAVE_H - 2}"/>`;
     }
-    
+
     for (const sl of sylPos) {
       const cx = sl.x + sl.w / 2;
       const ly = WAVE_H + LABEL_H * 0.75;
       svg += `<text class="syl-label" x="${cx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="middle">${sl.label}</text>`;
     }
-    
+
     svg += '</svg>';
     containerEl.innerHTML = svg;
   } catch (err) {
@@ -690,12 +690,15 @@ function renderWaveformSvg(word, index, audioBuffer, maxDuration) {
 // 5b. AUDIO COMPARISON PANEL COMPONENT
 // ==========================================
 
-function audioLane(variant, index, selectedWord) {
+function audioLane(variant, index, selectedWord, words, regionStyles) {
   const isSelected = variant.word === selectedWord;
   const wave = variant.wave || "west";
   const safeWord = escapeHtmlAttr(variant.word);
   const ipa = resolveVariantIpa(variant);
   const note = resolveVariantNote(variant.note);
+
+  const style = getRegionStyle(variant.word, words, regionStyles);
+  const color = style ? style.color : "var(--neon-cyan)";
 
   return `
     <div class="audio-lane ${isSelected ? "selected" : ""}" data-variant-word="${safeWord}" style="cursor:pointer">
@@ -703,7 +706,7 @@ function audioLane(variant, index, selectedWord) {
       <div class="lane-body">
         <div class="lane-wave">${smoothWaveformSvg(variant.word, wave, index)}</div>
         <div class="lane-meta">
-          <span class="lane-word">${variant.word}</span>
+          <span class="lane-word" style="color: ${color}">${variant.word}</span>
           <span class="lane-region">${formatVariantRegion(variant.region)}</span>
           ${ipa ? `<span class="lane-ipa">${ipa}</span>` : ""}
           ${note ? `<span class="audio-note">${note}</span>` : ""}
@@ -738,14 +741,14 @@ function renderAudioPanel(container, word, words, regionStyles, onVariantSelect,
   container.innerHTML = `
     <div class="audio-comparison">
       <div class="audio-graph-head" style="margin-bottom: 12px;">
-        ${isGeneric 
-          ? `<div class="audio-graph-title" style="font-size: 1.25em; font-weight: 600; color: var(--text);">“${word}”</div>`
-          : `<div class="audio-graph-concept" style="color: #f0a038; font-size: 1.15em; font-weight: 500; line-height: 1.4;">${cleanConcept}</div>`
-        }
+        ${isGeneric
+      ? `<div class="audio-graph-title" style="font-size: 1.25em; font-weight: 600; color: var(--text);">“${word}”</div>`
+      : `<div class="audio-graph-concept" style="color: #f0a038; font-size: 1.15em; font-weight: 500; line-height: 1.4;">${cleanConcept}</div>`
+    }
         <div style="font-size: 0.85em; color: var(--muted); margin-top: 4px;">Y-axis indicates acoustic amplitude (loudness).</div>
       </div>
       <div class="audio-stack">
-        ${lanes.map((v, i) => audioLane(v, i, selectedWord)).join("")}
+        ${lanes.map((v, i) => audioLane(v, i, selectedWord, words, regionStyles)).join("")}
       </div>
     </div>
   `;
@@ -766,13 +769,13 @@ function renderAudioPanel(container, word, words, regionStyles, onVariantSelect,
       if (onVariantSelect) onVariantSelect(lane.dataset.variantWord);
     });
   });
-  
+
   // Asynchronously load and render actual audio waveforms dynamically scaled to the max local duration
   (async () => {
     if (!sharedAudioContext) {
       sharedAudioContext = new (window.AudioContext || window.webkitAudioContext)();
     }
-    
+
     const variantBuffers = await Promise.all(lanes.map(async (v) => {
       const safeWord = v.word.replace(/[^a-zA-Z0-9]/g, '_');
       const audioUrl = `./public/audio/${safeWord}.mp3`;
@@ -790,7 +793,7 @@ function renderAudioPanel(container, word, words, regionStyles, onVariantSelect,
         return null;
       }
     }));
-    
+
     let localMaxDuration = 0.5;
     for (const b of variantBuffers) {
       if (b && b.duration > localMaxDuration) {
@@ -799,7 +802,7 @@ function renderAudioPanel(container, word, words, regionStyles, onVariantSelect,
     }
     // Add a tiny 5% visual margin so the longest wave doesn't touch the absolute right edge
     localMaxDuration = localMaxDuration * 1.05;
-    
+
     lanes.forEach((v, i) => {
       if (variantBuffers[i]) {
         renderWaveformSvg(v.word, i, variantBuffers[i], localMaxDuration);
@@ -812,7 +815,7 @@ function resetAudioPlaceholder(container, mode) {
   container.innerHTML =
     mode === "word"
       ? '<p class="muted small" style="margin:0">Explore a dialect word to compare pronunciations.</p>'
-      : '<p class="muted small" style="margin:0">Reveal a sentence fingerprint to compare pronunciations.</p>';
+      : '<p class="muted small" style="margin:0">Reveal a regional signal to compare pronunciations.</p>';
 }
 
 
@@ -827,7 +830,7 @@ function renderFingerprintSummary(summaryEl, legendEl, wordList, words, regionSt
   }
 
   if (summaryEl) {
-    summaryEl.textContent = `${wordList.length} clue${wordList.length === 1 ? "" : "s"}`;
+    summaryEl.textContent = `${wordList.length} regional signal${wordList.length === 1 ? "" : "s"} detected`;
   }
 
   if (!legendEl) return;
@@ -1041,15 +1044,15 @@ function buildWordCloudData(words, regionStyles, { limit = MAX_CLOUD_CANDIDATES 
       const states = Object.values(data.states || {});
       const max = states.length ? Math.max(...states) : 0;
       const sum = states.reduce((a, b) => a + b, 0);
-      const uniqueness = sum > 0 ? max / sum : 0; 
+      const uniqueness = sum > 0 ? max / sum : 0;
       // max gives regional strength, uniqueness penalizes diluted words
-      const score = max * Math.pow(uniqueness, 0.4); 
-      return { 
-        text, 
-        trend: max, 
+      const score = max * Math.pow(uniqueness, 0.4);
+      return {
+        text,
+        trend: max,
         uniqueness,
         score,
-        color: getRegionStyle(text, words, regionStyles).color 
+        color: getRegionStyle(text, words, regionStyles).color
       };
     })
     .filter(d => d.trend >= 0.07)
@@ -1093,7 +1096,7 @@ function renderWordCloudExplore({ mapEl, stage, exploreLayer, words, regionStyle
   maskCanvas.height = height;
   const maskCtx = maskCanvas.getContext("2d", { willReadFrequently: true });
   const maskPath = d3.geoPath(proj, maskCtx);
-  
+
   maskCtx.fillStyle = "black";
   maskCtx.fillRect(0, 0, width, height);
   if (stateFeatures) {
@@ -1110,7 +1113,7 @@ function renderWordCloudExplore({ mapEl, stage, exploreLayer, words, regionStyle
     const idx = (Math.floor(y) * width + Math.floor(x)) * 4;
     return imgData[idx] > 128;
   }
-  
+
   function isBoxInLand(cx, cy, bw, bh) {
     const hw = bw * 0.4, hh = bh * 0.4;
     const pts = [
@@ -1343,6 +1346,8 @@ function createMapPanel({
     svg.attr("viewBox", `0 0 ${width} ${height}`);
     stateSelection.attr("d", path);
 
+    g.select(".nation-boundary").attr("d", path);
+
     if (highlightPath) {
       highlightPath.attr("d", null).style("opacity", 0);
     }
@@ -1363,13 +1368,23 @@ function createMapPanel({
     stateSelection
       .interrupt()
       .classed("active", false)
-      .style("fill", "#1a2436")
+      .style("fill", "#000000")
       .style("opacity", 0.88);
 
     g.selectAll(".state-label")
       .interrupt()
       .style("fill", "#ffffff")
       .style("opacity", 0.45);
+
+    // Reset borders & glow to defaults
+    container.style.removeProperty("--map-stroke");
+    container.style.removeProperty("--map-glow");
+
+    // Reset legend swatch color
+    const swatch = legend.querySelector(".swatch");
+    if (swatch) {
+      swatch.style.backgroundColor = "";
+    }
 
     if (highlightPath) {
       highlightPath
@@ -1394,7 +1409,7 @@ function createMapPanel({
     resetMapBase();
     updateTitle(true);
     tooltip.style.opacity = 0;
-    
+
     // Defer to allow CSS layout reflow to finish before sizing word cloud
     setTimeout(() => {
       renderWordCloudExplore({
@@ -1431,6 +1446,22 @@ function createMapPanel({
     const scores = words[word].states || {};
     const hasData = Object.keys(scores).length > 0;
 
+    const style = getRegionStyle(word, words, regionStyles);
+    const highColor = style ? style.color : MAP_COLOR_HIGH;
+
+    // Update the legend swatch color dynamically
+    const swatch = legend.querySelector(".swatch");
+    if (swatch) {
+      swatch.style.backgroundColor = highColor;
+    }
+
+    // Dynamically set borders and glow based on the region color
+    const baseColor = d3.color(highColor);
+    if (baseColor) {
+      container.style.setProperty("--map-stroke", baseColor.copy({ opacity: 0.35 }).toString());
+      container.style.setProperty("--map-glow", baseColor.copy({ opacity: 0.85 }).toString());
+    }
+
     const applyChoropleth = () => {
       if (leavingExplore) resizeMap();
 
@@ -1442,7 +1473,7 @@ function createMapPanel({
         .ease(d3.easeCubicInOut)
         .style("fill", (d) => {
           const abbr = fipsToAbbr(d.id);
-          return scores[abbr] ? colorScale(scores[abbr]) : "#1a2436";
+          return scores[abbr] ? d3.interpolateRgb(MAP_COLOR_LOW, highColor)(Math.max(0, Math.min(1, scores[abbr]))) : "#000000";
         })
         .style("opacity", (d) => {
           const abbr = fipsToAbbr(d.id);
@@ -1569,6 +1600,12 @@ function createMapPanel({
       .attr("stroke-width", "2.0px")
       .attr("pointer-events", "none")
       .style("opacity", 0);
+
+    // Draw the overall US outer boundary (nation outline)
+    g.append("path")
+      .datum(nationMesh)
+      .attr("class", "nation-boundary")
+      .attr("d", path);
 
     // Bulletproof container/svg escape clearing
     svg.on("mouseleave", () => {
@@ -1851,7 +1888,7 @@ function createApp({ words, regionStyles, popover }) {
     const infoModal = document.getElementById("info-modal");
     const infoClose = document.getElementById("info-modal-close");
     const infoBackdrop = document.getElementById("info-modal-backdrop");
-    
+
     if (infoBtn && infoModal) {
       const closeModal = () => infoModal.classList.add("hidden");
       infoBtn.addEventListener("click", () => infoModal.classList.remove("hidden"));
@@ -1877,7 +1914,7 @@ function createApp({ words, regionStyles, popover }) {
       els.summary.textContent =
         "US map data could not load. Ensure you have network access to load the topoJSON boundaries.";
     } finally {
-      els.analyzeBtn.innerHTML = "Reveal fingerprint";
+      els.analyzeBtn.innerHTML = "Analyze";
       updateAnalyzeButtonState();
       showInputMode();
     }

@@ -37,10 +37,13 @@ function wordBurstSvg(wave, index) {
   return `<svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none"><path class="fill" d="${d}"></path></svg>`;
 }
 
-function audioLane(variant, index, selectedWord) {
+function audioLane(variant, index, selectedWord, words, regionStyles) {
   const isSelected = variant.word === selectedWord;
   const wave = variant.wave || "west";
   const safeWord = escapeForJs(variant.word);
+
+  const style = getRegionStyle(variant.word, words, regionStyles);
+  const color = style ? style.color : "var(--neon-cyan)";
 
   return `
     <div class="audio-lane ${isSelected ? "selected" : ""}">
@@ -48,7 +51,7 @@ function audioLane(variant, index, selectedWord) {
       <div class="lane-body">
         <div class="lane-wave">${wordBurstSvg(wave, index)}</div>
         <div class="lane-meta">
-          <span class="lane-word">${variant.word}</span>
+          <span class="lane-word" style="color: ${color}">${variant.word}</span>
           <span class="lane-region">${variant.region}</span>
           <span class="lane-ipa">${variant.ipa || ""}</span>
         </div>
@@ -85,7 +88,7 @@ export function renderAudioPanel(container, word, words, regionStyles) {
         <div class="audio-graph-subtitle">Same idea, different regional words</div>
       </div>
       <div class="audio-stack">
-        ${lanes.map((v, i) => audioLane(v, i, word)).join("")}
+        ${lanes.map((v, i) => audioLane(v, i, word, words, regionStyles)).join("")}
       </div>
       <div class="audio-note">Yellow band = spoken-word timing (placeholder). Web Speech plays on ▶.</div>
     </div>
@@ -106,5 +109,5 @@ export function resetAudioPlaceholder(container, mode) {
   container.innerHTML =
     mode === "word"
       ? '<p class="muted small" style="margin:0">Explore a dialect word to compare pronunciations.</p>'
-      : '<p class="muted small" style="margin:0">Reveal a sentence fingerprint to compare pronunciations.</p>';
+      : '<p class="muted small" style="margin:0">Reveal a regional signal to compare pronunciations.</p>';
 }

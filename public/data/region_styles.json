@@ -1,27 +1,27 @@
 [
   {
     "name": "South",
-    "color": "#9edec4",
+    "color": "#86efac",
     "states": ["TX", "GA", "AL", "MS", "LA", "SC", "TN", "NC", "OK", "KY", "FL", "AR"]
   },
   {
     "name": "Midwest / Great Lakes",
-    "color": "#eee682",
+    "color": "#ffeb3b",
     "states": ["MI", "OH", "IN", "IL", "WI", "MN", "IA", "ND", "SD", "NE", "KS", "MO"]
   },
   {
     "name": "Mid-Atlantic",
-    "color": "#f2acac",
+    "color": "#ff65a3",
     "states": ["PA", "NJ", "DE", "MD", "NY"]
   },
   {
     "name": "Northeast",
-    "color": "#8ecae8",
+    "color": "#58c7f9",
     "states": ["NY", "MA", "CT", "RI", "VT", "NH", "ME"]
   },
   {
     "name": "West / Broad US",
-    "color": "#f2c896",
+    "color": "#b76eff",
     "states": ["CA", "WA", "OR", "CO", "AZ"]
   }
 ]

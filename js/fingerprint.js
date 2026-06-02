@@ -21,7 +21,7 @@ export function renderFingerprintSummary(container, wordList, words, regionStyle
       .replace("Philadelphia / Mid-Atlantic", "Mid-Atlantic"),
   );
 
-  container.textContent = `${wordList.length} clue${wordList.length === 1 ? "" : "s"} · ${regionNames.join(" + ")}`;
+  container.textContent = `${wordList.length} regional signal${wordList.length === 1 ? "" : "s"} detected · ${regionNames.join(" + ")}`;
 }
 
 function attachClueToken(span, word, displayText, currentWord, regionStyles, words, handlers) {
